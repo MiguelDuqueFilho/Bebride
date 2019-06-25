@@ -1,0 +1,47 @@
+{
+  "name": "bebride",
+  "version": "1.0.0",
+  "description": "BeBride Assessoria",
+  "main": "index.php",
+  "private":true,
+  "directories": {
+    "example": "root"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MiguelDuqueFilho/Bebride.git"
+  },
+  "keywords": [
+    "material kit",
+    "bootstrap material admin",
+    "bootstrap material kit",
+    "material design admin",
+    "material design",
+    "creative tim",
+    "html kit",
+    "html css kit",
+    "web kit",
+    "freebie",
+    "free bootstrap kit",
+    "css3 kit",
+    "bootstrap admin",
+    "bootstrap kit",
+    "frontend",
+    "responsive bootstrap kit"
+  ],
+  "author": "Miguel Duque Filho",
+  "license": "none",
+
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-install": "^1.1.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-open": "^3.0.1"
+  }
+}

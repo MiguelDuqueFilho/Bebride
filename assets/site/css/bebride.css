@@ -1,0 +1,34 @@
+
+/* altura do header */
+.index-page .page-header {
+    height: 70vh;
+}
+
+/* altura do header do login*/
+.index-page .page-header {
+    height: 90vh;
+}
+
+/* Texto da pagina Banner */
+.index-page .brand {
+    color: #fff;
+    text-align: left;
+  }
+
+  
+.navbar.navbar-transparent {
+
+    color: #fff;
+  }
+
+
+  .navbar {
+    color: #000;
+  }
+
+/* redução do form do login devido a retitrada das redes sociais */
+.card-login .form {
+    min-height: 330px;
+}
+
+
