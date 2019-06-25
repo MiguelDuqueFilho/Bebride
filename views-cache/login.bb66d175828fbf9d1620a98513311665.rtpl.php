@@ -5,7 +5,7 @@
           <div class="card card-login">
             <form class="form" method="" action="">
               <div class="card-header card-header-primary text-center">
-                <h4 class="card-title">Login Noivos</h4>
+                <h4 class="card-title">Login</h4>
 
                 <div class="logo-image">
                   <img src="/assets/site/img/logo-01-45x45.png" class="img-fluid align-top">
@@ -22,7 +22,8 @@
                     <i class="fa fa-google-plus"></i>
                   </a>
                 </div>
- -->              </div>
+ -->          </div>
+              <p class="description text-center">Noivos, Visitantes ou Parceiros</p>
                <div class="card-body">
                 <div class="input-group">
                   <div class="input-group-prepend">

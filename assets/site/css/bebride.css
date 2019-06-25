@@ -26,9 +26,4 @@
     color: #000;
   }
 
-/* redução do form do login devido a retitrada das redes sociais */
-.card-login .form {
-    min-height: 330px;
-}
-
 
