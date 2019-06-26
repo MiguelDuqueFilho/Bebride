@@ -62,7 +62,7 @@ $app->post("/admin/categories/create", function() {
 
 	$category = new Category();
 
-	$category->setData($_POST);
+	$category->setValues($_POST);
 
 	$category->save();
 
@@ -109,7 +109,7 @@ $app->post('/admin/categories/:idcategory', function($idcategory) {
 
 	$category->get((int)$idcategory);
 
-	$category->setData($_POST);
+	$category->setValues($_POST);
 
 	$category->save();
 

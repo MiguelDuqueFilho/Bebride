@@ -24,7 +24,7 @@ class User extends Model {
         if (isset($_SESSION[User::SESSION]) && (int)$_SESSION[User::SESSION]["iduser"] > 0) 
         {
 
-            $user->setData($_SESSION[User::SESSION]);
+            $user->setValues($_SESSION[User::SESSION]);
 
         }
 
@@ -87,7 +87,7 @@ class User extends Model {
 
             $data['desperson'] = utf8_encode($data['desperson']);
             
-            $user->setData($data);
+            $user->setValues($data);
 
             $_SESSION[User::SESSION] = $user->getValues();
 
@@ -119,7 +119,16 @@ class User extends Model {
         $_SESSION[User::SESSION] = null;
     }
 
-    
+
+    //teste temporario
+    public static function listPerson() 
+    {
+        $sql = new Sql();
+        
+        return $sql->select("SELECT * FROM tb_persons ORDER BY desperson");
+
+    }
+
     public static function listAll() 
     {
         $sql = new Sql();
@@ -142,7 +151,7 @@ class User extends Model {
             ":inadmin"=>$this->getinadmin()
        ));
 
-        $this->setData($results[0]);
+        $this->setValues($results[0]);
     }
 
     public function get($iduser) {
@@ -157,7 +166,7 @@ class User extends Model {
 
         $data['desperson'] = utf8_encode($data['desperson']);
 
-        $this->setData($data);
+        $this->setValues($data);
 
     }
 
@@ -176,7 +185,7 @@ class User extends Model {
             ":inadmin"=>$this->getinadmin()
         ));
 
-        $this->setData($results[0]);
+        $this->setValues($results[0]);
     }
 
     public function delete() {

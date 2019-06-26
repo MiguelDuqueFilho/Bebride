@@ -51,11 +51,13 @@
 node_modules/
 
 # ignore composer views-cache directory
-/views-cache
+views-cache/
 
 # ignore components loaded via Bower
 /bower_components
 
+# arquivos de exmplos
+examples/
 
 # ignore OS generated files
 ehthumbs.db

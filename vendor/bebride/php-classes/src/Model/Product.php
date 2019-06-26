@@ -19,7 +19,7 @@ class Product extends Model {
     {
         foreach ($list as &$row) {
             $p = new Product();
-            $p->setData($row);
+            $p->setValues($row);
             $row = $p->getValues();
         }
         return $list;
@@ -40,7 +40,7 @@ class Product extends Model {
 			":desurl"=>$this->getdesurl()
 		));
 
-		$this->setData($results[0]);
+		$this->setValues($results[0]);
 
     }
 
@@ -53,7 +53,7 @@ class Product extends Model {
             ":idproduct"=>$idproduct
         ));
 
-        $this->setData($results[0]);
+        $this->setValues($results[0]);
     }
 
     public function delete() 
@@ -147,7 +147,7 @@ class Product extends Model {
             ':desurl'=>$desurl
         ));
 
-        $this->setData($rows[0]);
+        $this->setValues($rows[0]);
 
     }
 

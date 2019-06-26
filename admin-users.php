@@ -29,7 +29,7 @@ $app->post("/admin/users/create", function () {
 	 ]);
 	 
 
- 	$user->setData($_POST);
+ 	$user->setValues($_POST);
 
 	$user->save();
 
@@ -181,7 +181,7 @@ $app->post('/admin/users/:iduser', function($iduser) {
 
 	$user->get((int) $iduser);
 
-	$user->setData($_POST);
+	$user->setValues($_POST);
 
 	$user->update();
 

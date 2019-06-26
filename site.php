@@ -1,11 +1,14 @@
 <?php
 
+
+use \BeBride\PageAdmin;
+
 use \BeBride\Page;
 // use \BeBride\Model\Product;
 // use \BeBride\Model\Category;
 // use \BeBride\Model\Cart;
-// use \BeBride\Model\Address;
-// use \BeBride\Model\User;
+// use \BeBride\Model\Address; 
+use \BeBride\Model\User;
 // use \Rain\Tpl\Exception;
 // use \BeBride\Model\Order;
 // use \BeBride\Model\OrderStatus;
@@ -25,6 +28,22 @@ $app->get('/login', function() {
 	$page = new Page();
 
 	$page->setTpl("login");
+
+});
+
+
+//teste de primeira pagina neste layout
+
+$app->get('/admin/users', function() {
+
+	$person = User::listPerson();
+
+
+	$page = new PageAdmin();
+
+	$page->setTpl("users", array(
+		"users"=>$person
+	));
 
 });
 
@@ -271,7 +290,7 @@ $app->post("/checkout", function() {
 	$_POST['deszipcode'] = $_POST['zipcode'];
 	$_POST['idperson'] = $user->getidperson();
 
-	$address->setData($_POST);
+	$address->setValues($_POST);
 
 	$address->save();
 
@@ -281,7 +300,7 @@ $app->post("/checkout", function() {
 
 	$order = new Order();
 
-	$order->setData([
+	$order->setValues([
 		'idorder'=>(int)0,
 		'idcart'=>$cart->getidcart(),
 		'idaddress'=>$address->getidaddress(),
@@ -368,7 +387,7 @@ $app->post("/register", function() {
 
 	$user = new User();
 
-	$user->setData([
+	$user->setValues([
 		'inadmin'=>0,
 		'deslogin'=>$_POST['email'],
 		'despassword'=>$_POST['password'],
@@ -495,7 +514,7 @@ $app->post("/profile", function() {
 	$_POST['despassword'] = $user->getdespassword();
 	$_POST['deslogin'] = $_POST['desemail'];
 
-	$user->setData($_POST);
+	$user->setValues($_POST);
 
 	$user->save();
 

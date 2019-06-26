@@ -36,7 +36,7 @@ class Cart extends Model {
                     $data['iduser'] = $user->getiduser(); 
 
                 }
-                $cart->setData($data);
+                $cart->setValues($data);
 
                 $cart->save();
 
@@ -63,7 +63,7 @@ class Cart extends Model {
 
         if (count($results) > 0)
         {
-            $this->setData($results[0]);
+            $this->setValues($results[0]);
         }
     }
 
@@ -78,7 +78,7 @@ class Cart extends Model {
 
         if (count($results) > 0)
         {
-            $this->setData($results[0]);
+            $this->setValues($results[0]);
         }
     }
 
@@ -96,7 +96,7 @@ class Cart extends Model {
             ":nrdays"=>$this->getnrdays()
        ));
 
-        $this->setData($results[0]);
+        $this->setValues($results[0]);
     }
 
 

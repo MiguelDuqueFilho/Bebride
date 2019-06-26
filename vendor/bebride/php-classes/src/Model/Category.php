@@ -24,7 +24,7 @@ class Category extends Model {
             ":descategory"=>$this->getdescategory()
        ));
 
-        $this->setData($results[0]);
+        $this->setValues($results[0]);
 
         Category::UpdateFile();
     }
@@ -38,7 +38,7 @@ class Category extends Model {
             ":idcategory"=>$idcategory
         ));
 
-        $this->setData($results[0]);
+        $this->setValues($results[0]);
     }
 
     public function delete() 

@@ -28,12 +28,12 @@ class Page {
 
         $this->tpl = new Tpl();
 
-        $this->setData($this->options["data"]);
+        $this->setValues($this->options["data"]);
 
         if ($this->options["header"] === true) $this->tpl->draw("header");
     }
 
-    private function setData($data = array()) {
+    private function setValues($data = array()) {
         foreach ($data as $key => $value) {
             $this->tpl->assign($key, $value);
         }
@@ -42,7 +42,7 @@ class Page {
 
     public function setTpl($name, $data = array(), $returnHTML = false) {
 
-        $this->setData($data);
+        $this->setValues($data);
 
         return $this->tpl->draw($name, $returnHTML);
     }

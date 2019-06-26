@@ -24,7 +24,7 @@ class Model {
         }
     }
 
-    public function setData($data = array()) 
+    public function setValues($data = array()) 
     {
         foreach($data as $key => $value)
         {

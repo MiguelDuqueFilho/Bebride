@@ -64,7 +64,7 @@ $app->post("/admin/products/create", function() {
 
 	$product->setidproduct(0);
 
-	$product->setData($_POST);
+	$product->setValues($_POST);
 
 	$product->save();
 
@@ -96,7 +96,7 @@ $app->post("/admin/products/:idproduct", function($idproduct) {
 
 	$product->get((int)$idproduct);
 
-	$product->setData($_POST);
+	$product->setValues($_POST);
 
     $product->save();
 	

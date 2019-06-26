@@ -34,9 +34,15 @@
         <div class="sidebar-wrapper">
           <ul class="nav">
             <li class="nav-item active  ">
-              <a class="nav-link" href="#0">
+              <a class="nav-link" href="/admin">
                 <i class="material-icons">dashboard</i>
                 <p>Dashboard</p>
+              </a>
+            </li>
+            <li class="nav-item active  ">
+              <a class="nav-link" href="/admin/users">
+                <i class="material-icons">user</i>
+                <p>Usuários</p>
               </a>
             </li>
             <!-- your sidebar here -->
