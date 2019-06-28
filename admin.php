@@ -1,15 +1,21 @@
 <?php
 
 use \BeBride\PageAdmin;
+use \BeBride\Model;
 use \BeBride\Model\User;
+
 
 $app->get('/admin', function() {
 	
 //	User::verifyLogin();
 
 	$page = new PageAdmin();
+
+	Model::setNotification("Tela ainda não implementada");
 	
-	$page->setTpl("index");
+	$page->setTpl("index",[
+		"notification"=>Model::getNotification()
+	]);
 
 });
 

@@ -1,9 +1,6 @@
 <?php if(!class_exists('Rain\Tpl')){exit;}?>
 
-      
-      <div class="content">
-        <div class="container-fluid">
+<?php require $this->checkTemplate("dashboard-menu");?>      
+
           <!-- your content here -->
 
-        </div>
-      </div>

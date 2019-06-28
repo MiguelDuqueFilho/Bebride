@@ -4,6 +4,7 @@ use \BeBride\PageAdmin;
 use \BeBride\Model\User;
 
 
+
 $app->get('/admin/users', function() {
 
 //	User::verifyLogin();
@@ -37,8 +38,7 @@ $app->get('/admin/users', function() {
 	$page = new PageAdmin();
 
 	$page->setTpl("users", array(
-		"msgError"=>User::getError(),
-		"msgSuccess"=>User::getSuccess(),
+		"notification"=>User::getNotification(),
 		"users"=>$pagination['data'],
 		'search'=>$search,
 		'pages'=>$pages
@@ -57,7 +57,7 @@ $app->get('/admin/users/:iduser/delete', function($user_id) {
 
 	$user->delete();
 
-	$user->setSuccess("Usuário excluido com sucesso.");
+	$user->setNotification("Usuário excluido com sucesso.",'success');
 
 	header("Location: /admin/users");
 	exit;

@@ -1,25 +1,7 @@
-
-      <div class="content" >
-        <div class="container-fluid">
-            <div class="row">
-                {if="$msgError != ''"}
-                  <div class="alert alert-danger alert-with-icon alert-dismissible fade show">
-                      <i class="material-icons" data-notify="icon">add_alert</i>
-                      <strong> {$msgError} </strong>
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <i class="material-icons">close</i>
-                      </button>
-                  </div> 
-                {/if}
-                {if="$msgSuccess != ''"}
-                <div class="alert alert-success alert-with-icon alert-dismissible fade show">
-                    <i class="material-icons" data-notify="icon">add_alert</i>
-                    <strong> {$msgSuccess} </strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <i class="material-icons">close</i>
-                    </button>
-                </div> 
-                {/if}     
+{include="dashboard-menu"}
+        <div class="content" >
+          <div class="container-fluid">
+              <div class="row">     
               <div class="col-md-12">
               <div class="card" >
                 <div class="card-header  card-header-primary" >
@@ -73,7 +55,7 @@
                 <nav aria-label="...">
                     <ul class="pagination" >
                       <li class="page-item disabled">
-                        <span class="page-link">Previous</span>
+                        <span class="page-link">Anterior</span>
                       </li>
                       <li class="page-item text-primary active" ><a class="page-link" href="#">0</a></li>
                       {loop="$pages"}
@@ -88,7 +70,7 @@
 
                       {/loop}
                       <li class="page-item text-primary disabled">
-                        <a class="page-link" href="#">Next</a>
+                        <a class="page-link" href="#">Próximo</a>
                       </li>
                     </ul>
                 </nav>

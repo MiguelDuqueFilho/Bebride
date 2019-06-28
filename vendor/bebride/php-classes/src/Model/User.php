@@ -12,9 +12,6 @@ class User extends Model {
     const SESSION = "user"; 
     const SECRET_USER = "BeBrideSecret_US";
     const SECRET_IV = '';
-    const ERROR = "UserError";
-    const ERROR_REGISTER = "UserErrorRegister";
-    const SUCCESS = "UserSuccess";
 
     // public static function getFromSession() 
     // {
@@ -322,44 +319,6 @@ public static function checkLogin($user_type = 1) //não revisado
 //             ":iduser"=>$this->getiduser()
 //         ));
 
-//     }
-
-    public static function setError($msg) 
-    {
-        $_SESSION[User::ERROR] = $msg;
-    }
-
-    public static function getError() 
-    {
-        $msg = (isset($_SESSION[User::ERROR]) && $_SESSION[User::ERROR]) ? $_SESSION[User::ERROR] : '';
-
-        User::clearError();
-
-        return $msg;
-    }
-
-    public static function clearError() 
-    {
-        $_SESSION[User::ERROR] = NULL;
-    }
-
-//     public static function setErrorRegister($msg) 
-//     {
-//         $_SESSION[User::ERROR_REGISTER] = $msg;
-//     }
-
-//     public static function getErrorRegister() 
-//     {
-//         $msg = (isset($_SESSION[User::ERROR_REGISTER]) && $_SESSION[User::ERROR_REGISTER]) ? $_SESSION[User::ERROR_REGISTER] : '';
-
-//         User::clearErrorRegister();
-
-//         return $msg;
-//     }
-
-//     public static function clearErrorRegister() 
-//     {
-//         $_SESSION[User::ERROR_REGISTER] = NULL;
 //     }
 
 // 	public static function getPasswordHash($password)
