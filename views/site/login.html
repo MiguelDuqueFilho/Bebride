@@ -8,7 +8,7 @@
                 <h4 class="card-title">Login</h4>
 
                 <div class="logo-image">
-                  <img src="/assets/site/img/logo-01-45x45.png" class="img-fluid align-top">
+                  <img src="/assets/site/img/logo-01-45x45.png"  class="img-raised rounded-circle img-fluid align-top">
                 </div>
 
 <!--                 <div class="social-line">

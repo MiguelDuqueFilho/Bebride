@@ -32,18 +32,13 @@ $app->get('/login', function() {
 });
 
 
-//teste de primeira pagina neste layout
 
-$app->get('/admin/users', function() {
-
-	$person = User::listPerson();
+$app->get('/admin/user', function() {
 
 
 	$page = new PageAdmin();
 
-	$page->setTpl("users", array(
-		"users"=>$person
-	));
+	$page->setTpl("user");
 
 });
 

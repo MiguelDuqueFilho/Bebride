@@ -2,11 +2,11 @@
     <div class="container-fluid">
       <nav class="float-left">
         <ul>
-          <li>
-            <a href="https://www.creative-tim.com">
-              Creative Tim
-            </a>
-          </li>
+            <li>
+                <a href="http://www.bebrideassessoria.com.br">
+                Bebride Assessoria
+                </a>
+            </li>
         </ul>
       </nav>
       <div class="copyright float-right">
@@ -65,6 +65,9 @@
   <script src="/assets/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <!-- <script src="/assets/demo/demo.js"></script> -->
+  <!-- Scripts customizados para a BeBride parte Admin -->
+  <script src="/assets/admin/js/bebride_dashboard.js"></script>
+
   <script>
     $(document).ready(function() {
       $().ready(function() {

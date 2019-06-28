@@ -6,6 +6,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/site/img/logo-01-45x45.png">
+    <link rel="icon" type="image/png" href="/assets/site/img/logo-01-45x45.png">    
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
@@ -21,7 +23,11 @@
           <div class="container">
             <div class="navbar-translate">
               <a class="navbar-brand" href="/">
-                Home </a>
+                <div class="logo">
+                    <img src="/assets/site/img/logo-01.png" width="60" height="60" class="img-raised rounded-circle img-fluid">
+                </div>                      
+                Home 
+              </a>
               <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="navbar-toggler-icon"></span>
@@ -49,22 +55,17 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/login">
-                    <i class="material-icons">person</i> Noivos
+                    <i class="material-icons">person</i> Login
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/login">
-                    <i class="material-icons">person</i> Visitantes
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/login">
-                    <i class="material-icons">person</i> Parceiros
-                  </a>
-                </li>
+                    <a class="nav-link" href="/admin">
+                      <i class="material-icons">supervisor_account</i> Administração
+                    </a>
+                  </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/logout">
-                    <i class="material-icons">person</i> logoff
+                    <i class="material-icons">close</i> logoff
                   </a>
                 </li>
                 <li class="nav-item">
