@@ -24,16 +24,8 @@ $app->get('/admin/users', function() {
 
 	$pages = [];
 
-	for ($x=0; $x < $pagination['pages']; $x++) { 
+	$pages = User::calcPageMenu($page, $pagination, $search);
 
-		array_push($pages, [
-			'href'=>'/admin/users?' . http_build_query([
-				'page'=>$x+1,
-				'search'=>$search
-			]),
-			'text'=>$x+1
-		]);
-	}
 
 	$page = new PageAdmin();
 
