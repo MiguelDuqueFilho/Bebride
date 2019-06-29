@@ -55,25 +55,29 @@ $app->get('/admin/users/:iduser/delete', function($user_id) {
 	exit;
 });
 
-
-/* 
 $app->get('/admin/users/create', function() {
 
-	User::verifyLogin();
+//	User::verifyLogin();
 
 	$page = new PageAdmin();
 
-	$page->setTpl("users-create");
+	$page->setTpl("users-create", array(
+		"notification"=>User::getNotification(),
+	));
 
 });
 
+
 $app->post("/admin/users/create", function () {
 
- 	User::verifyLogin();
+// 	User::verifyLogin();
+
+	var_dump($_POST);
+	exit;
 
 	$user = new User();
 
- 	$_POST["inadmin"] = (isset($_POST["inadmin"])) ? 1 : 0;
+// 	$_POST["inadmin"] = (isset($_POST["inadmin"])) ? 1 : 0;
 
  	$_POST['despassword'] = password_hash($_POST["despassword"], PASSWORD_DEFAULT, [
 
@@ -90,7 +94,7 @@ $app->post("/admin/users/create", function () {
  	exit;
 
 });
-
+/* 
 $app->get("/admin/users/:iduser/password", function($iduser) {
 
 	User::verifyLogin();

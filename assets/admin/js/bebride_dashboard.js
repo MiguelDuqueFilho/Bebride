@@ -7,6 +7,16 @@
 
 jQuery(document).ready(function($){
     
+
+  document.getElementById("user_type_id").onchange = function () {
+    document.getElementById("company_name").value = "";
+    document.getElementById("company_name").setAttribute("disabled", "disabled");
+    if (this.value == '1' || this.value == '3')
+      document.getElementById("company_name").removeAttribute("disabled");
+    if (this.value == '1')
+      document.getElementById("company_name").value = "BeBride Assessoria";
+  };
+
     // deixar menu ativo dinamicamente  (experimental)
     // $(".sidebar-wrapper .nav .nav-item").click(function(){
     //     $(".sidebar-wrapper .nav .nav-item").addClass('active');

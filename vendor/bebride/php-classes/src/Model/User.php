@@ -125,10 +125,11 @@ public static function checkLogin($user_type = 1) //não revisado
     {
         $sql = new Sql();
         
-        return $sql->select("SELECT * FROM tb_users a 
+        return $sql->select("SELECT * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_name  
+            FROM tb_users a 
             INNER JOIN tb_persons b on b.person_id = a.person_id
             INNER JOIN tb_userstype c on c.user_type_id = a.user_type_id
-            ORDER BY b.person_name");
+            ORDER BY b.person_firstname, b.person_lastname");
 
     }
 
@@ -164,17 +165,15 @@ public static function checkLogin($user_type = 1) //não revisado
 
         $sql = new Sql();
         
-        $results = $sql->select("
-            SELECT * FROM tb_users a 
-                INNER JOIN tb_persons b on b.person_id = a.person_id
-                INNER JOIN tb_userstype c on c.user_type_id = a.user_type_id 
-                WHERE a.user_id = :user_id", array(
-                ":user_id"=>$user_id
+        $results = $sql->select("SELECT * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_name  
+            FROM tb_users a 
+            INNER JOIN tb_persons b on b.person_id = a.person_id
+            INNER JOIN tb_userstype c on c.user_type_id = a.user_type_id
+            WHERE a.user_id = :user_id", array(
+            ":user_id"=>$user_id
         ));
 
         $data = $results[0];
-
-//        $data['person_name'] = utf8_encode($data['person_name']);
 
         $this->setValues($data);
 
@@ -368,14 +367,13 @@ public static function checkLogin($user_type = 1) //não revisado
 
         $sql = new Sql();
 
-        $results = $sql->select("
-            select sql_calc_found_rows * 
-                FROM tb_users a 
-                INNER JOIN tb_persons b on b.person_id = a.person_id
-                INNER JOIN tb_userstype c on c.user_type_id = a.user_type_id
-                ORDER BY b.person_name
-                LIMIT $start , $itensPerPage;
-                ");
+        $results = $sql->select("SELECT sql_calc_found_rows * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_name  
+            FROM tb_users a 
+            INNER JOIN tb_persons b on b.person_id = a.person_id
+            INNER JOIN tb_userstype c on c.user_type_id = a.user_type_id
+            ORDER BY b.person_firstname, b.person_lastname
+            LIMIT $start , $itensPerPage;
+            ");
 
             $resultsTotal = $sql->select("select found_rows() as nrtotal ");
 
@@ -393,16 +391,15 @@ public static function checkLogin($user_type = 1) //não revisado
 
         $sql = new Sql();
 
-        $results = $sql->select("
-            select sql_calc_found_rows * 
-                FROM tb_users a 
-                INNER JOIN tb_persons b on b.person_id = a.person_id
-                INNER JOIN tb_userstype c on c.user_type_id = a.user_type_id
-                ORDER BY b.person_name
-                LIMIT $start , $itensPerPage;
-                ", [
-                    ':search'=>'%'.$search.'%'
-                ]);
+        $results = $sql->select("SELECT sql_calc_found_rows * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_name  
+            FROM tb_users a 
+            INNER JOIN tb_persons b on b.person_id = a.person_id
+            INNER JOIN tb_userstype c on c.user_type_id = a.user_type_id
+            WHERE b.person_firstname LIKE :search OR b.person_lastname LIKE :search OR b.person_email LIKE :search OR  a.login_name LIKE :search 
+            LIMIT $start , $itensPerPage;
+            ", [
+                ':search'=>'%'.$search.'%'
+            ]);
 
             $resultsTotal = $sql->select("select found_rows() as nrtotal ");
 

@@ -1,0 +1,166 @@
+{include="dashboard-menu"}
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Criar Usuário</h4>
+                  <p class="card-category">Complete seu Perfil</p>
+                </div>
+                <div class="card-body">
+                  <form role="form" action="/admin/users/create" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label class="bmd-label-floating">Tipo Usuário:</label>
+                            <select class="bmd-label-floating form-control" id="user_type_id" name="user_type_id" required>
+                                <option value="0" selected >Visitante</option>
+                                <option value="1">Administrador</option>
+                                <option value="2">Clientes</option>
+                                <option value="3">Parceiros</option>
+                              </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="bmd-label-floating">Empresa</label>
+                            <input type="text" class="form-control" id="company_name" name="company_name" disabled>
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="bmd-label-floating">Cargo</label>
+                            <input type="text" class="form-control" id="person_jobrole" name="person_jobrole" >
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Nome Login</label>
+                          <input type="text" class="form-control" id="login_name" name="login_name" required>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">E-mail</label>
+                          <input type="email" class="form-control" id="person_email" name="person_email" required>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Primeiro Nome</label>
+                          <input type="text" class="form-control" id="person_firstname" name="person_firstname"required>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Último Nome</label>
+                          <input type="text" class="form-control" id="person_lastname" name="person_lastname">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-10">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Endereço</label>
+                          <input type="text" class="form-control" id="xxxxxxx" name="xxxxxxx">
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                          <div class="form-group">
+                            <label class="bmd-label-floating">Número</label>
+                            <input type="text" class="form-control" id="yyyyyy" name="yyyyy">
+                          </div>
+                        </div>
+                      </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Cidade</label>
+                          <input type="text" class="form-control" id="zzzzzzzzz" name="zzzzzzzzz">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">País</label>
+                          <input type="text" class="form-control" id="yyyyyyyyy" name="yyyyyyyyy">
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Cep</label>
+                          <input type="text" class="form-control" id="wwwwwwwww" name="wwwwwwwww">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label class="bmd-label-floating">Telephone</label>
+                            <input type="text" class="form-control" id="person_phone" name="person_phone">
+                          </div>
+                          </div>
+                          <div class="col-md-3">
+                          <div class="form-group">
+                            <label class="bmd-label-floating">Whatsapp</label>
+                            <input type="text" class="form-control" id="person_whatsapp" name="person_whatsapp">
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label class="bmd-label-floating">Facebook</label>
+                            <input type="text" class="form-control" id="person_facebook" name="person_facebook">
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label class="bmd-label-floating">Instagram</label>
+                            <input type="text" class="form-control" id="person_instagram" name="person_instagram">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>Observação</label>
+                          <div class="form-group">
+                            <label class="bmd-label-floating"> Coloque alguma informação sobre você.</label>
+                            <textarea class="form-control" rows="5" id="person_about" name="person_about"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <button type="submit"  class="btn btn-primary pull-right">Criar Usuário</button>
+                    <div class="clearfix"></div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card card-profile">
+                <div class="card-avatar">
+                  <a href="#pablo">
+                    <img class="img" src="/assets/site/img/faces/avatar_bruna.jpg" />
+                  </a>
+                </div>
+                <div class="card-body">
+                  <h6 class="card-category text-gray">Publicitária</h6>
+                  <h4 class="card-title">Bruna Duque</h4>
+                  <p class="card-description">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptate temporibus consequatur sapiente! Consequatur quod maiores dolore optio ex labore, cum quam? Quasi, sed! Laudantium, culpa! Ipsum aspernatur sapiente animi tempora. ...
+                  </p>
+                  <a href="#pablo" class="btn btn-primary btn-round">seguir</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+

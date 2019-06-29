@@ -30,6 +30,6 @@
             <img src="/assets/site/img/logo-01-45x45.png" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
           </a>
           <a href="/admin" class="simple-text logo-normal">
-            BeBride Administração
+            BeBride
           </a>
         </div>
