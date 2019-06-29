@@ -35,10 +35,13 @@ $app->get('/login', function() {
 
 $app->get('/admin/user', function() {
 
-
+	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
+	
 	$page = new PageAdmin();
 
-	$page->setTpl("user");
+	$page->setTpl("user",[
+		'search'=>$search
+	]);
 
 });
 

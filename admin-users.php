@@ -43,6 +43,7 @@ $app->get('/admin/users/:iduser/delete', function($user_id) {
 
 //	User::verifyLogin();
 
+
 	$user = new User();
 
 	$user->getUser((int) $user_id);
@@ -59,10 +60,13 @@ $app->get('/admin/users/create', function() {
 
 //	User::verifyLogin();
 
+	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
+
 	$page = new PageAdmin();
 
 	$page->setTpl("users-create", array(
 		"notification"=>User::getNotification(),
+		'search'=>$search
 	));
 
 });

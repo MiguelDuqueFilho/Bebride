@@ -9,12 +9,15 @@ $app->get('/admin', function() {
 	
 //	User::verifyLogin();
 
+	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
+	
 	$page = new PageAdmin();
 
 	Model::setNotification("Tela ainda não implementada");
 	
 	$page->setTpl("index",[
-		"notification"=>Model::getNotification()
+		"notification"=>Model::getNotification(),
+		'search'=>$search
 	]);
 
 });
