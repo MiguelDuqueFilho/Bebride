@@ -26,10 +26,10 @@
         Tip 2: you can also add an image using data-image tag
     -->
         <div class="logo">
-          <a href="/admin" class="simple-text logo-mini">
+          <a href="/" class="simple-text logo-mini">
             <img src="/assets/site/img/logo-01-45x45.png" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
           </a>
-          <a href="/admin" class="simple-text logo-normal">
+          <a href="/" class="simple-text logo-normal">
             BeBride
           </a>
         </div>

@@ -1,6 +1,18 @@
-
+/* 
 @media (min-width: 576px) {
-
+    .modal-dialog {
+        max-width: 500px;
+        margin: 1.75rem auto;
+      }
+    .modal-dialog-centered {
+        min-height: calc(100% - (1.75rem * 2));
+      }
+    .modal-content {
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
+      }
+    .modal-sm {
+        max-width: 300px;
+      }
 }
 
 @media (min-width: 768px) {
@@ -8,9 +20,15 @@
 }
 
 @media (min-width: 992px) {
-
+    .modal-lg {
+        max-width: 800px;
+      }
 }
 
 @media (min-width: 1200px) {
 
-}
+   
+
+} */
+
+

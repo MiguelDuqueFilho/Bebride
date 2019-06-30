@@ -1,0 +1,183 @@
+<div class="page-header header-filter clear-filter purple-filter" style="background-image: url('assets/site/img/banner-01.jpg'); background-size: cover; background-position: top center;">
+
+
+
+  <div class="container"> 
+      <div class="card card-register">
+         <div class="card-body">
+
+
+
+  <!-- Start Área de mensagem -->
+
+  <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+          {if="$notification != NULL && $notification['info'] != ''"}
+          <div class="alert alert-info alert-with-icon alert-dismissible fade show  ">
+              <i class="material-icons" data-notify="icon">info</i>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="material-icons">close</i>
+              </button>
+              <span data-notify="message">{$notification['info']}</span>
+          </div> 
+          {/if}
+          {if="$notification != NULL && $notification['success'] != ''"}
+          <div class="alert alert-success alert-with-icon alert-dismissible fade show">
+              <i class="material-icons" data-notify="icon">done</i>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="material-icons">close</i>
+              </button>
+              <span data-notify="message">{$notification['success']}</span>
+          </div> 
+          {/if}
+          {if="$notification != NULL && $notification['warning'] != ''"}
+          <div class="alert alert-warning alert-with-icon alert-dismissible fade show">
+              <i class="material-icons" data-notify="icon">warning</i>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="material-icons">close</i>
+              </button>
+              <span data-notify="message">{$notification['warning']}</span>
+          </div> 
+          {/if}
+          {if="$notification != NULL && $notification['error'] != ''"}
+          <div class="alert alert-danger alert-with-icon alert-dismissible fade show">
+              <i class="material-icons" data-notify="icon">error</i>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="material-icons">close</i>
+              </button>
+              <span data-notify="message">{$notification['error']}</span>
+          </div> 
+          {/if}
+          {if="$notification != NULL && $notification['normal'] != ''"}
+          <div class="alert alert-primary alert-with-icon alert-dismissible fade show">
+              <i class="material-icons" data-notify="icon">notification_important</i>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <i class="material-icons">close</i>
+              </button>
+              <span data-notify="message">{$notification['normal']}</span>
+          </div> 
+          {/if}
+        </div>  
+        <div class="col-md-2"></div>
+  </div>
+
+<!-- End Área de mensagem -->
+
+
+                  <h4 class="info-title text-center">Registrar</h4>
+
+
+                      <div class="row">
+                        <div class="col-lg-5 col-md-0 ml-auto mr-auto">
+                          <div class="info info-horizontal">
+                            <div class="icon icon-rose">
+                              <i class="material-icons">group</i>
+                            </div>
+                            <div class="description">
+                              <h4 class="info-title">Clientes</h4>
+                              <p class="description">
+                                  Os Clientes podem acompanhar tarefas , gerenciar lista de convidados, upload de fotos para o casamento.
+                              </p>
+                            </div>
+                          </div>
+            
+                          <div class="info info-horizontal">
+                            <div class="icon icon-primary">
+                              <i class="material-icons">code</i>
+                            </div>
+                            <div class="description">
+                              <h4 class="info-title">Parceiros</h4>
+                              <p class="description">
+                              Cadastrar servicos e oferecer os clientes.
+                              </p>
+                            </div>
+                          </div>
+            
+                          <div class="info info-horizontal">
+                            <div class="icon icon-info">
+                              <i class="material-icons">timeline</i>
+                            </div>
+                            <div class="description">
+                              <h4 class="info-title">Dashboard</h4>
+                              <p class="description">
+                              Temos um panorama geral de acompanhamento dos casamentos.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+            
+                        <div class="col-lg-5 col-md-10 ml-auto mr-auto">
+                          <form class="form" method="post" action="/register">
+                            <div class="card-body">
+                              <div class="form-group">
+                                <div class="input-group">
+                                  <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="material-icons">face</i></div>
+                                  </div>
+                                    <input type="text" class="form-control" placeholder="Primeiro Nome..." id="person_firstname" name="person_firstname" value="{$registerValues.person_firstname}" required>
+                                </div>
+                              </div>            
+                               <div class="form-group">
+                                  <div class="input-group">
+                                    <div class="input-group-prepend">
+                                      <div class="input-group-text"><i class="material-icons">subtitles</i></div>
+                                    </div>
+                                      <input type="text" class="form-control" placeholder="Segundo Nome..." id="person_lastname" name="person_lastname" value="{$registerValues.person_lastname}" required>
+                                  </div>
+                                </div>
+                              <div class="form-group">
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <div class="input-group-text"><i class="material-icons">email</i></div>
+                                </div>
+                                  <input type="email" class="form-control" placeholder="Email..." id="person_email" name="person_email" value="{$registerValues.person_email}" required>
+                              </div>
+                            </div>
+            
+                            <div class="form-group">
+                                <div class="input-group">
+                                  <div class="input-group-prepend">
+                                    <div class="input-group-text"><i class="material-icons">phone</i></div>
+                                  </div>
+                                    <input type="number" class="form-control" placeholder="telefone..." id="person_phone" name="person_phone" value="{$registerValues.person_phone}" required>
+                                </div>
+                              </div>
+
+                              <div class="form-group">
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <div class="input-group-text"><i class="material-icons">lock_outline</i></div>
+                                </div>
+                                  <input type="password" placeholder="Senha..." class="form-control" id="user_password" name="user_password" required>
+                              </div>
+                            </div>
+            
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                  <input class="form-check-input" type="checkbox" value="" required>
+                                  <span class="form-check-sign">
+                                      <span class="check"></span>
+                                  </span>
+                                  Eu concordo com <a href="#something">termos and condições</a>.
+                              </label>
+                            </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary justify-content-center">Iniciar Cadastramento</button>
+                          </form>
+                        </div>
+                      </div>
+
+            
+
+
+
+              </div>
+
+          </div>
+    </div>
+</div>
+
+
+
+

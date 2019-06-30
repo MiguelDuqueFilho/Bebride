@@ -65,7 +65,7 @@ class User extends Model {
 
     // }
 
-public static function checkLogin($user_type = 1) //não revisado
+public static function checkLogin($user_type_id = 1) //não revisado
     {
 
         if (
@@ -73,7 +73,7 @@ public static function checkLogin($user_type = 1) //não revisado
             ||
             !$_SESSION[User::SESSION]
             ||
-            !(int)$_SESSION[User::SESSION]["user_type"] > 0
+            !(int)$_SESSION[User::SESSION]["user_type_id"] > 0
         )
         {
             // Não esta logado
@@ -82,11 +82,11 @@ public static function checkLogin($user_type = 1) //não revisado
         else
         {
             // rota de administrador
-            if ($user_type = 1 && (bool)$_SESSION[User::SESSION]["user_type"] === true ) 
+            if ($user_type_id = 1 && (bool)$_SESSION[User::SESSION]["user_type_id"] === true ) 
             {
                return true;
             }
-            else if ($user_type === false) 
+            else if ($user_type_id === false) 
             {
                 // Ele esta logado , mas não estamos exigindo que seja uma rota de administração
                 return true;
@@ -100,11 +100,11 @@ public static function checkLogin($user_type = 1) //não revisado
 
     }
 
-    public static function verifyLogin($user_type = 1) 
+    public static function verifyLogin($user_type_id = 1) 
     {
-        if  (!User::checkLogin($user_type))
+        if  (!User::checkLogin($user_type_id))
         {
-            // if ($user_type === 1) // usuário administrador
+            // if ($user_type_id === 1) // usuário administrador
             // {
 			// 	header("Location: /admin/login");
 			// } else {
@@ -138,13 +138,14 @@ public static function checkLogin($user_type = 1) //não revisado
 
         $sql = new Sql();
 
-        $results = $sql->select("call sp_users_save(:desperson, :deslogin, :despassord, :desemail, :nrphone, :inadmin)", array(
-            ":desperson"=>utf8_decode($this->getdesperson()),
-            ":deslogin"=>$this->getdeslogin(),
-            ":despassord"=>User::getPasswordHash($this->getdespassword()),
-            ":desemail"=>$this->getdesemail(),
-            ":nrphone"=>$this->getnrphone(),
-            ":inadmin"=>$this->getinadmin()
+        $results = $sql->select("call sp_users_save(:person_firstname, :person_lastname, :login_name, :password_hash, :person_email, :person_phone, :user_type_id)", array(
+            ":person_firstname"=>$this->getperson_firstname(),
+            ":person_lastname"=>$this->getperson_lastname(),
+            ":login_name"=>$this->getlogin_name(),
+            ":password_hash"=>User::getPasswordHash($this->getpassword_hash()),
+            ":person_email"=>$this->getperson_email(),
+            ":person_phone"=>$this->getperson_phone(),
+            ":user_type_id"=>$this->getuser_type_id()
        ));
 
         $this->setValues($results[0]);
@@ -320,27 +321,27 @@ public static function checkLogin($user_type = 1) //não revisado
 
 //     }
 
-// 	public static function getPasswordHash($password)
-// 	{
+	public static function getPasswordHash($password)
+	{
 
-// 		return password_hash($password, PASSWORD_DEFAULT, [
-// 			'cost'=>12
-// 		]);
+		return password_hash($password, PASSWORD_DEFAULT, [
+			'cost'=>12
+		]);
 
-// 	}
+	}
 
-//     public function checkLoginExist($login) 
-//     {
+    public static function checkLoginExist($login) 
+    {
         
-//         $sql = new Sql();
+        $sql = new Sql();
 
-//         $results = $sql->select("SELECT * FROM tb_persons WHERE desemail = :deslogin", [
-//             ':deslogin'=>$login
-//         ]);
+        $results = $sql->select("SELECT * FROM tb_users WHERE login_name = :login_name", [
+            ':login_name'=>$login
+        ]);
 
-//         return (count($results) > 0 );
+        return (count($results) > 0 );
 
-//     }
+    }
 
 //     public function getorders() 
 //     {

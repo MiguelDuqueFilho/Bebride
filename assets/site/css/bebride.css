@@ -1,4 +1,5 @@
 
+
 /* altura do header */
 .index-page .page-header {
     height: 70vh;
@@ -15,15 +16,29 @@
     text-align: left;
   }
 
-  
+.card-login .form {
+    min-height: 370px;
+}
+
 .navbar.navbar-transparent {
 
     color: #fff;
   }
 
 
-  .navbar {
+.navbar {
     color: #000;
-  }
+}
 
 
+ .info {
+  padding: 0px 0 0px;
+}
+
+
+
+.card-register .row {
+margin-right: 11%;
+margin-left: 0%;
+width: 80%;
+}

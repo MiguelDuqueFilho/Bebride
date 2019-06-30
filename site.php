@@ -3,6 +3,7 @@
 
 use \BeBride\PageAdmin;
 
+use \BeBride\Model;
 use \BeBride\Page;
 // use \BeBride\Model\Product;
 // use \BeBride\Model\Category;
@@ -22,6 +23,8 @@ $app->get('/', function() {
 
 });
 
+
+
 $app->get('/login', function() {
 
 
@@ -31,6 +34,91 @@ $app->get('/login', function() {
 
 });
 
+
+$app->get('/register', function() {
+	
+	$page = new Page();
+
+	$page->setTpl("register", [
+		"notification"=>Model::getNotification(),
+		'registerValues'=>(isset($_SESSION['registerValues'])) ? $_SESSION['registerValues'] : ['person_firstname'=>'', 'person_lastname'=>'','person_email'=>'', 'person_phone'=>'']
+	]);
+
+});
+
+$app->post("/register", function() {
+
+
+
+	$user_password = (isset($_POST['user_password'])) ? $_POST['user_password'] : '';
+	$_POST['user_password'] = '';  // esta linha é importante para a segurança da senha
+
+	$_SESSION['registerValues'] = $_POST;
+
+	if (!isset($_POST['person_firstname']) || $_POST['person_firstname'] == '')
+	{
+		User::setNotification("Preencha o seu nome.",'warning');
+		header("location: /register");
+		exit;	
+	}
+	
+	if (!isset($_POST['person_lastname']) || $_POST['person_lastname'] == '')
+	{
+		User::setNotification("Preencha o nome completo.",'warning');
+		header("location: /register");
+		exit;	
+	}
+
+	if (!isset($_POST['person_email']) || $_POST['person_email'] == '')
+	{
+		User::setNotification("Preencha o seu e-mail.",'warning');
+		header("location: /register");
+		exit;	
+	}
+
+	if (!isset($_POST['person_phone']) || $_POST['person_phone'] == '')
+	{
+		User::setNotification("Preencha o seu telefone.",'warning');
+		header("location: /register");
+		exit;	
+	}
+
+	if ($user_password == '')
+	{
+		User::setNotification("Preencha a senha.",'warning');
+		header("location: /register");
+		exit;	
+	}
+
+	if (User::checkLoginExist($_POST['person_email']) === true) 
+	{
+		User::setNotification("Este endereço de e-mail já esta sendo usado por outro usuário.",'warning');
+		header("location: /register");
+		exit;	
+	}
+
+	
+	$user = new User();
+
+	$user->setValues([
+		'user_type_id'=> (int) 0,
+		'login_name'=>$_POST['person_email'],
+		'password_hash'=>$user_password,
+		'person_firstname'=>$_POST['person_firstname'],		
+		'person_lastname'=>$_POST['person_lastname'],
+		'person_email'=>$_POST['person_email'],
+		'person_phone'=>$_POST['person_phone']
+	]);
+
+
+	$user->save();
+
+//	$user::login($_POST['email'],$_POST['password']);
+
+
+	header("location: /");
+	exit;
+});
 
 
 $app->get('/admin/user', function() {
@@ -44,6 +132,8 @@ $app->get('/admin/user', function() {
 	]);
 
 });
+
+
 
 /* 
 $app->get('/', function() {
