@@ -6,8 +6,13 @@ use Rain\Tpl;
 
 class Mailer {
 
-    const USERNAME = "contato@bebrideassessoria.com.br";
-    const PASSWORD ="password_do_email";
+
+    // const USERNAME = "contato@bebrideassessoria.com.br";
+    // const PASSWORD ="password_do_email";
+    // const NAME_FROM = "BeBride Assessoria";
+
+    const USERNAME = "wordpress@aduquesastore.com.br";
+    const PASSWORD ="zAL5nmKs";
     const NAME_FROM = "BeBride Assessoria";
 
     private $mail;

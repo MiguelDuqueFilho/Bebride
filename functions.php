@@ -14,16 +14,16 @@ function formatDate($date)
     return date('d/m/Y',strtotime($date));
 }
 
-function checkLogin($inadmin = true) 
+function checkLogin($user_type_id = 1) 
 {
-    return User::checkLogin($inadmin);
+    return User::checkLogin($user_type_id);
 }
 
 function getUserName() 
 {
     $user = User::getFromSession();
 
-    return $user->getdesperson();
+    return $user->getperson_firstname();
 }
 
 function getCartNrQtd() 

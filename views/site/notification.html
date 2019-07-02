@@ -1,0 +1,55 @@
+
+  <!-- Start Área de mensagem -->
+
+  <div class="row">
+        <div class="col-md-12">
+            {if="$notification != NULL && $notification['info'] != ''"}
+            <div class="alert alert-info alert-with-icon alert-dismissible fade show  ">
+                <i class="material-icons" data-notify="icon">info</i>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <i class="material-icons">close</i>
+                </button>
+                <span data-notify="message">{$notification['info']}</span>
+            </div> 
+            {/if}
+            {if="$notification != NULL && $notification['success'] != ''"}
+            <div class="alert alert-success alert-with-icon alert-dismissible fade show">
+                <i class="material-icons" data-notify="icon">done</i>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <i class="material-icons">close</i>
+                </button>
+                <span data-notify="message">{$notification['success']}</span>
+            </div> 
+            {/if}
+            {if="$notification != NULL && $notification['warning'] != ''"}
+            <div class="alert alert-warning alert-with-icon alert-dismissible fade show">
+                <i class="material-icons" data-notify="icon">warning</i>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <i class="material-icons">close</i>
+                </button>
+                <span data-notify="message">{$notification['warning']}</span>
+            </div> 
+            {/if}
+            {if="$notification != NULL && $notification['error'] != ''"}
+            <div class="alert alert-danger alert-with-icon alert-dismissible fade show">
+                <i class="material-icons" data-notify="icon">error</i>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <i class="material-icons">close</i>
+                </button>
+                <span data-notify="message">{$notification['error']}</span>
+            </div> 
+            {/if}
+            {if="$notification != NULL && $notification['normal'] != ''"}
+            <div class="alert alert-primary alert-with-icon alert-dismissible fade show">
+                <i class="material-icons" data-notify="icon">notification_important</i>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <i class="material-icons">close</i>
+                </button>
+                <span data-notify="message">{$notification['normal']}</span>
+            </div> 
+            {/if}
+          </div>  
+    </div>
+  
+  <!-- End Área de mensagem -->
+  

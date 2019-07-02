@@ -1,9 +1,9 @@
-<div class="page-header" style="background-image: url('assets/site/img/banner-01.jpg'); background-size: cover; background-position: top center;">
+<div class="page-header" style="background-image: url('/assets/site/img/banner-01.jpg'); background-size: cover; background-position: top center;">
     <div class="container">
       <div class="row">
-        <div class="col-lg-4 col-md-6 ml-auto mr-auto">
+        <div class="col-lg-5 col-md-6 ml-auto mr-auto">
           <div class="card card-login">
-            <form class="form" method="" action="">
+            <form class="form" method="post" action="/login">
               <div class="card-header card-header-primary text-center">
                 <h4 class="card-title">Login</h4>
 
@@ -26,13 +26,14 @@
               </div>
               <p class="description text-center">Clientes, Visitantes ou Parceiros</p>
                <div class="card-body">
+                  {include="notification"} 
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text">
                       <i class="material-icons">face</i>
                     </span>
                   </div>
-                  <input type="email" class="form-control" placeholder="Email...">
+                  <input type="email" class="form-control" placeholder="Email..." id="login_name" name="login_name" required>
                 </div>
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -40,11 +41,15 @@
                       <i class="material-icons">lock_outline</i>
                     </span>
                   </div>
-                  <input type="password" class="form-control" placeholder="Senha...">
+                  <input type="password" class="form-control" placeholder="Senha..." id="user_password" name="user_password" required>
                 </div>
               </div>
               <div class="footer text-center">
-                <a href="#pablo" class="btn btn-primary btn-link btn-wd btn-lg">Iniciar login</a>
+                <button type="submit" class="btn btn-primary justify-content-center">Login</button>
+                <a class="nav-link text-right text-capitalize" href="/forgot">
+                  <i class="material-icons">face</i>
+                  Esqueci minha senha
+                </a>
               </div>
             </form>
           </div>

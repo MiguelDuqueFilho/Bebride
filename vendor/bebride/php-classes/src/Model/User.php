@@ -13,59 +13,56 @@ class User extends Model {
     const SECRET_USER = "BeBrideSecret_US";
     const SECRET_IV = '';
 
-    // public static function getFromSession() 
-    // {
+    public static function getFromSession() 
+    {
 
-    //     $user = new User();
+        $user = new User();
 
-    //     if (isset($_SESSION[User::SESSION]) && (int)$_SESSION[User::SESSION]["iduser"] > 0) 
-    //     {
+        if (isset($_SESSION[User::SESSION]) && (int)$_SESSION[User::SESSION]["user_id"] > 0) 
+        {
 
-    //         $user->setValues($_SESSION[User::SESSION]);
+            $user->setValues($_SESSION[User::SESSION]);
 
-    //     }
+        }
 
-    //     return $user;
-    // }
+        return $user;
+    }
 
     
 
-    // public static function login($login, $password) 
-    // {
-    //     $sql = new Sql();
+    public static function login($login, $password) 
+    {
+        $sql = new Sql();
         
-    //     $results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b ON a.idperson = b.idperson WHERE deslogin = :LOGIN", array(
-    //         ":LOGIN"=>$login
-    //     ));
+        $results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b ON a.person_id = b.person_id WHERE login_name = :LOGIN", array(
+            ":LOGIN"=>$login
+        ));
 
-    //     if (count($results) === 0) 
-    //     {
-    //         throw new \Exception("Usuário inexistente ou Senha Invaida.");
-    //     }
+        if (count($results) === 0) 
+        {
+            User::setNotification("Login inexistente ou Senha Invalida.",'warning');
+            return null;
+        }
 
-    //     $data = $results[0];
+        $data = $results[0];
 
-    //     if (password_verify($password,$data["despassword"]) === true) 
-    //     {
-    //         $user = new User();
-
-    //         $data['desperson'] = utf8_encode($data['desperson']);
+        if (password_verify($password,$data["password_hash"])) 
+        {
+            $user = new User();
             
-    //         $user->setValues($data);
+            $user->setValues($data);
 
-    //         $_SESSION[User::SESSION] = $user->getValues();
+            $_SESSION[User::SESSION] = $user->getValues();
 
-    //         return $user;
-    //     }
-    //     else
-    //     {
-    //         throw new \Exception("Usuário inexistente ou Senha Invaida.");
-    //     }
+            return $user;
+        }
+        else
+        {
+            return null;
+        }
+    }
 
-
-    // }
-
-public static function checkLogin($user_type_id = 1) //não revisado
+public static function checkLogin($user_type_id = 0) //não revisado totalmente 
     {
 
         if (
@@ -77,25 +74,49 @@ public static function checkLogin($user_type_id = 1) //não revisado
         )
         {
             // Não esta logado
-            return false;
+           return false;
         }
         else
         {
-            // rota de administrador
-            if ($user_type_id = 1 && (bool)$_SESSION[User::SESSION]["user_type_id"] === true ) 
-            {
-               return true;
-            }
-            else if ($user_type_id === false) 
-            {
-                // Ele esta logado , mas não estamos exigindo que seja uma rota de administração
+            switch ($user_type_id) {
+                case 0:  // visitante não implementado
+                return false;
+                break;
+                case 1:  // administrador do site
                 return true;
-            } 
-            else 
-            {
-                // Se saiu deste padrão e por que não esta logado 
-                   return false;
+                break;
+                case 2:  // clientes do site (somente algumas visualizações)
+                return true;
+                break;
+                case 3:  // fornecedor ainda não implementado 
+                return false;
+                break;
             }
+            
+            // rota de administrador
+            // if ($user_type_id = 1 && (bool)$_SESSION[User::SESSION]["user_type_id"] === 1 ) 
+            // {
+            //     echo "true 1";
+            //     exit;
+
+            //    return true;
+            // }
+            // else if ($user_type_id === false) 
+            // {
+            //     // Ele esta logado , mas não estamos exigindo que seja uma rota de administração
+            //     echo "true 2 ";
+            //     exit;
+
+            //     return true;
+            // } 
+            // else 
+            // {
+            //     // Se saiu deste padrão e por que não esta logado 
+            //         echo "false 1";
+            //         exit;
+
+            //        return false;
+            // }
         }
 
     }
@@ -104,28 +125,28 @@ public static function checkLogin($user_type_id = 1) //não revisado
     {
         if  (!User::checkLogin($user_type_id))
         {
-            // if ($user_type_id === 1) // usuário administrador
-            // {
-			// 	header("Location: /admin/login");
-			// } else {
-			// 	header("Location: /login");
-            // }
+            if ($user_type_id === 1) // usuário administrador
+            {
+				header("Location: /admin/login");
+			} else {
+				header("Location: /login");
+            }
             header("Location: /login");
 			exit;
         }
     }
 
-    // public static function logout()
-    // {
-    //     $_SESSION[User::SESSION] = null;
-    // }
+    public static function logout()
+    {
+        $_SESSION[User::SESSION] = null;
+    }
 
 
     public static function listAll() 
     {
         $sql = new Sql();
         
-        return $sql->select("SELECT * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_name  
+        return $sql->select("SELECT * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_fullname  
             FROM tb_users a 
             INNER JOIN tb_persons b on b.person_id = a.person_id
             INNER JOIN tb_userstype c on c.user_type_id = a.user_type_id
@@ -166,7 +187,7 @@ public static function checkLogin($user_type_id = 1) //não revisado
 
         $sql = new Sql();
         
-        $results = $sql->select("SELECT * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_name  
+        $results = $sql->select("SELECT * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_fullname  
             FROM tb_users a 
             INNER JOIN tb_persons b on b.person_id = a.person_id
             INNER JOIN tb_userstype c on c.user_type_id = a.user_type_id
@@ -180,151 +201,176 @@ public static function checkLogin($user_type_id = 1) //não revisado
 
     }
 
-//     public function update() 
-//     {
+    public function update() 
+    {
 
-//         $sql = new Sql();
+        $sql = new Sql();
 
-//         $results = $sql->select("call sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassord, :desemail, :nrphone, :inadmin)", array(
-//             ":iduser"=>$this->getiduser(),
-//             ":desperson"=>utf8_decode($this->getdesperson()),
-//             ":deslogin"=>$this->getdeslogin(),
-//             ":despassord"=>User::getPasswordHash($this->getdespassword()),
-//             ":desemail"=>$this->getdesemail(),
-//             ":nrphone"=>$this->getnrphone(),
-//             ":inadmin"=>$this->getinadmin()
-//         ));
+        $results = $sql->select("call sp_usersupdate_save(
+            :user_id, 
+            :person_firstname, 
+            :person_lastname, 
+            :login_name, 
+            :password_hash, 
+            :person_email, 
+            :person_phone, 
+            :person_whatsapp
+            :person_facebook
+            :person_instagram
+            :user_type_id,
+            :company_name,
+            person_jobrole
+            )", 
+            array(
+            ":user_id"=>$this->getuser_id(),
+            ":person_firstname"=>$this->getperson_firstname(),
+            ":person_lastname"=>$this->getperson_lastname(),
+            ":login_name"=>$this->getlogin_name(),
+            ":password_hash"=>User::getPasswordHash($this->getpassword_hash()),
+            ":person_email"=>$this->getperson_email(),
+            ":person_phone"=>$this->getperson_phone(),
+            ":person_whatsapp"=>$this->getperson_whatsapp(),
+            ":person_facebook"=>$this->getperson_facebook(),
+            ":person_instagram"=>$this->getperson_instagram(),
+            ":user_type_id"=>$this->getuser_type_id(),
+            ":company_name"=>$this->getcompany_name(),
+            ":person_jobrole"=>$this->getperson_jobrole()
 
-//         $this->setValues($results[0]);
-//     }
+        ));
+
+        $this->setValues($results[0]);
+    }
 
 
-//     public static function getForgot($email, $inadmin = true) {
+    public static function getForgot($person_email, $user_type_id = 1) {
 
-//         $sql = new Sql();
 
-//         $results = $sql->select("SELECT * FROM tb_persons a INNER JOIN tb_users b USING(idperson) WHERE a.desemail = :email",array(
-//             ":email"=>$email
-//         ));
+        $sql = new Sql();
 
-//         if (count($results) === 0) 
-//         {
-//             throw new \Exception("Não foi possivel recuparar a senha. 1");
-//         }
-//         else
-//         {
-//             $data = $results[0];
-//             $resultsforgot = $sql->select("call sp_userspasswordsrecoveries_create(:iduser, :desip)", array(
-//                 ":iduser"=>$data["iduser"],
-//                 ":desip"=>$_SERVER["REMOTE_ADDR"] 
-//             ));
+        $results = $sql->select("SELECT * , CONCAT_WS(' ',a.person_firstname,a.person_lastname) AS person_fullname FROM tb_persons a INNER JOIN tb_users b USING(person_id) WHERE a.person_email = :person_email",array(
+            ":person_email"=>$person_email
+        ));
 
-//             if (count($resultsforgot) === 0) 
-//             {
-//                 throw new \Exception("Não foi possivel recuparar a senha 2.");
-//             }
-//             else
-//             {
-//                 $dataRecovery = $resultsforgot[0];
+        if (count($results) === 0) 
+        {
+            User::setNotification("Não foi possivel recuparar a senha.",'warning');
+        }
+        else
+        {
+            $data = $results[0];
 
-//                 $openssl = openssl_encrypt(
-//                     $dataRecovery["idrecovery"], 
-//                     "AES-128-ECB",
-//                     User::SECRET_USER,
-//                     0,
-//                     User::SECRET_IV
-//                 );
-//                 $code = base64_encode($openssl);
-// //                $code = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, USER::SECRET_USER, $dataRecovery["idrecovery"], MCRYPT_MODE_CBC));
+            $resultsforgot = $sql->select("call sp_userspasswordsrecoveries_create(:user_id, :remote_ip)", array(
+                ":user_id"=>$data["user_id"],
+                ":remote_ip"=>$_SERVER["REMOTE_ADDR"] 
+            ));
 
-//                 if ($inadmin === true) 
-//                 {
-//                     $link = "http://www.bebridecasamentos.com.br/admin/forgot/reset?code=$code";
+            if (count($resultsforgot) === 0) 
+            {
+                User::setNotification("Não foi possivel recuparar a senha.",'warning');
+            }
+            else
+            {
+                $dataRecovery = $resultsforgot[0];
 
-//                 }
-//                 else
-//                 {
-//                     $link = "http://www.bebridecasamentos.com.br/forgot/reset?code=$code";
+                $openssl = openssl_encrypt(
+                    $dataRecovery["recovery_id"], 
+                    "AES-128-ECB",
+                    User::SECRET_USER,
+                    0,
+                    User::SECRET_IV
+                );
+                $code = base64_encode($openssl);
 
-//                 }
+                if ($user_type_id === 1) 
+                {
+//                    $link = "http://www.bebrideassessoria.com.br/admin/forgot/reset?code=$code";
+                    $link = "http://www.bebrideassessoria.com.br/forgot/reset?code=$code";
+                }
+                else
+                {
+                    $link = "http://www.bebrideassessoria.com.br/forgot/reset?code=$code";
 
-//                 $mailer = new Mailer($data["desemail"], $data["desperson"], "Redefinir senha da BeBride Casamentos","forgot",
-//                     array(
-//                         "name"=>$data["desperson"],
-//                         "link"=>$link
-//                     )
-//                 );
+                }
 
-//                 $mailer->send();
+                $mailer = new Mailer($data["person_email"], $data["person_fullname"], "Redefinir senha da BeBride Assessoria","forgot",
+                    array(
+                        "name"=>$data["person_fullname"],
+                        "link"=>$link
+                    )
+                );
 
-//                 return $data;
+                $mailer->send();
+
+                return $data;
                 
-//             };
-//         }
+            };
+        }
 
-//     }
+    }
 
-//     public static function validForgotDecrypt($code) {
+    public static function validForgotDecrypt($code) {
 
-//         $codeCrypt = base64_decode($code);
+        $codeCrypt = base64_decode($code);
 
-//         $idRecovery = openssl_decrypt(
-//             $codeCrypt, 
-//             "AES-128-ECB",
-//             User::SECRET_USER,
-//             0,
-//             User::SECRET_IV
-//         );
+        $recovery_id = openssl_decrypt(
+            $codeCrypt, 
+            "AES-128-ECB",
+            User::SECRET_USER,
+            0,
+            User::SECRET_IV
+        );
 
-//         $sql = new Sql();
 
-//         $results = $sql->select("
-//             select * from tb_userspasswordsrecoveries a
-//             inner join tb_users b using (iduser) 
-//             inner join tb_persons c using (idperson)
-//             where 	a.idrecovery = :idrecovery  
-//             and     a.dtrecovery is null 
-//             and		date_add(a.dtregister, interval 1 hour) >= now()
-//             ",
-//             Array
-//             (
-//                 ":idrecovery"=>$idRecovery
-//             )
-//         );
+        $sql = new Sql();
 
-//         if (count($results) === 0) 
-//         {    
-//             throw new \Exception("Não foi possivel recuperar a Senha.", 1);                
-//         }
-//         else
-//         {
-//             return $results[0];
-//         };
-//     } 
+        $results = $sql->select("
+            select * , CONCAT_WS(' ',c.person_firstname,c.person_lastname) AS person_fullname  from tb_userspasswordsrecoveries a
+            inner join tb_users b  on a.user_id = b.user_id
+            inner join tb_persons c on b.person_id = c.person_id
+            where 	a.recovery_id = :recovery_id 
+            and     a.recovery_date is null 
+            and		date_add(a.created_at, interval 1 hour) >= now()
+            ",
+            Array
+            (
+                ":recovery_id"=>$recovery_id
+            )
+        );
 
-//     public static function setForgotUsed($idRecovery) 
-//     {
-//         $sql = new Sql();
+        if (count($results) === 0) 
+        {    
+            User::setNotification("Não foi possivel recuparar a senha.",'warning');
+            return null;             
+        }
+        else
+        {
+            return $results[0];
+        };
+    } 
 
-//         $sql->query("UPDATE tb_userspasswordsrecoveries SET dtrecovery = now() WHERE idrecovery = :idrecovery", array(
-//             ":idrecovery"=>$idRecovery
-//         ));
-//     }
+    public static function setForgotUsed($recovery_id) 
+    {
+        $sql = new Sql();
 
-//     public function setPassword($password) {
-//         $sql = new Sql();
+        $sql->query("UPDATE tb_userspasswordsrecoveries SET recovery_date = now() WHERE recovery_id = :recovery_id", array(
+            ":recovery_id"=>$recovery_id
+        ));
+    }
 
-//         $sql->query("UPDATE tb_users SET despassword = :password WHERE iduser = :iduser", array(
-//             ":password"=>$password,
-//             ":iduser"=>$this->getiduser()
-//         ));
+    public function setPassword($password_hash) {
+        $sql = new Sql();
 
-//     }
+        $sql->query("UPDATE tb_users SET password_hash = :password_hash WHERE user_id = :user_id", array(
+            ":password_hash"=>$password_hash,
+            ":user_id"=>$this->getuser_id()
+        ));
 
-	public static function getPasswordHash($password)
+    }
+
+	public static function getPasswordHash($password_hash)
 	{
 
-		return password_hash($password, PASSWORD_DEFAULT, [
+		return password_hash($password_hash, PASSWORD_DEFAULT, [
 			'cost'=>12
 		]);
 
@@ -368,7 +414,7 @@ public static function checkLogin($user_type_id = 1) //não revisado
 
         $sql = new Sql();
 
-        $results = $sql->select("SELECT sql_calc_found_rows * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_name  
+        $results = $sql->select("SELECT sql_calc_found_rows * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_fullname  
             FROM tb_users a 
             INNER JOIN tb_persons b on b.person_id = a.person_id
             INNER JOIN tb_userstype c on c.user_type_id = a.user_type_id
@@ -392,7 +438,7 @@ public static function checkLogin($user_type_id = 1) //não revisado
 
         $sql = new Sql();
 
-        $results = $sql->select("SELECT sql_calc_found_rows * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_name  
+        $results = $sql->select("SELECT sql_calc_found_rows * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_fullname  
             FROM tb_users a 
             INNER JOIN tb_persons b on b.person_id = a.person_id
             INNER JOIN tb_userstype c on c.user_type_id = a.user_type_id
