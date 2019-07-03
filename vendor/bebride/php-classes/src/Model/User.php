@@ -218,8 +218,8 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
             ":person_lastname"=>$this->getperson_lastname(),
             ":login_name"=>$this->getlogin_name(),
             ":person_email"=>$this->getperson_email(),
-            ":person_phone"=>$this->getperson_phone(),
-            ":person_whatsapp"=>$this->getperson_whatsapp(),
+            ":person_phone"=>(int) $this->getperson_phone(),
+            ":person_whatsapp"=>(int) $this->getperson_whatsapp(),
             ":person_facebook"=>$this->getperson_facebook(),
             ":person_instagram"=>$this->getperson_instagram(),
             ":user_type_id"=>$this->getuser_type_id(),
@@ -229,7 +229,6 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
             ':person_urlphoto'=>$this->getperson_urlphoto()
         ));
 
- 
         $this->setValues($results[0]);
     }
 
@@ -540,8 +539,10 @@ public function setPhoto($file)
         return;
     }
 
+
     $extention = explode('.',$file['name']);
     $extention = end($extention);
+    $extention = strtolower($extention); 
 
 
     switch($extention)

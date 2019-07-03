@@ -18,10 +18,10 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <select class="label-floating form-control" id="user_type_id" name="user_type_id" required>
-                                            <option value="0"   >Visitante</option>
+                                            <option value="0"          >Visitante</option>
                                             <option value="1" selected >Administrador</option>
-                                            <option value="2"  >Clientes</option>
-                                            <option value="3"  >Parceiros</option>
+                                            <option value="2"          >Clientes</option>
+                                            <option value="3"          >Parceiros</option>
                                         </select>
                                     </div>
                                 </div>
@@ -123,8 +123,8 @@
                                         <label class="btn btn-primary pull-right" for="file"> <i class="material-icons">insert_photo</i> Selecione a Foto</label>
                                         <input type="file" class="form-control" id="file" name="file" >
                                         <div class="box box-widget">
-                                            <div class="box-body">
-                                            <img class="img-responsive" id="image-preview" src="{$user.person_urlphoto}" alt="Photo">
+                                            <div class="box-body ">
+                                            <img class="img-responsive photo-avatar" id="image-preview" src="{$user.person_urlphoto}" alt="Photo">
                                         </div>
                                     </div>
                                 </div>
@@ -149,7 +149,8 @@
                         <p class="card-description" id="person-about-avatar">
                             {$user.person_about}
                         </p>
-                        <a href="https://www.facebook.com/{$user.person_facebook}" class="btn btn-primary btn-round"><i class="fa fa-facebook-square"> </i> seguir</a>
+                        <a href="https://www.facebook.com/{$user.person_facebook}" 
+                        class="btn btn-primary btn-round card-text">  seguir  </a>
                     </div>
                 </div>
             </div>

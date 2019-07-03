@@ -103,7 +103,6 @@ $app->post("/admin/users/create", function () {
 
 	 ]);
 	 
-
  	$user->setValues($_POST);
 
 	$user->save();
@@ -136,17 +135,21 @@ $app->get('/admin/users/:user_id', function($user_id) {
 
 
 
-$app->post('/admin/users/:iduser', function($iduser) {
+$app->post('/admin/users/:user_id', function($user_id) {
 
 	User::verifyLogin(1);
 
 	$user = new User();
 
-	$user->getUser((int) $iduser);
+	$user->getUser((int) $user_id);
 
 	$user->setValues($_POST);	
 	
 	$user->setPhoto($_FILES["file"]);
+
+	// var_dump($user->getValues());
+	// echo "<br>";
+	// exit;
 
 	$user->update();
 
@@ -155,70 +158,65 @@ $app->post('/admin/users/:iduser', function($iduser) {
 });
 
 
+$app->get("/admin/users/:iduser/password", function($user_id) {
 
+	User::verifyLogin(1);
 
-
-/* 
-$app->get("/admin/users/:iduser/password", function($iduser) {
-
-	User::verifyLogin();
+	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
 
 	$user = new User();
 
-	$user->get((int) $iduser);
+	$user->getUser((int) $user_id);
 
 	$page = new PageAdmin();
 
 	$page->setTpl("users-password", array(
-		"user"=>$user->getValues(),
-		"msgError"=>User::getError(),
-		"msgSuccess"=>User::getSuccess()
+		"notification"=>User::getNotification(),
+		'search'=>$search,
+		"user"=>$user->getValues()
 	));
-
 
 });
 
-$app->post("/admin/users/:iduser/password", function($iduser) {
+$app->post("/admin/users/:iduser/password", function($user_id) {
 
-	User::verifyLogin();
+	User::verifyLogin(1);
 
-	if (!isset($_POST['despassword']) || $_POST['despassword'] ==='')
+	if (!isset($_POST['new_password']) || $_POST['new_password'] ==='')
 	{
-		User::setError("Preencha a nova senha.");
+		User::setNotification("Preencha a nova senha.",'warning');
 
-		header("location: /admin/users/$iduser/password");
+		header("location: /admin/users/$user_id/password");
 		exit;
 	}
 
-	if (!isset($_POST['despassword-confirm']) || $_POST['despassword-confirm'] ==='')
+	if (!isset($_POST['new_password_confirm']) || $_POST['new_password_confirm'] ==='')
 	{
-		User::setError("Preencha a confirmaçâo da nova senha.");
+		User::setNotification("Preencha a confirmaçâo da nova senha.",'warning');
 		
-		header("location: /admin/users/$iduser/password");
+		header("location: /admin/users/$user_id/password");
 		exit;
 	}
 
-	if ($_POST['despassword'] !== $_POST['despassword-confirm'])
+	if ($_POST['new_password'] !== $_POST['new_password_confirm'])
 	{
-		User::setError("Confirme corretamente as senhas.");
+		User::setNotification("Confirme corretamente as senhas.",'warning');
 		
-		header("location: /admin/users/$iduser/password");
+		header("location: /admin/users/$user_id/password");
 		exit;
 	}
 
 	$user = new User();
 
-	$user->get((int) $iduser);
+	$user->getUser((int) $user_id);
 
-	$user->setPassword(User::getPasswordHash( $_POST['despassword']));
+	$user->setPassword(User::getPasswordHash( $_POST['new_password']));
 
-	User::setSuccess("Senha alterada com sucesso.");
+	User::setNotification("Senha alterada com sucesso.",'success');
 		
-	header("location: /admin/users/$iduser/password");
+	header("location: /admin/users");
 	exit;
 });
-
- */
 
 
 ?>

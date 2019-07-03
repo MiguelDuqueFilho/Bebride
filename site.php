@@ -152,7 +152,7 @@ $app->get("/logout", function() {
 
 	User::logout();
 
-	header("location: /login");
+	header("location: /");
 	exit;
 });
 

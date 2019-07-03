@@ -25,4 +25,9 @@
   .alert {
     inline-size: 100%;
   }
+
+  .photo-avatar {
+    max-width: 400px;
+    max-height: 400px;
+}
   
