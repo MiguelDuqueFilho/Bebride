@@ -44,7 +44,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="label-floating">Cargo</label>
-                                        <input type="text" class="form-control" id="person_jobrole"
+                                        <input type="text" class="form-control" id="person-jobrole"  oninput="DuplicateJobrole()"
                                             name="person_jobrole" value="{$user.person_jobrole}">
                                     </div>
                                 </div>
@@ -53,14 +53,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="label-floating">Primeiro Nome</label>
-                                        <input type="text" class="form-control" id="person_firstname"
+                                        <input type="text" class="form-control" id="person-firstname" oninput="DuplicateFullname()"
                                             name="person_firstname" value="{$user.person_firstname}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="label-floating">Último Nome</label>
-                                        <input type="text" class="form-control" id="person_lastname"
+                                        <input type="text" class="form-control" id="person-lastname" oninput="DuplicateFullname()"
                                             name="person_lastname" value="{$user.person_lastname}" required>
                                     </div>
                                 </div>
@@ -111,7 +111,7 @@
                                         <div class="form-group">
                                             <label class="label-floating"> Coloque alguma informação sobre
                                                 você.</label>
-                                            <textarea class="form-control" rows="5" id="person_about"
+                                            <textarea class="form-control" rows="5" id="person-about" oninput="DuplicateAbout()"
                                                 name="person_about" >{$user.person_about}</textarea>
                                         </div>
                                     </div>
@@ -120,11 +120,11 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="file">Foto</label>
-                                        <input type="file" class="form-control" id="file" name="file" value="AAAAAAA">
+                                        <label class="btn btn-primary pull-right" for="file"> <i class="material-icons">insert_photo</i> Selecione a Foto</label>
+                                        <input type="file" class="form-control" id="file" name="file" >
                                         <div class="box box-widget">
                                             <div class="box-body">
-                                            <img class="img-responsive" id="image-preview" src="{$user.person_photo}" alt="Photo">
+                                            <img class="img-responsive" id="image-preview" src="{$user.person_urlphoto}" alt="Photo">
                                         </div>
                                     </div>
                                 </div>
@@ -139,17 +139,17 @@
             <div class="col-md-4">
                 <div class="card card-profile">
                     <div class="card-avatar">
-                        <a href="#pablo">
-                            <img class="img" src="/assets/site/img/faces/avatar_bruna.jpg" />
+                        <a >
+                            <img class="img-responsive" id="image-preview-avatar"  src="{$user.person_urlphoto}" />
                         </a>
                     </div>
                     <div class="card-body">
-                        <h6 class="card-category text-gray">{$user.person_jobrole}</h6>
-                        <h4 class="card-title">{$user.person_fullname}</h4>
-                        <p class="card-description">
+                        <h6 class="card-category text-gray" id="person-jobrole-avatar">{$user.person_jobrole}</h6>
+                        <h4 class="card-title" id="person-fullname-avatar" >{$user.person_fullname}</h4>
+                        <p class="card-description" id="person-about-avatar">
                             {$user.person_about}
                         </p>
-                        <a href="https://www.facebook.com/{$user.person_facebook}" class="btn btn-primary btn-round">seguir</a>
+                        <a href="https://www.facebook.com/{$user.person_facebook}" class="btn btn-primary btn-round"><i class="fa fa-facebook-square"> </i> seguir</a>
                     </div>
                 </div>
             </div>
@@ -164,10 +164,31 @@
           file.onload = function() {
             
             document.querySelector('#image-preview').src = file.result;
+            document.querySelector('#image-preview-avatar').src = file.result;
         
           }
         
           file.readAsDataURL(this.files[0]);
         
         });
+
+        function DuplicateJobrole() 
+        {
+            var x = document.getElementById("person-jobrole").value;
+            document.getElementById("person-jobrole-avatar").innerHTML = x;
+        }
+
+        function DuplicateFullname() 
+        {
+            var x = document.getElementById("person-firstname").value;
+            var y = document.getElementById("person-lastname").value;
+            document.getElementById("person-fullname-avatar").innerHTML = x + ' ' + y;
+        }
+
+        function DuplicateAbout() 
+        {
+            var x = document.getElementById("person-about").value;
+            document.getElementById("person-about-avatar").innerHTML = x;
+        }
+
 </script>

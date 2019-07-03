@@ -145,12 +145,10 @@ $app->post('/admin/users/:iduser', function($iduser) {
 	$user->getUser((int) $iduser);
 
 	$user->setValues($_POST);	
+	
+	$user->setPhoto($_FILES["file"]);
 
 	$user->update();
-
-	var_dump($_FILES);
-	exit;
-	$user->setPhoto($_FILES["file"]);
 
 	header("Location: /admin/users");
 	exit;

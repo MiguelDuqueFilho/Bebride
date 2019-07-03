@@ -209,7 +209,8 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
             :user_type_id,
             :company_name,
             :person_jobrole,
-            :person_about
+            :person_about,
+            :person_urlphoto
             )", 
             array(
             ":user_id"=>$this->getuser_id(),
@@ -224,8 +225,8 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
             ":user_type_id"=>$this->getuser_type_id(),
             ":company_name"=>$this->getcompany_name(),
             ":person_jobrole"=>$this->getperson_jobrole(),
-            ":person_about"=>$this->getperson_about()
-
+            ":person_about"=>$this->getperson_about(),
+            ':person_urlphoto'=>$this->getperson_urlphoto()
         ));
 
  
@@ -275,7 +276,6 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
 
                 if ($user_type_id === 1) 
                 {
-//                    $link = "http://www.bebrideassessoria.com.br/admin/forgot/reset?code=$code";
                     $link = "http://www.bebrideassessoria.com.br/forgot/reset?code=$code";
                 }
                 else
@@ -526,12 +526,19 @@ public function checkPhoto()
         $url = "/assets/site/img/faces/avatar_0.jpg" ;
     }
 
-    return $this->setperson_photo($url);
+    return $this->setperson_urlphoto($url);
 }
 
 
 public function setPhoto($file)
 {
+
+
+    if ($file['name'] == '')
+    {
+        $this->checkPhoto();
+        return;
+    }
 
     $extention = explode('.',$file['name']);
     $extention = end($extention);
