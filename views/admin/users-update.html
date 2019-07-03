@@ -1,0 +1,173 @@
+{include="dashboard-menu"}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <a class="nav-link justify-content-end" href="/admin/address/{$user.user_id}/update">
+                        <i class="material-icons">my_location</i>
+                        <p>Atualizar Endereço</p>
+                    </a>
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Atualizar Usuário</h4>
+                        <p class="card-category">Complete seu Perfil</p>
+                    </div>
+                    <div class="card-body">
+                        <form role="form" action="/admin/users/{$user.user_id}" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <select class="label-floating form-control" id="user_type_id" name="user_type_id" required>
+                                            <option value="0"   >Visitante</option>
+                                            <option value="1" selected >Administrador</option>
+                                            <option value="2"  >Clientes</option>
+                                            <option value="3"  >Parceiros</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="label-floating">Nome Login</label>
+                                        <input type="text" class="form-control" id="login_name" name="login_name"
+                                            value="{$user.login_name}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="label-floating">Empresa</label>
+                                        <input type="text" class="form-control" id="company_name" name="company_name"
+                                            value="{$user.company_name}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="label-floating">Cargo</label>
+                                        <input type="text" class="form-control" id="person_jobrole"
+                                            name="person_jobrole" value="{$user.person_jobrole}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="label-floating">Primeiro Nome</label>
+                                        <input type="text" class="form-control" id="person_firstname"
+                                            name="person_firstname" value="{$user.person_firstname}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="label-floating">Último Nome</label>
+                                        <input type="text" class="form-control" id="person_lastname"
+                                            name="person_lastname" value="{$user.person_lastname}" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="label-floating">Email</label>
+                                        <input type="email" class="form-control" id="person_email" name="person_email"
+                                            value="{$user.person_email}" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="label-floating">Telephone</label>
+                                        <input type="tel" class="form-control" id="person_phone" name="person_phone"
+                                            value="{$user.person_phone}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="label-floating">Whatsapp</label>
+                                        <input type="tel" class="form-control" id="person_whatsapp"
+                                            name="person_whatsapp" value="{$user.person_whatsapp}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="label-floating">Facebook</label>
+                                        <input type="text" class="form-control" id="person_facebook"
+                                            name="person_facebook" value="{$user.person_facebook}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="label-floating">Instagram</label>
+                                        <input type="text" class="form-control" id="person_instagram"
+                                            name="person_instagram" value="{$user.person_instagram}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Observação</label>
+                                        <div class="form-group">
+                                            <label class="label-floating"> Coloque alguma informação sobre
+                                                você.</label>
+                                            <textarea class="form-control" rows="5" id="person_about"
+                                                name="person_about" >{$user.person_about}</textarea>
+                                        </div>
+                                    </div>
+                                </div>  
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="file">Foto</label>
+                                        <input type="file" class="form-control" id="file" name="file" value="AAAAAAA">
+                                        <div class="box box-widget">
+                                            <div class="box-body">
+                                            <img class="img-responsive" id="image-preview" src="{$user.person_photo}" alt="Photo">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div> 
+                            <button type="submit" class="btn btn-primary pull-right">Atualizar Usuário</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-avatar">
+                        <a href="#pablo">
+                            <img class="img" src="/assets/site/img/faces/avatar_bruna.jpg" />
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-category text-gray">{$user.person_jobrole}</h6>
+                        <h4 class="card-title">{$user.person_fullname}</h4>
+                        <p class="card-description">
+                            {$user.person_about}
+                        </p>
+                        <a href="https://www.facebook.com/{$user.person_facebook}" class="btn btn-primary btn-round">seguir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+        document.querySelector('#file').addEventListener('change', function(){
+          
+          var file = new FileReader();
+        
+          file.onload = function() {
+            
+            document.querySelector('#image-preview').src = file.result;
+        
+          }
+        
+          file.readAsDataURL(this.files[0]);
+        
+        });
+</script>

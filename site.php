@@ -5,11 +5,11 @@ use \BeBride\PageAdmin;
 
 use \BeBride\Model;
 use \BeBride\Page;
+use \BeBride\Model\User;
 // use \BeBride\Model\Product;
 // use \BeBride\Model\Category;
 // use \BeBride\Model\Cart;
 // use \BeBride\Model\Address; 
-use \BeBride\Model\User;
 // use \Rain\Tpl\Exception;
 // use \BeBride\Model\Order;
 // use \BeBride\Model\OrderStatus;
@@ -17,15 +17,10 @@ use \BeBride\Model\User;
 
 $app->get('/', function() {
 
-
 	$page = new Page();
-	User::clearNotification();
 	$page->setTpl("index");
 
 });
-
-
-
 
 $app->get('/register', function() {
 	
@@ -39,8 +34,6 @@ $app->get('/register', function() {
 });
 
 $app->post("/register", function() {
-
-
 
 	$user_password = (isset($_POST['user_password'])) ? $_POST['user_password'] : '';
 	$_POST['user_password'] = '';  // esta linha é importante para a segurança da senha
@@ -179,6 +172,8 @@ $app->get("/forgot/sent", function() {
 
 $app->get("/forgot/reset", function() {
 
+	Model::clearNotification();
+
 	$user = User::validForgotDecrypt($_GET["code"]);
 
 	$page = new Page();
@@ -190,9 +185,7 @@ $app->get("/forgot/reset", function() {
 		));
 	}
 	else 
-	{
-		Model::clearNotification();
-		
+	{	
 		$page->setTpl("forgot-reset", array(
 			"notification"=>Model::getNotification(),
 			"name"=>$user["person_firstname"],
@@ -203,6 +196,8 @@ $app->get("/forgot/reset", function() {
 
 
 $app->post("/forgot/reset", function() {
+
+	User::clearNotification();
 
 	$forgot = User::validForgotDecrypt($_POST["code"]);
 
@@ -243,23 +238,12 @@ $app->get("/forgot", function() {
 
 $app->post("/forgot", function() {
 
-	$user = User::getForgot($_POST["person_email"], false);
+	User::clearNotification();
+
+	$user = User::getForgot($_POST["login_name"], false);
 
 	header("location: /forgot/sent");
 	exit;
-
-});
-
-
-$app->get('/admin/user', function() {
-
-	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
-	
-	$page = new PageAdmin();
-
-	$page->setTpl("user",[
-		'search'=>$search
-	]);
 
 });
 
@@ -386,7 +370,7 @@ $app->post("/cart/freight", function() {
 
 $app->get("/checkout", function() {
 
-	User::verifyLogin(false);
+	User::verifyLogin();
 
 
 	$address = new Address();
@@ -432,7 +416,7 @@ $app->get("/checkout", function() {
 
 $app->post("/checkout", function() {
 
-	User::verifyLogin(false);
+	User::verifyLogin();
 
 	Address::clearMsgError();
 	
@@ -528,7 +512,7 @@ $app->post("/checkout", function() {
 
 $app->get("/profile", function() {
 
-	User::verifyLogin(false);
+	User::verifyLogin();
 
 	$user = User::getFromSession();
 
@@ -544,7 +528,7 @@ $app->get("/profile", function() {
 
 $app->post("/profile", function() {
 
-	User::verifyLogin(false);
+	User::verifyLogin();
 
 	if (!isset($_POST['desperson']) || $_POST['desperson'] === '')
 	{
@@ -591,7 +575,7 @@ $app->post("/profile", function() {
 
 $app->get("/order/:idorder", function($idorder) {
 
-	User::verifyLogin(false);
+	User::verifyLogin();
 
 	$order = new Order();
 
@@ -607,7 +591,7 @@ $app->get("/order/:idorder", function($idorder) {
 
 $app->get("/boleto/:idorder", function($idorder) {
 
-	User::verifyLogin(false);
+	User::verifyLogin();
 
 	$order = new Order();
 
@@ -683,7 +667,7 @@ $app->get("/boleto/:idorder", function($idorder) {
 
 $app->get("/profile/orders", function() {
 
-	User::verifyLogin(false);
+	User::verifyLogin();
 
 	$user = new User();
 
@@ -699,7 +683,7 @@ $app->get("/profile/orders", function() {
 
 $app->get("/profile/orders/:idorder", function($idorder) {
 
-	User::verifyLogin(false);
+	User::verifyLogin();
 
 	$order = new Order();
 
@@ -723,7 +707,7 @@ $app->get("/profile/orders/:idorder", function($idorder) {
 
 $app->get("/profile/change-password", function() {
 
-	User::verifyLogin(false);
+	User::verifyLogin();
 
 	$page = new Page();
 
@@ -737,7 +721,7 @@ $app->get("/profile/change-password", function() {
 
 $app->post("/profile/change-password", function() {
 
-	User::verifyLogin(false);
+	User::verifyLogin();
 
 	if (!isset($_POST['current_pass']) || $_POST['current_pass'] === '' ) 
 	{

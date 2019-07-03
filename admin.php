@@ -7,7 +7,7 @@ use \BeBride\Model\User;
 
 $app->get('/admin', function() {
 	
-//	User::verifyLogin();
+	User::verifyLogin(1);
 
 	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
 	

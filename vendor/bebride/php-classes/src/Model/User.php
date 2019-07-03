@@ -38,6 +38,7 @@ class User extends Model {
             ":LOGIN"=>$login
         ));
 
+        
         if (count($results) === 0) 
         {
             User::setNotification("Login inexistente ou Senha Invalida.",'warning');
@@ -70,7 +71,7 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
             ||
             !$_SESSION[User::SESSION]
             ||
-            !(int)$_SESSION[User::SESSION]["user_type_id"] > 0
+            !(int)$_SESSION[User::SESSION]["user_id"] > 0
         )
         {
             // Não esta logado
@@ -80,57 +81,45 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
         {
             switch ($user_type_id) {
                 case 0:  // visitante não implementado
-                return false;
+                    return false;
                 break;
                 case 1:  // administrador do site
-                return true;
+                    if ((int)$_SESSION[User::SESSION]["user_type_id"] === 1 )
+                    { 
+                        return true;
+                    }
+                    return false;
                 break;
                 case 2:  // clientes do site (somente algumas visualizações)
-                return true;
+                    if ((int)$_SESSION[User::SESSION]["user_type_id"] === 2 )
+                    { 
+                        return true;
+                    }
+                    return false;
                 break;
                 case 3:  // fornecedor ainda não implementado 
-                return false;
+                    return false;
+                break;
+                default:
+                    // fora do padrão  
+                    return false;
                 break;
             }
             
-            // rota de administrador
-            // if ($user_type_id = 1 && (bool)$_SESSION[User::SESSION]["user_type_id"] === 1 ) 
-            // {
-            //     echo "true 1";
-            //     exit;
-
-            //    return true;
-            // }
-            // else if ($user_type_id === false) 
-            // {
-            //     // Ele esta logado , mas não estamos exigindo que seja uma rota de administração
-            //     echo "true 2 ";
-            //     exit;
-
-            //     return true;
-            // } 
-            // else 
-            // {
-            //     // Se saiu deste padrão e por que não esta logado 
-            //         echo "false 1";
-            //         exit;
-
-            //        return false;
-            // }
         }
 
     }
 
-    public static function verifyLogin($user_type_id = 1) 
+    public static function verifyLogin($user_type_id = 0) 
     {
         if  (!User::checkLogin($user_type_id))
         {
-            if ($user_type_id === 1) // usuário administrador
-            {
-				header("Location: /admin/login");
-			} else {
-				header("Location: /login");
-            }
+            // if ($user_type_id === 1) // usuário administrador
+            // {
+			// 	header("Location: /admin/login");
+			// } else {
+			// 	header("Location: /login");
+            // }
             header("Location: /login");
 			exit;
         }
@@ -195,6 +184,7 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
             ":user_id"=>$user_id
         ));
 
+
         $data = $results[0];
 
         $this->setValues($data);
@@ -205,28 +195,27 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
     {
 
         $sql = new Sql();
-
+   
         $results = $sql->select("call sp_usersupdate_save(
             :user_id, 
             :person_firstname, 
             :person_lastname, 
             :login_name, 
-            :password_hash, 
             :person_email, 
             :person_phone, 
-            :person_whatsapp
-            :person_facebook
-            :person_instagram
+            :person_whatsapp,
+            :person_facebook,
+            :person_instagram,
             :user_type_id,
             :company_name,
-            person_jobrole
+            :person_jobrole,
+            :person_about
             )", 
             array(
             ":user_id"=>$this->getuser_id(),
             ":person_firstname"=>$this->getperson_firstname(),
             ":person_lastname"=>$this->getperson_lastname(),
             ":login_name"=>$this->getlogin_name(),
-            ":password_hash"=>User::getPasswordHash($this->getpassword_hash()),
             ":person_email"=>$this->getperson_email(),
             ":person_phone"=>$this->getperson_phone(),
             ":person_whatsapp"=>$this->getperson_whatsapp(),
@@ -234,26 +223,29 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
             ":person_instagram"=>$this->getperson_instagram(),
             ":user_type_id"=>$this->getuser_type_id(),
             ":company_name"=>$this->getcompany_name(),
-            ":person_jobrole"=>$this->getperson_jobrole()
+            ":person_jobrole"=>$this->getperson_jobrole(),
+            ":person_about"=>$this->getperson_about()
 
         ));
 
+ 
         $this->setValues($results[0]);
     }
 
 
-    public static function getForgot($person_email, $user_type_id = 1) {
+    public static function getForgot($login_name, $user_type_id = 1) {
 
 
         $sql = new Sql();
 
-        $results = $sql->select("SELECT * , CONCAT_WS(' ',a.person_firstname,a.person_lastname) AS person_fullname FROM tb_persons a INNER JOIN tb_users b USING(person_id) WHERE a.person_email = :person_email",array(
-            ":person_email"=>$person_email
+        $results = $sql->select("SELECT * , CONCAT_WS(' ',a.person_firstname,a.person_lastname) AS person_fullname FROM tb_persons a INNER JOIN tb_users b USING(person_id) WHERE b.login_name = :login_name",array(
+            ":login_name"=>$login_name
         ));
 
         if (count($results) === 0) 
         {
-            User::setNotification("Não foi possivel recuparar a senha.",'warning');
+            User::setNotification("Não foi possivel recuperar a senha.",'warning');
+            $data = NULL;
         }
         else
         {
@@ -266,7 +258,7 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
 
             if (count($resultsforgot) === 0) 
             {
-                User::setNotification("Não foi possivel recuparar a senha.",'warning');
+                User::setNotification("Não foi possivel recuperar a senha.",'error');
             }
             else
             {
@@ -294,7 +286,7 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
 
                 $mailer = new Mailer($data["person_email"], $data["person_fullname"], "Redefinir senha da BeBride Assessoria","forgot",
                     array(
-                        "name"=>$data["person_fullname"],
+                        "name"=>$data["person_firstname"],
                         "link"=>$link
                     )
                 );
@@ -357,7 +349,8 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
         ));
     }
 
-    public function setPassword($password_hash) {
+    public function setPassword($password_hash) 
+    {
         $sql = new Sql();
 
         $sql->query("UPDATE tb_users SET password_hash = :password_hash WHERE user_id = :user_id", array(
@@ -511,6 +504,85 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
         return $pages;
     }
 
+
+public function checkPhoto() 
+{
+    $dist = 
+    $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 
+    "assets" . DIRECTORY_SEPARATOR . 
+    "site" . DIRECTORY_SEPARATOR . 
+    "img" . DIRECTORY_SEPARATOR . 
+    "faces" . DIRECTORY_SEPARATOR . 
+    'avatar_' .
+    $this->getuser_id() . ".jpg";
+
+
+    if (file_exists($dist)) 
+    {
+        $url = "/assets/site/img/faces/avatar_" . $this->getuser_id() . ".jpg" ;
+    }
+    else
+    {
+        $url = "/assets/site/img/faces/avatar_0.jpg" ;
+    }
+
+    return $this->setperson_photo($url);
 }
+
+
+public function setPhoto($file)
+{
+
+    $extention = explode('.',$file['name']);
+    $extention = end($extention);
+
+
+    switch($extention)
+    {
+        case "jpg":
+        case "jpeg":
+            $image = imagecreatefromjpeg($file['tmp_name']);
+        break;
+
+        case "gif":
+            $image = imagecreatefromgif($file['tmp_name']);
+        break;
+
+        case "png":
+            $image = imagecreatefrompng($file['tmp_name']);
+        break;
+
+    }
+
+    $dist = 
+            $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 
+            "assets" . DIRECTORY_SEPARATOR . 
+            "site" . DIRECTORY_SEPARATOR . 
+            "img" . DIRECTORY_SEPARATOR . 
+            "faces" . DIRECTORY_SEPARATOR . 
+            'avatar_' .
+            $this->getuser_id() . ".jpg";
+
+
+    imagejpeg($image, $dist);
+
+    imagedestroy($image);
+
+    $this->checkPhoto();
+}
+
+public function getValues()
+{
+    $this->checkPhoto();
+
+    $values = parent::getValues();
+
+    return $values;
+}
+
+
+
+}
+
 
 ?>

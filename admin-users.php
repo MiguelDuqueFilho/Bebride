@@ -1,12 +1,30 @@
 <?php
 
 use \BeBride\PageAdmin;
+use \BeBride\Model;
 use \BeBride\Model\User;
+
+
+$app->get('/admin/user', function() {
+
+	User::verifyLogin(1);
+
+	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
+	
+	$page = new PageAdmin();
+
+	$page->setTpl("user",[
+		"notification"=>Model::getNotification(),
+		'search'=>$search
+	]);
+
+});
+
 
 
 $app->get('/admin/users', function() {
 
-//	User::verifyLogin();
+	User::verifyLogin(1);
 
 	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
 
@@ -40,7 +58,7 @@ $app->get('/admin/users', function() {
 
 $app->get('/admin/users/:iduser/delete', function($user_id) {
 
-//	User::verifyLogin();
+	User::verifyLogin(1);
 
 
 	$user = new User();
@@ -57,7 +75,7 @@ $app->get('/admin/users/:iduser/delete', function($user_id) {
 
 $app->get('/admin/users/create', function() {
 
-//	User::verifyLogin();
+	User::verifyLogin(1);
 
 	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
 
@@ -73,7 +91,7 @@ $app->get('/admin/users/create', function() {
 
 $app->post("/admin/users/create", function () {
 
-// 	User::verifyLogin();
+ 	User::verifyLogin(1);
 
 	$user = new User();
 
@@ -94,6 +112,54 @@ $app->post("/admin/users/create", function () {
  	exit;
 
 });
+
+
+$app->get('/admin/users/:user_id', function($user_id) {
+
+	User::verifyLogin(1);
+
+	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
+
+	$user = new User();
+
+	$user->getUser((int) $user_id);
+
+	$page = new PageAdmin();
+
+	$page->setTpl("users-update", array(
+		"notification"=>User::getNotification(),
+		'search'=>$search,
+		"user"=>$user->getValues()
+	));
+
+});
+
+
+
+$app->post('/admin/users/:iduser', function($iduser) {
+
+	User::verifyLogin(1);
+
+	$user = new User();
+
+	$user->getUser((int) $iduser);
+
+	$user->setValues($_POST);	
+
+	$user->update();
+
+	var_dump($_FILES);
+	exit;
+	$user->setPhoto($_FILES["file"]);
+
+	header("Location: /admin/users");
+	exit;
+});
+
+
+
+
+
 /* 
 $app->get("/admin/users/:iduser/password", function($iduser) {
 
@@ -151,42 +217,6 @@ $app->post("/admin/users/:iduser/password", function($iduser) {
 	User::setSuccess("Senha alterada com sucesso.");
 		
 	header("location: /admin/users/$iduser/password");
-	exit;
-});
-
-
-$app->get('/admin/users/:iduser', function($iduser) {
-
-	User::verifyLogin();
-
-	$user = new User();
-
-	$user->get((int) $iduser);
-
-	$page = new PageAdmin();
-
-	$page->setTpl("users-update", array(
-		"user"=>$user->getValues()
-	));
-
-});
-
-
-$app->post('/admin/users/:iduser', function($iduser) {
-
-	User::verifyLogin();
-
-	$user = new User();
-
-	$_POST["inadmin"] = (isset($_POST["inadmin"])) ? 1 : 0;
-
-	$user->get((int) $iduser);
-
-	$user->setValues($_POST);
-
-	$user->update();
-
-	header("Location: /admin/users");
 	exit;
 });
 

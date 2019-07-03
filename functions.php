@@ -14,7 +14,7 @@ function formatDate($date)
     return date('d/m/Y',strtotime($date));
 }
 
-function checkLogin($user_type_id = 1) 
+function checkLogin($user_type_id = 0) 
 {
     return User::checkLogin($user_type_id);
 }
