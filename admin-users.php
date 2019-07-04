@@ -5,22 +5,6 @@ use \BeBride\Model;
 use \BeBride\Model\User;
 
 
-$app->get('/admin/user', function() {
-
-	User::verifyLogin(1);
-
-	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
-	
-	$page = new PageAdmin();
-
-	$page->setTpl("user",[
-		"notification"=>Model::getNotification(),
-		'search'=>$search
-	]);
-
-});
-
-
 
 $app->get('/admin/users', function() {
 
@@ -56,10 +40,27 @@ $app->get('/admin/users', function() {
 });
 
 
-$app->get('/admin/users/:iduser/delete', function($user_id) {
+$app->get('/admin/users/profile', function() {
 
 	User::verifyLogin(1);
 
+	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
+
+	$user = User::getFromSession();
+
+	$page = new PageAdmin();
+
+	$page->setTpl("profile",[
+		"notification"=>Model::getNotification(),
+		'search'=>$search,
+		'user'=>$user->getValues()
+	]);
+
+});
+
+$app->get('/admin/users/:iduser/delete', function($user_id) {
+
+	User::verifyLogin(1);
 
 	$user = new User();
 
@@ -133,8 +134,6 @@ $app->get('/admin/users/:user_id', function($user_id) {
 
 });
 
-
-
 $app->post('/admin/users/:user_id', function($user_id) {
 
 	User::verifyLogin(1);
@@ -146,10 +145,6 @@ $app->post('/admin/users/:user_id', function($user_id) {
 	$user->setValues($_POST);	
 	
 	$user->setPhoto($_FILES["file"]);
-
-	// var_dump($user->getValues());
-	// echo "<br>";
-	// exit;
 
 	$user->update();
 

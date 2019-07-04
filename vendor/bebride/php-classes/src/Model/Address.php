@@ -7,8 +7,6 @@ use \BeBride\Model;
 
 class Address extends Model {
 
-    const ERROR = "AddressError";
-
     public static function getCep($nrcep)
     {
         $nrcep = str_replace("-", "", $nrcep);
@@ -38,13 +36,13 @@ class Address extends Model {
 
         if (isset($data['logradouro']) && $data['logradouro'])
         {
-            $this->setdesaddress($data['logradouro']);
-            $this->setdescomplement($data['complemento']);
-            $this->setdesdistrict($data['bairro']);
-            $this->setdescity($data['localidade']);
-            $this->setdesstate($data['uf']);            
-            $this->setdescountry('Brasil');
-            $this->setdeszipcode($nrcep);
+            $this->setstreet_address($data['logradouro']);
+            $this->setstreet_complement($data['complemento']);
+            $this->setdistrict_name($data['bairro']);
+            $this->setcity_name($data['localidade']);
+            $this->setstate_name($data['uf']);            
+            $this->setcountry_name('Brasil');
+            $this->setzipcode_number($nrcep);
         }
     }
 
@@ -52,44 +50,45 @@ class Address extends Model {
     {
         $sql = new Sql();
 
-        $results = $sql->select("call sp_addresses_save(:idaddress, :idperson, :desaddress, :desnumber, :descomplement, 
-            :descity, :desstate, :descountry, :deszipcode, :desdistrict)", [
-                ':idaddress'=>$this->getidaddress(),
-                ':idperson'=>$this->getidperson(),
-                ':desaddress'=>$this->getdesaddress(),
-                ':desnumber'=>$this->getdesnumber(),                
-                ':descomplement'=>$this->getdescomplement(),
-                ':descity'=>$this->getdescity(),
-                ':desstate'=>$this->getdesstate(),
-                ':descountry'=>$this->getdescountry(),
-                ':deszipcode'=>$this->getdeszipcode(),
-                ':desdistrict'=>$this->getdesdistrict()
+        $results = $sql->select("call sp_addresses_save(:address_id, :person_id, :street_address, :street_number, :street_complement, 
+                :district_name, :city_name, :state_name, :country_name, :zipcode_number)", [
+                ':address_id'=>(int) $this->getaddress_id(),
+                ':person_id'=>(int) $this->getperson_id(),
+                ':street_address'=>$this->getstreet_address(),
+                ':street_number'=>$this->getstreet_number(),                
+                ':street_complement'=>$this->getstreet_complement(),
+                ':district_name'=>$this->getdistrict_name(),
+                ':city_name'=>$this->getcity_name(),
+                ':state_name'=>$this->getstate_name(),
+                ':country_name'=>$this->getcountry_name(),
+                ':zipcode_number'=>(int) $this->getzipcode_number()
         ]);
-
 
         if (count($results) > 0) 
         {
             $this->setValues($results[0]);
         }
+        else 
+        {
+            Address::setNotification("Erro na Inclusão ou Atualiização do Endereço.","error");
+        }
     }
 
-    public static function setMsgError($msg) 
+    public function getAddressFromPerson($person_id)
     {
-        $_SESSION[Address::ERROR] = $msg;
+
+        $sql = new Sql();
+
+        $results = $sql->select("SELECT * FROM tb_addresses WHERE person_id = :person_id", [
+            ':person_id'=>$person_id
+        ]);
+
+        if (count($results) > 0) 
+        {
+            $this->setValues($results[0]);
+        }
+        
     }
 
-    public static function getMsgError() 
-    {
-        $msg = (isset($_SESSION[Address::ERROR]) && $_SESSION[Address::ERROR]) ? $_SESSION[Address::ERROR] : '';
-
-        Address::clearMsgError();
-
-        return $msg;
-    }
-
-    public static function clearMsgError() 
-    {
-        $_SESSION[Address::ERROR] = NULL;
-    }
 }
 ?>

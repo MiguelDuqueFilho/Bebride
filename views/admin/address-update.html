@@ -5,16 +5,17 @@
             <div class="col-md-8">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Incluir Endereço</h4>
+                  <h4 class="card-title">Atualizar Endereço</h4>
                   <p class="card-category">Complete o endereço.</p>
                 </div>
                 <div class="card-body">
-                  <form class="form" action="/admin/user/{$user.user_id}/address/create" method="post">
+                  <form class="form" action="/admin/user/{$user.user_id}/address/update" method="post">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                               <label class="bmd-label-floating">Cep</label>
-                              <input type="text" class="form-control" id="zipcode_number" name="zipcode_number" required>
+                              <input type="text" class="form-control" id="zipcode_number" name="zipcode_number" 
+                              value="{$address.zipcode_number}" required>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -27,7 +28,8 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Endereço</label>
-                                <input type="text" class="form-control" id="street_address" name="street_address" required>
+                                <input type="text" class="form-control" id="street_address" name="street_address" 
+                                value="{$address.street_address}" required>
                             </div>
                         </div>
                       </div>
@@ -35,13 +37,15 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Número</label>
-                                <input type="text" class="form-control" id="street_number" name="street_number" required>
+                                <input type="text" class="form-control" id="street_number" name="street_number" 
+                                value="{$address.street_number}" required>
                             </div>
                         </div>
                         <div class="col-md-9">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Complemento</label>
-                                <input type="text" class="form-control" id="street_complement" name="street_complement">
+                                <input type="text" class="form-control" id="street_complement" name="street_complement" 
+                                value="{$address.street_complement}" >
                             </div>
                         </div>
                       </div>
@@ -49,13 +53,15 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Bairro</label>
-                                <input type="text" class="form-control" id="district_name" name="district_name" required>
+                                <input type="text" class="form-control" id="district_name" name="district_name" 
+                                value="{$address.district_name}"  required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Cidade</label>
-                                <input type="text" class="form-control" id="city_name" name="city_name" required>
+                                <input type="text" class="form-control" id="city_name" name="city_name"
+                                value="{$address.city_name}" required>
                             </div>
                         </div>
                       </div>
@@ -63,17 +69,19 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Estado</label>
-                                <input type="text" class="form-control" id="state_name" name="state_name" required>
+                                <input type="text" class="form-control" id="state_name" name="state_name" 
+                                value="{$address.state_name}" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="bmd-label-floating">País</label>
-                                <input type="text" class="form-control" id="country_name" name="country_name" required>
+                                <input type="text" class="form-control" id="country_name" name="country_name" 
+                                value="{$address.country_name}" required>
                             </div>
                         </div>
                       </div>
-                    <button type="submit"  class="btn btn-primary pull-right">incluir Endereço</button>
+                    <button type="submit"  class="btn btn-primary pull-right">Atualizar Endereço</button>
                     <div class="clearfix"></div>
                   </form>
                 </div>

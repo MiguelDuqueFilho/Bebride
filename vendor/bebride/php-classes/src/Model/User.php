@@ -34,11 +34,14 @@ class User extends Model {
     {
         $sql = new Sql();
         
-        $results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b ON a.person_id = b.person_id WHERE login_name = :LOGIN", array(
+        $results = $sql->select("SELECT * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_fullname  
+            FROM tb_users a 
+            INNER JOIN tb_persons b on b.person_id = a.person_id
+            INNER JOIN tb_userstype c on c.user_type_id = a.user_type_id
+            WHERE login_name = :LOGIN", array(
             ":LOGIN"=>$login
         ));
 
-        
         if (count($results) === 0) 
         {
             User::setNotification("Login inexistente ou Senha Invalida.",'warning');
@@ -238,7 +241,11 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
 
         $sql = new Sql();
 
-        $results = $sql->select("SELECT * , CONCAT_WS(' ',a.person_firstname,a.person_lastname) AS person_fullname FROM tb_persons a INNER JOIN tb_users b USING(person_id) WHERE b.login_name = :login_name",array(
+        $results = $sql->select("SELECT * , CONCAT_WS(' ',a.person_firstname,a.person_lastname) AS person_fullname 
+        FROM tb_persons a 
+        INNER JOIN tb_users b USING(person_id) 
+        INNER JOIN tb_userstype c on c.user_type_id = b.user_type_id
+        WHERE b.login_name = :login_name",array(
             ":login_name"=>$login_name
         ));
 
@@ -318,6 +325,7 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
             select * , CONCAT_WS(' ',c.person_firstname,c.person_lastname) AS person_fullname  from tb_userspasswordsrecoveries a
             inner join tb_users b  on a.user_id = b.user_id
             inner join tb_persons c on b.person_id = c.person_id
+            INNER JOIN tb_userstype d on d.user_type_id = b.user_type_id
             where 	a.recovery_id = :recovery_id 
             and     a.recovery_date is null 
             and		date_add(a.created_at, interval 1 hour) >= now()
@@ -373,7 +381,10 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
         
         $sql = new Sql();
 
-        $results = $sql->select("SELECT * FROM tb_users WHERE login_name = :login_name", [
+        $results = $sql->select("SELECT * 
+        FROM tb_users a
+        INNER JOIN tb_userstype b on b.user_type_id = a.user_type_id
+        WHERE login_name = :login_name", [
             ':login_name'=>$login
         ]);
 

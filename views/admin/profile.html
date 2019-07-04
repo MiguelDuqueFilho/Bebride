@@ -1,0 +1,111 @@
+{include="dashboard-menu"}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Visualizar Usuário</h4>
+                        <p class="card-category">Seu Perfil</p>
+                    </div>
+                    <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="card-title">Tipo Usuário</label>
+                                        <p class="form-control">{$user.user_type_name} </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="card-title">Nome Login</label>
+                                        <p class="form-control">{$user.login_name}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="card-title">Empresa</label>
+                                        <p class="form-control">{$user.company_name}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="card-title">Cargo</label>
+                                        <p class="form-control">{$user.person_jobrole}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="card-title">Primeiro Nome</label>
+                                        <p class="form-control">{$user.person_firstname}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="card-title">Último Nome</label>
+                                        <p class="form-control">{$user.person_lastname}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="card-title">Email</label>
+                                        <p class="form-control">{$user.person_email}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="card-title">Telephone</label>
+                                        <p class="form-control">{$user.person_phone}</p>
+                                   </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="card-title">Whatsapp</label>
+                                        <p class="form-control">{$user.person_whatsapp}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="card-title">Facebook</label>
+                                        <p class="form-control">{$user.person_facebook}</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="card-title">Instagram</label>
+                                        <p class="form-control">{$user.person_instagram}</p>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-avatar">
+                        <a >
+                            <img class="img-responsive" id="image-preview-avatar"  src="{$user.person_urlphoto}" />
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-category text-gray" id="person-jobrole-avatar">{$user.person_jobrole}</h6>
+                        <h4 class="card-title" id="person-fullname-avatar" >{$user.person_fullname}</h4>
+                        <p class="card-description" id="person-about-avatar">
+                            {$user.person_about}
+                        </p>
+                        <a href="https://www.facebook.com/{$user.person_facebook}" 
+                        class="btn btn-primary btn-round card-text">  seguir  </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

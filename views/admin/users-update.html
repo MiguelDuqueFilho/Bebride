@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="card">
-                    <a class="nav-link justify-content-end" href="/admin/address/{$user.user_id}/update">
+                    <a class="nav-link justify-content-end" href="/admin/user/{$user.user_id}/address/create">
                         <i class="material-icons">my_location</i>
                         <p>Atualizar Endereço</p>
                     </a>
@@ -13,7 +13,7 @@
                         <p class="card-category">Complete seu Perfil</p>
                     </div>
                     <div class="card-body">
-                        <form role="form" action="/admin/users/{$user.user_id}" method="post" enctype="multipart/form-data">
+                        <form class="form" action="/admin/users/{$user.user_id}" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -77,15 +77,15 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="label-floating">Telephone</label>
-                                        <input type="tel" class="form-control" id="person_phone" name="person_phone"
+                                        <label class="label-floating">Celular</label>
+                                        <input type="text"  class="form-control" id="person_phone" name="person_phone"
                                             value="{$user.person_phone}">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="label-floating">Whatsapp</label>
-                                        <input type="tel" class="form-control" id="person_whatsapp"
+                                        <input type="text"  class="form-control" id="person_whatsapp"
                                             name="person_whatsapp" value="{$user.person_whatsapp}">
                                     </div>
                                 </div>
@@ -158,18 +158,22 @@
     </div>
 </div>
 <script>
+    
+jQuery(document).ready(function($)
+{
+  
         document.querySelector('#file').addEventListener('change', function(){
-          
-          var file = new FileReader();
         
-          file.onload = function() {
+        var file = new FileReader();
+        
+            file.onload = function() {
+                
+                document.querySelector('#image-preview').src = file.result;
+                document.querySelector('#image-preview-avatar').src = file.result;
             
-            document.querySelector('#image-preview').src = file.result;
-            document.querySelector('#image-preview-avatar').src = file.result;
+            }
         
-          }
-        
-          file.readAsDataURL(this.files[0]);
+        file.readAsDataURL(this.files[0]);
         
         });
 
@@ -191,5 +195,6 @@
             var x = document.getElementById("person-about").value;
             document.getElementById("person-about-avatar").innerHTML = x;
         }
+});
 
 </script>

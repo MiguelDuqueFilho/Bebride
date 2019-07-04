@@ -33,8 +33,13 @@
                           <td>{$value.person_phone}</td>
                           <td>{$value.user_type_name}</td>
                           <td class="td-actions text-right">
+                            <a  href="/admin/user/{$value.user_id}/address/create" >
+                              <button type="button" rel="tooltip" title="Endereço" class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">my_location</i>
+                              </button>
+                            </a>
                             <a  href="/admin/users/{$value.user_id}" >
-                              <button type="button" rel="tooltip" title="atualizar" class="btn btn-primary btn-link btn-sm">
+                              <button type="button" rel="tooltip" title="Atualizar Usuário" class="btn btn-primary btn-link btn-sm">
                                 <i class="material-icons">edit</i>
                               </button>
                             </a>
