@@ -17,11 +17,12 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        
                                         <select class="label-floating form-control" id="user_type_id" name="user_type_id" required>
-                                            <option value="0"          >Visitante</option>
-                                            <option value="1" selected >Administrador</option>
-                                            <option value="2"          >Clientes</option>
-                                            <option value="3"          >Parceiros</option>
+                                            <option value="0" {if="$user.user_type_id == 0"} selected {/if} > Visitante </option>
+                                            <option value="1" {if="$user.user_type_id == 1"} selected {/if} > Administrador </option>
+                                            <option value="2" {if="$user.user_type_id == 2"} selected {/if} > Clientes </option>
+                                            <option value="3" {if="$user.user_type_id == 3"} selected {/if} > Parceiros </option>
                                         </select>
                                     </div>
                                 </div>
@@ -118,16 +119,16 @@
                                 </div>  
                             </div>
                             <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="btn btn-primary pull-right" for="file"> <i class="material-icons">insert_photo</i> Selecione a Foto</label>
-                                        <input type="file" class="form-control" id="file" name="file" >
-                                        <div class="box box-widget">
-                                            <div class="box-body ">
-                                            <img class="img-responsive photo-avatar" id="image-preview" src="{$user.person_urlphoto}" alt="Photo">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="btn btn-primary pull-right" for="file"> <i class="material-icons">insert_photo</i> Selecione a Foto</label>
+                                            <input type="file" class="form-control" id="file" name="file" >
+                                            <div class="box box-widget">
+                                                    <div class="box-body ">
+                                                    <img class="img-responsive photo-avatar" id="image-preview" src="{$user.person_urlphoto}" alt="Photo">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                             </div>
                             </div> 
                             <button type="submit" class="btn btn-primary pull-right">Atualizar Usuário</button>
@@ -159,42 +160,41 @@
 </div>
 <script>
     
-jQuery(document).ready(function($)
-{
-  
-        document.querySelector('#file').addEventListener('change', function(){
-        
-        var file = new FileReader();
-        
-            file.onload = function() {
-                
-                document.querySelector('#image-preview').src = file.result;
-                document.querySelector('#image-preview-avatar').src = file.result;
+          
+    document.querySelector('#file').addEventListener('change', function(){
+    
+    var file = new FileReader();
+    
+        file.onload = function() {
             
-            }
+            document.querySelector('#image-preview').src = file.result;
+            document.querySelector('#image-preview-avatar').src = file.result;
         
-        file.readAsDataURL(this.files[0]);
+        }
+    
+    file.readAsDataURL(this.files[0]);
+    
+    });
+    function DuplicateJobrole() 
+    {
+        var x = document.getElementById("person-jobrole").value;
+        document.getElementById("person-jobrole-avatar").innerHTML = x;
+    }
+    function DuplicateFullname() 
+    {
+        var x = document.getElementById("person-firstname").value;
+        var y = document.getElementById("person-lastname").value;
+        document.getElementById("person-fullname-avatar").innerHTML = x + ' ' + y;
+    }
+    function DuplicateAbout() 
+    {
+        var x = document.getElementById("person-about").value;
+        document.getElementById("person-about-avatar").innerHTML = x;
+    }
+
+
+
+    $(`#user_type_id option[value='${user.user_type_id}']`).prop('selected', true);
         
-        });
-
-        function DuplicateJobrole() 
-        {
-            var x = document.getElementById("person-jobrole").value;
-            document.getElementById("person-jobrole-avatar").innerHTML = x;
-        }
-
-        function DuplicateFullname() 
-        {
-            var x = document.getElementById("person-firstname").value;
-            var y = document.getElementById("person-lastname").value;
-            document.getElementById("person-fullname-avatar").innerHTML = x + ' ' + y;
-        }
-
-        function DuplicateAbout() 
-        {
-            var x = document.getElementById("person-about").value;
-            document.getElementById("person-about-avatar").innerHTML = x;
-        }
-});
 
 </script>

@@ -177,6 +177,18 @@ $app->post("/admin/users/:iduser/password", function($user_id) {
 
 	User::verifyLogin(1);
 
+	$user = new User();
+
+	$user->getUser((int) $user_id);
+
+	if (!password_verify($_POST['active_password'],$user->getpassword_hash())) 
+	{
+		User::setNotification("Senha atual Não Confere.",'warning');
+
+		header("location: /admin/users/$user_id/password");
+		exit;
+	}
+
 	if (!isset($_POST['new_password']) || $_POST['new_password'] ==='')
 	{
 		User::setNotification("Preencha a nova senha.",'warning');
@@ -201,9 +213,6 @@ $app->post("/admin/users/:iduser/password", function($user_id) {
 		exit;
 	}
 
-	$user = new User();
-
-	$user->getUser((int) $user_id);
 
 	$user->setPassword(User::getPasswordHash( $_POST['new_password']));
 
