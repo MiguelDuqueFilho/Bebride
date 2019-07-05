@@ -181,12 +181,15 @@ $app->post("/admin/users/:iduser/password", function($user_id) {
 
 	$user->getUser((int) $user_id);
 
-	if (!password_verify($_POST['active_password'],$user->getpassword_hash())) 
+	if (!User::getUserTypeFromSession() === '1') 
 	{
-		User::setNotification("Senha atual Não Confere.",'warning');
+		if (!password_verify($_POST['active_password'],$user->getpassword_hash())) 
+		{
+			User::setNotification("Senha atual Não Confere.",'warning');
 
-		header("location: /admin/users/$user_id/password");
-		exit;
+			header("location: /admin/users/$user_id/password");
+			exit;
+		}
 	}
 
 	if (!isset($_POST['new_password']) || $_POST['new_password'] ==='')
@@ -204,6 +207,7 @@ $app->post("/admin/users/:iduser/password", function($user_id) {
 		header("location: /admin/users/$user_id/password");
 		exit;
 	}
+
 
 	if ($_POST['new_password'] !== $_POST['new_password_confirm'])
 	{

@@ -28,6 +28,21 @@ class User extends Model {
         return $user;
     }
 
+    public static function getUserTypeFromSession() 
+    {
+
+        $user_type_id = "";
+
+        if (isset($_SESSION[User::SESSION]) && (int)$_SESSION[User::SESSION]["user_id"] > 0) 
+        {
+
+            $user_type_id = $_SESSION[User::SESSION]["user_type_id"];
+
+        }
+
+        return $user_type_id;
+    }
+
     
 
     public static function login($login, $password) 
@@ -599,6 +614,28 @@ public function getValues()
     return $values;
 }
 
+    public static function sendMailfromclient()
+    {
+
+        $data = array (
+            "person_email"=>Mailer::USERNAME,
+            "person_fullname"=>Mailer::NAME_FROM,
+            "subject"=>"Dúvidas ou Sugestões",
+            "tplname"=>"client");
+    
+        $mailer = new Mailer(
+            $data["person_email"],                      //  $toAddress  
+            $data["person_fullname"],                   //  $toName, 
+            $data["subject"],                           //  $subject, 
+            $data["tplname"],                           //  $tplname,
+        array(
+            "name"=>$_POST["client_name"],
+            "email"=>$_POST["client_email"],
+            "message"=>$_POST["message_email"]
+        ));
+
+        $mailer->send();
+    }
 
 
 }

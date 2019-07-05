@@ -3,6 +3,8 @@
 namespace BeBride;
 
 use Rain\Tpl;
+use Rain\Tpl\Exception;
+
 
 class Mailer {
 
@@ -102,10 +104,27 @@ class Mailer {
 
     }
     
+
     public function send() 
     {
-        return $this->mail->send();
+
+        try 
+        {
+            $data = $this->mail->send();
+            if (!$data) 
+            {
+                Model::setNotification("Não foi possivel enviar o Email. - Error: " . $this->mail->ErrorInfo ,"error");
+            }
+            else 
+            {
+                Model::setNotification("Mensagem foi enviada.","success");
+            }
+            return $data;
+        } catch (Exception $e) {
+            Model::setNotification("Não foi possivel enviar o Email. - Erro: " . $e->getMessage(),"error");
+        }
     }
+
 }
 
 

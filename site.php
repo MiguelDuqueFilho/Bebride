@@ -18,7 +18,11 @@ use \BeBride\Model\User;
 $app->get('/', function() {
 
 	$page = new Page();
-	$page->setTpl("index");
+
+	$page->setTpl("index",[
+		"notification"=>Model::getNotification()
+	]);
+
 
 });
 
@@ -247,7 +251,13 @@ $app->post("/forgot", function() {
 
 });
 
+$app->post("/sendMail", function() {
 
+	User::sendMailfromclient($_POST["client_name"],$_POST["client_email"],$_POST["message_email"]);
+
+	header("location: /");
+	exit;
+})
 
 /* 
 
