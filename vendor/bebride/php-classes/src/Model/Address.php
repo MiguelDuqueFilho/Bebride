@@ -23,6 +23,11 @@ class Address extends Model {
         
         $data = json_decode($data, true);
 
+        if ((isset($data['erro'])) ? $data['erro'] : false)
+        {
+            Address::setNotification("Cep : " .  $nrcep . " não foi encontrado.","warning");
+        }
+
         curl_close($ch);
 
         return $data;
@@ -42,7 +47,6 @@ class Address extends Model {
             $this->setcity_name($data['localidade']);
             $this->setstate_name($data['uf']);            
             $this->setcountry_name('Brasil');
-            $this->setzipcode_number($nrcep);
         }
     }
 
