@@ -47,6 +47,7 @@ class Address extends Model {
             $this->setcity_name($data['localidade']);
             $this->setstate_name($data['uf']);            
             $this->setcountry_name('Brasil');
+            $this->setzipcode_number($nrcep);
         }
     }
 

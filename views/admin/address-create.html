@@ -14,12 +14,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                               <label class="bmd-label-floating">Cep</label>
-                              <input type="text" class="form-control" id="zipcode_number" name="zipcode_number" required>
+                              <input type="text" class="form-control" id="zipcode_number" name="zipcode_number" 
+                              minlength="8" maxlength="8" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label href="#" class="btn btn-primary pull-right"> <i class="material-icons">my_location</i> Pesquise o Cep</label>
+                                <label href="#" class="btn btn-primary pull-right" onclick="envia(true)" > <i class="material-icons">my_location</i> Pesquise o Cep</label>
                             </div>
                         </div>
                     </div>
@@ -73,7 +74,7 @@
                             </div>
                         </div>
                       </div>
-                    <button type="submit"  class="btn btn-primary pull-right">incluir Endereço</button>
+                    <button type="submit" onclick="envia(false)" class="btn btn-primary pull-right">incluir Endereço</button>
                     <div class="clearfix"></div>
                   </form>
                 </div>
@@ -100,5 +101,21 @@
           </div>
         </div>
       </div>
+<script>
+    function envia(cep)
+    {
+        if(cep == true) 
+        {
+          var zipcode_number = document.getElementById('zipcode_number').value;
+          document.form.method="get";
+          document.form.action = "/admin/address/cep/" + zipcode_number + "/user/" + "{$user.user_id}";
+        }
+        else
+        {
+          document.form.method="post";
+          document.form.action = "/admin/user/{$user.user_id}/address/create";
+        }
+    }
+</script>
 
 
