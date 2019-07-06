@@ -12,6 +12,12 @@ class PageAdmin extends Page {
     
     }
 
+    // public static function setMenuItem($item) 
+    // {
+    //     $menu = [];
+    //     $menu[$item] = true;
+    //     return $menu;
+    // }
     
 }
 

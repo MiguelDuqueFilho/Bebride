@@ -6,6 +6,8 @@ use \BeBride\PageAdmin;
 use \BeBride\Model;
 use \BeBride\Page;
 use \BeBride\Model\User;
+use \BeBride\Model\Events;
+
 // use \BeBride\Model\Product;
 // use \BeBride\Model\Category;
 // use \BeBride\Model\Cart;
@@ -20,7 +22,8 @@ $app->get('/', function() {
 	$page = new Page();
 
 	$page->setTpl("index",[
-		"notification"=>Model::getNotification()
+		"notification"=>Model::getNotification(),
+		'eventstype'=>Events::getEventsType()
 	]);
 
 
@@ -148,8 +151,22 @@ $app->post("/login", function() {
 		header("Location: /login");
 		exit;
 	}
+	
+	if ((int)$_SESSION[User::SESSION]["user_type_id"] === 1 )
+	{
+		header("Location: /admin");
+		exit;
+	}
+	if ((int)$_SESSION[User::SESSION]["user_type_id"] === 2 )
+	{
+		header("Location: /client");
+		exit;
+	}
+
 	header("Location: /");
 	exit;
+
+
 });
 
 $app->get("/logout", function() {

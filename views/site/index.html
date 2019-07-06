@@ -1,4 +1,4 @@
-<div class="page-header " data-parallax="true" style="background-image: url('/assets/site/img/banner-01.jpg');">
+<div class="page-header" data-parallax="true" style="background-image: url('/assets/site/img/banner-01.jpg');">
   <div class="container">
       {include="notification"} 
       <div class="row">
@@ -22,36 +22,22 @@
         </div>
         <div class="features">
           <div class="row">
-            <div class="col-md-4">
+            {loop="$eventstype"}
+            <div class="col-md-3">
               <div class="info">
-                <div class="icon icon-info">
-                  <i class="material-icons">today</i>
+                <div class="icon icon-primary ">
+                  <i href="#" class="material-icons">{$value.event_type_icon}</i>
                 </div>
-                <h4 class="info-title">Mini Wedding</h4>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quos ipsum cumque quod repellat magnam consequuntur dicta tenetur iusto temporibus quam perspiciatis laudantium voluptatum in, tempore, corrupti amet, tempora doloremque error!</p>
+                <h4 class="info-title">{$value.event_type_name}</h4>
+                <p>{$value.event_descriptions}</p>
               </div>
+              <a href="/event/type/{$value.event_type_id}">Saiba Mais</a> </p>
             </div>
-            <div class="col-md-4">
-              <div class="info">
-                <div class="icon icon-success">
-                  <i class="material-icons">calendar_today</i>
-                </div>
-                <h4 class="info-title">Assessoria do dia</h4>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Similique temporibus quidem, officiis aliquam ea, officia enim eligendi excepturi pariatur nobis libero. Vitae iusto voluptates eos maiores consequuntur veniam possimus incidunt.</p>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="info">
-                <div class="icon icon-danger">
-                  <i class="material-icons">select_all</i>
-                </div>
-                <h4 class="info-title">Assessoria Completa</h4>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam dolorum iure, saepe voluptatem maxime quod voluptates earum! Quasi reprehenderit cumque exercitationem error quas reiciendis fuga ad sunt modi, atque ducimus!</p>
-              </div>
-            </div>
+            {/loop}
           </div>
         </div>
       </div>
+    </div>
       <div class="section text-center">
         <h2 class="title">Aqui está nosso time</h2>
         <div class="team">
@@ -81,7 +67,7 @@
               <div class="team-player">
                 <div class="card card-plain">
                   <div class="col-md-6 ml-auto mr-auto">
-                    <img src="/assets/site/img/faces/avatar_0.jpg" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
+                    <img src="/assets/site/img/faces/avatar_face1.jpg" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
                   </div>
                   <h4 class="card-title">xxxx xxxxx
                     <br>
@@ -102,7 +88,7 @@
               <div class="team-player">
                 <div class="card card-plain">
                   <div class="col-md-6 ml-auto mr-auto">
-                    <img src="/assets/site/img/faces/avatar_yyyy.jpg" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
+                    <img src="/assets/site/img/faces/avatar_face2.jpg" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
                   </div>
                   <h4 class="card-title">yyyy
                     <br>
@@ -122,9 +108,20 @@
           </div>
         </div>
       </div>
+      <!-- <div class="section text-center page-header" data-parallax="true" style="background-image: url('/assets/site/img/banner-01.jpg');">
+        <h2 class="title">Depoimentos</h2>
+        <div class="row">
+            <div class="col-md-12 ml-auto mr-auto">
+              <div class="brand">
+                <h1>xxxxxxx</h1>
+                <h3>dhfhfh ffffhf.</h3>
+              </div>
+            </div>
+          </div>
+      </div> -->
       <div class="section section-contacts">
         <div class="row">
-          <div class="col-md-8 ml-auto mr-auto">
+          <div class="col-md-6 ml-auto mr-auto">
             <h2 class="text-center title">Dúvidas ou Sugestões</h2>
             <h4 class="text-center description">Escreva algumas linhas sobre Dúvidas ou Sugestões e entre em contato. Nós responderemos a você em algumas horas.</h4>
             <form class="contact-form" action="/sendMail" method="POST" >

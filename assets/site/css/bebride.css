@@ -60,3 +60,15 @@ margin-right: 11%;
 margin-left: 0%;
 width: 100%;
 }
+
+.features {
+  margin-top: 15px;
+}
+
+.navbar .navbar-brand  {
+  padding: 0;
+}
+.navbar-brand .logo-image {
+  padding: 0;
+  margin-top: -8px;
+}

@@ -1,0 +1,65 @@
+{include="dashboard-menu"}
+        <div class="content main-content" >
+          <div class="container-fluid">
+            <a class="nav-link justify-content-end" href="/admin/events/create">
+                <i class="material-icons">event</i>
+                <p>Criar Evento</p>
+            </a>        
+            <div class="row">
+              <div class="col-md-12"></div>       
+                <div class="card" >
+                  <div class="card-header  card-header-primary card-header-tabs" >
+                    <h4 class="card-title ">Lista de Eventos</h4>
+                    <p class="card-category"> Todos os eventos da empresa.</p>
+                  </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <thead class=" text-primary">
+                        <th>ID</th>
+                        <th>Tipo</th>                        
+                        <th>Nome</th>
+                        <th>Data</th>
+                        <th>Situação</th>
+                      </thead>
+                      <tbody>
+                        {loop="$events"}
+                        <tr>
+                          <td>{$value.event_id}</td>
+                          <td>{$value.event_type_name}</td>
+                          <td>{$value.event_name}</td>
+                          <td>{$value.event_date_format}</td>
+                          <td>{$value.status_type_name}</td>
+                          <td class="td-actions text-right">
+                            <a  href="/admin/events/{$value.event_id}" >
+                              <button type="button" rel="tooltip" title="Atualizar Evento" class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">edit</i>
+                              </button>
+                            </a>
+                            <a  href="/admin/events/{$value.event_id}/delete" onclick="return confirm('Deseja realmente excluir o Evento?')" >
+                              <button type="button" rel="tooltip" title="Excluir" class="btn btn-danger btn-link btn-sm">
+                                <i class="material-icons">close</i>
+                              </button>
+                            </a>
+                          </td>
+                        </tr>
+                        {/loop}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div> 
+                <nav aria-label="...">
+                    <ul class="pagination" >
+                        {loop="$pages"}
+                        <li class="page-item text-primary {$value.active} " ><a class="page-link" href="{$value.href}">{$value.text}</a></li>
+                        {/loop}
+                    </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+

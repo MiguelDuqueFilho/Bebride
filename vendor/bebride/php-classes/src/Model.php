@@ -85,6 +85,62 @@ class Model {
         $_SESSION[Model::NOTIFICATION] = NULL;
     }
 
+    public static function calcPageMenu($page, $pagination, $search, $href = '/admin/users?')
+    {
+
+        $pages = [];
+
+        for ($x=0; $x < $pagination['pages']; $x++) { 
+
+        
+
+            if ($x == 0) 
+            {
+                $active = ($page === 1) ? $active='disabled' : '' ;
+
+                array_push($pages, [
+                    'href'=>$href . http_build_query([
+                        'page'=>$page-1,
+                        'search'=>$search
+                    ]),
+                    'text'=>'Anterior',
+                    'active'=>$active
+                ]);
+            }
+
+            $active = ($page === $x+1) ? $active='active' : '' ;
+
+            array_push($pages, [
+                'href'=>$href . http_build_query([
+                    'page'=>$x+1,
+                    'search'=>$search
+                ]),
+                'text'=>$x+1,
+                'active'=>$active
+            ]);
+
+
+            if ($x+1 === (int) $pagination['pages']) 
+            {
+
+                $active = ($page < $pagination['pages']) ? '' :  $active='disabled';
+
+                array_push($pages, [
+                    'href'=>$href. http_build_query([
+                        'page'=>$page+1,
+                        'search'=>$search
+                    ]),
+                    'text'=>'Proximo',
+                    'active'=>$active
+                ]);
+            }
+
+        }
+        return $pages;
+    }
+
+
+
 }
 
 ?>

@@ -16,11 +16,14 @@ $app->get('/admin', function() {
 	Model::setNotification("Tela ainda não implementada");
 	
 	$page->setTpl("index",[
+		// "menu"=>PageAdmin::setMenuItem("dashboard"),
 		"notification"=>Model::getNotification(),
 		'search'=>$search
 	]);
 
 });
+
+
 
 /* 
 $app->get('/admin/login', function() {

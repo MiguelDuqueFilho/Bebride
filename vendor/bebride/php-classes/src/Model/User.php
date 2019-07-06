@@ -132,12 +132,6 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
     {
         if  (!User::checkLogin($user_type_id))
         {
-            // if ($user_type_id === 1) // usuário administrador
-            // {
-			// 	header("Location: /admin/login");
-			// } else {
-			// 	header("Location: /login");
-            // }
             header("Location: /login");
 			exit;
         }
@@ -614,28 +608,28 @@ public function getValues()
     return $values;
 }
 
-    public static function sendMailfromclient()
-    {
+public static function sendMailfromclient()
+{
 
-        $data = array (
-            "person_email"=>Mailer::USERNAME,
-            "person_fullname"=>Mailer::NAME_FROM,
-            "subject"=>"Dúvidas ou Sugestões",
-            "tplname"=>"client");
-    
-        $mailer = new Mailer(
-            $data["person_email"],                      //  $toAddress  
-            $data["person_fullname"],                   //  $toName, 
-            $data["subject"],                           //  $subject, 
-            $data["tplname"],                           //  $tplname,
-        array(
-            "name"=>$_POST["client_name"],
-            "email"=>$_POST["client_email"],
-            "message"=>$_POST["message_email"]
-        ));
+    $data = array (
+        "person_email"=>Mailer::USERNAME,
+        "person_fullname"=>Mailer::NAME_FROM,
+        "subject"=>"Dúvidas ou Sugestões",
+        "tplname"=>"client");
 
-        $mailer->send();
-    }
+    $mailer = new Mailer(
+        $data["person_email"],                      //  $toAddress  
+        $data["person_fullname"],                   //  $toName, 
+        $data["subject"],                           //  $subject, 
+        $data["tplname"],                           //  $tplname,
+    array(
+        "name"=>$_POST["client_name"],
+        "email"=>$_POST["client_email"],
+        "message"=>$_POST["message_email"]
+    ));
+
+    $mailer->send();
+}
 
 
 }
