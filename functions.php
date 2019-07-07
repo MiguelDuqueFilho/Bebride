@@ -14,6 +14,11 @@ function formatDate($date)
     return date('d/m/Y',strtotime($date));
 }
 
+function convertdate($date) 
+{ 
+    return date("Y-m-d", strtotime($date));
+} 
+
 function checkLogin($user_type_id = 0) 
 {
     return User::checkLogin($user_type_id);

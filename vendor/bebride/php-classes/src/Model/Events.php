@@ -8,37 +8,56 @@ use \BeBride\Model;
 class Events extends Model {
 
     
-    public function getValues()
-    {
-        // $dt = new DateTime($this->getevent_date());
-        // $dt->format("l, d/m/Y H:i:s");
-        // $this->setevent_date_format($dt);
+   
+    public static function getEventType() {
 
-        // var_dump($dt);
-        // var_dump($this->getevent_date());
-        // var_dump($this->get_event_date_format());
-        // exit;
-        $values = parent::getValues();
+        $sql = new Sql();
+        
+        $results = $sql->select("SELECT * FROM tb_eventstype ORDER BY event_type_id");
 
-        return $values;
+        return $results;
+    }
+
+    public static function getStatusType() {
+
+        $sql = new Sql();
+        
+        $results = $sql->select("SELECT * FROM tb_statustype ORDER BY status_type_id");
+
+        return $results;
+    }
+    
+    public function getEvent($event_id) {
+
+        $sql = new Sql();
+        
+        $results = $sql->select("SELECT  *    
+            FROM tb_events a 
+            INNER JOIN tb_eventstype b on b.event_type_id = a.event_type_id
+            INNER JOIN tb_statustype c on c.status_type_id = a.status_type_id
+            WHERE a.event_id = :event_id", array(
+            ":event_id"=>$event_id
+        ));
+
+
+        $data = $results[0];
+
+        $this->setValues($data);
+
     }
 
     public function save()
     {
         $sql = new Sql();
 
-        $results = $sql->select("call sp_addresses_save(:address_id, :person_id, :street_address, :street_number, :street_complement, 
-                :district_name, :city_name, :state_name, :country_name, :zipcode_number)", [
-                ':address_id'=>(int) $this->getaddress_id(),
-                ':person_id'=>(int) $this->getperson_id(),
-                ':street_address'=>$this->getstreet_address(),
-                ':street_number'=>$this->getstreet_number(),                
-                ':street_complement'=>$this->getstreet_complement(),
-                ':district_name'=>$this->getdistrict_name(),
-                ':city_name'=>$this->getcity_name(),
-                ':state_name'=>$this->getstate_name(),
-                ':country_name'=>$this->getcountry_name(),
-                ':zipcode_number'=>(int) $this->getzipcode_number()
+        $results = $sql->select("call sp_events_save(:event_id, :event_type_id, :event_name, :event_description, :event_date, :status_type_id, :address_id)", [
+                ':event_id'=>(int) $this->getevent_id(),
+                ':event_type_id'=>(int) $this->getevent_type_id(),
+                ':event_name'=>$this->getevent_name(),
+                ':event_description'=>$this->getevent_description(),                
+                ':event_date'=>convertdate($this->getevent_date()),
+                ':status_type_id'=>$this->getstatus_type_id(),
+                ':address_id'=>$this->getaddress_id()
         ]);
 
         if (count($results) > 0) 
@@ -47,7 +66,7 @@ class Events extends Model {
         }
         else 
         {
-            Address::setNotification("Erro na Inclusão ou Atualiização do Endereço.","error");
+            Address::setNotification("Erro na Inclusão ou Atualização do Evento.","error");
         }
     }
 
@@ -95,7 +114,7 @@ class Events extends Model {
 
         setlocale(LC_TIME, "pt_BR", "pt_BR.utf-8", "portuguese");
 
-        $results = $sql->select("SELECT sql_calc_found_rows * , DATE_FORMAT(a.event_date, '%d/%m/%Y') as event_date_format    
+        $results = $sql->select("SELECT sql_calc_found_rows *     
             FROM tb_events a 
             INNER JOIN tb_eventstype b on b.event_type_id = a.event_type_id
             INNER JOIN tb_statustype c on c.status_type_id = a.status_type_id
@@ -120,7 +139,7 @@ class Events extends Model {
 
         $sql = new Sql();
 
-        $results = $sql->select("SELECT sql_calc_found_rows * , DATE_FORMAT(a.event_date, '(%W), %d/%m/%Y') as event_date_format  
+        $results = $sql->select("SELECT sql_calc_found_rows *  
             FROM tb_events a 
             INNER JOIN tb_eventstype b on b.event_type_id = a.event_type_id
             INNER JOIN tb_statustype c on c.status_type_id = a.status_type_id

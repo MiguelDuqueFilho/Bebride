@@ -1,0 +1,125 @@
+{include="dashboard-menu"}
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Incluir Evento</h4>
+                  <p class="card-category">cadastrar um novo evento.</p>
+                </div>
+                <div class="card-body">
+                  <form class="form" action="/admin/event/create" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">       
+                                <select class="label-floating form-control" id="event_type_id" name="event_type_id" required>
+                                    {loop="$eventstype"}
+                                        <option value="0" {if="$event.type_id == $value.event_type_id"} selected {/if} > {$value.event_type_name} </option>
+                                    {/loop}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="label-floating">Nome do Evento</label>
+                                <input type="text" class="form-control" id="event_name" name="event_name"
+                                    value="{$event.event_name}" >
+                            </div>
+                        </div>
+                    </div>
+            <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Descrição</label>
+                                <input type="text" class="form-control" id="street_address" name="street_address" required>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Número</label>
+                                <input type="text" class="form-control" id="street_number" name="street_number" required>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Complemento</label>
+                                <input type="text" class="form-control" id="street_complement" name="street_complement">
+                            </div>
+                        </div>
+                      </div>
+                      <div class="row">   
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Bairro</label>
+                                <input type="text" class="form-control" id="district_name" name="district_name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Cidade</label>
+                                <input type="text" class="form-control" id="city_name" name="city_name" required>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="row">   
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Estado</label>
+                                <input type="text" class="form-control" id="state_name" name="state_name" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">País</label>
+                                <input type="text" class="form-control" id="country_name" name="country_name" required>
+                            </div>
+                        </div>
+                      </div>
+                    <button type="submit" onclick="envia(false)" class="btn btn-primary pull-right">incluir Endereço</button>
+                    <div class="clearfix"></div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-avatar">
+                        <a >
+                            <img class="img-responsive" id="image-preview-avatar"  src="{$user.person_urlphoto}" />
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-category text-gray" id="person-jobrole-avatar">{$user.person_jobrole}</h6>
+                        <h4 class="card-title" id="person-fullname-avatar" >{$user.person_fullname}</h4>
+                        <p class="card-description" id="person-about-avatar">
+                            {$user.person_about}
+                        </p>
+                        <a href="https://www.facebook.com/{$user.person_facebook}" 
+                        class="btn btn-primary btn-round card-text">  seguir  </a>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+<script>
+    function envia(cep)
+    {
+        if(cep == true) 
+        {
+          var zipcode_number = document.getElementById('zipcode_number').value;
+          document.form.method="get";
+          document.form.action = "/admin/address/cep/" + zipcode_number + "/user/" + "{$user.user_id}";
+        }
+        else
+        {
+          document.form.method="post";
+          document.form.action = "/admin/user/{$user.user_id}/address/create";
+        }
+    }
+</script>
+
+
