@@ -44,13 +44,13 @@ $app->get('/admin/events/:event_id/delete', function($event_id) {
 
 	User::verifyLogin(1);
 
-	$user = new Events();
+	$event = new Events();
 
-	$user->getEvents((int) $event_id);
+	$event->getEvents((int) $event_id);
 
-	$user->delete();
+	$event->delete();
 
-	$user->setNotification("Evento excluido com sucesso.",'success');
+	$event->setNotification("Evento excluido com sucesso.",'success');
 
 	header("Location: /admin/events");
 	exit;
@@ -62,16 +62,17 @@ $app->get('/admin/events/create', function() {
 
 	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
 
-    $eventstype = '';
-    $eventsstatus = '';
+    $eventstype = Events::getEventsType();
+    
+    $eventsstatus = Events::getStatusType();
 
 	$page = new PageAdmin();
 
 	$page->setTpl("event-create", array(
 		"notification"=>Events::getNotification(),
-        'search'=>$search,
-        'eventstype'=>$eventstype->getValues(),
-        'eventsstatus'=>$eventsstatus->getValues()
+		'search'=>$search,
+        'eventstype'=>$eventstype,
+        'eventsstatus'=>$eventsstatus,
 	));
 
 });
@@ -81,19 +82,13 @@ $app->post("/admin/events/create", function () {
 
  	User::verifyLogin(1);
 
-	$user = new Events();
+	$events = new Events();
 
- 	$_POST["inadmin"] = (isset($_POST["inadmin"])) ? 1 : 0;
-
- 	$_POST['despassword'] = password_hash($_POST["despassword"], PASSWORD_DEFAULT, [
-
- 		"cost"=>12
-
-	 ]);
+	$events->setValues($_POST);
 	 
- 	$user->setValues($_POST);
+	$events->setevent_id(0);
 
-	$user->save();
+	$events->save();
 
 	header("Location: /admin/events");
  	exit;

@@ -160,15 +160,39 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
 
         $sql = new Sql();
 
-        $results = $sql->select("call sp_users_save(:person_firstname, :person_lastname, :login_name, :password_hash, :person_email, :person_phone, :user_type_id)", array(
-            ":person_firstname"=>$this->getperson_firstname(),
-            ":person_lastname"=>$this->getperson_lastname(),
-            ":login_name"=>$this->getlogin_name(),
-            ":password_hash"=>User::getPasswordHash($this->getpassword_hash()),
-            ":person_email"=>$this->getperson_email(),
-            ":person_phone"=>$this->getperson_phone(),
-            ":user_type_id"=>$this->getuser_type_id()
-       ));
+       $results = $sql->select("call sp_users_save(
+        :person_firstname, 
+        :person_lastname, 
+        :login_name, 
+        :password_hash,
+        :person_email, 
+        :person_phone, 
+        :user_type_id,
+        :person_whatsapp,
+        :person_facebook,
+        :person_instagram,
+        :company_name,
+        :person_jobrole,
+        :person_about,
+        :person_urlphoto
+        )", 
+        array(
+        ":person_firstname"=>$this->getperson_firstname(),
+        ":person_lastname"=>$this->getperson_lastname(),
+        ":login_name"=>$this->getperson_email(),
+        ":password_hash"=>User::getPasswordHash($this->getpassword_hash()),
+        ":person_email"=>$this->getperson_email(),
+        ":person_phone"=>(int) $this->getperson_phone(),
+        ":user_type_id"=>$this->getuser_type_id(),
+        ":person_whatsapp"=>(int) $this->getperson_whatsapp(),
+        ":person_facebook"=>$this->getperson_facebook(),
+        ":person_instagram"=>$this->getperson_instagram(),
+        ":company_name"=>$this->getcompany_name(),
+        ":person_jobrole"=>$this->getperson_jobrole(),
+        ":person_about"=>$this->getperson_about(),
+        ':person_urlphoto'=>$this->getperson_urlphoto()
+    ));
+
 
         $this->setValues($results[0]);
     }

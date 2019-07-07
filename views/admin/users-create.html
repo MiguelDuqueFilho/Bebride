@@ -1,107 +1,99 @@
 {include="dashboard-menu"}
 <div class="content">
     <div class="container-fluid">
-        <a class="nav-link justify-content-end" href="/admin/user/{$user.user_id}/address/create">
-            <i class="material-icons">my_location</i>
-            <p>Atualizar Endereço</p>
-        </a>
         <div class="row">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title">Atualizar Usuário</h4>
-                        <p class="card-category">Complete seu Perfil</p>
+                        <h4 class="card-title">Criar Usuário</h4>
+                        <p class="card-category">Complete Perfil</p>
                     </div>
                     <div class="card-body">
-                        <form class="form" action="/admin/users/{$user.user_id}" method="post" enctype="multipart/form-data">
+                        <form class="form" action="/admin/users/create" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        
-                                        <select class="label-floating form-control" id="user_type_id" name="user_type_id" required>
-                                            <option value="0" {if="$user.user_type_id == 0"} selected {/if} > Visitante </option>
-                                            <option value="1" {if="$user.user_type_id == 1"} selected {/if} > Administrador </option>
-                                            <option value="2" {if="$user.user_type_id == 2"} selected {/if} > Clientes </option>
-                                            <option value="3" {if="$user.user_type_id == 3"} selected {/if} > Parceiros </option>
+                                         <select class="form-control type_login" id="user_type_id" name="user_type_id" required>
+                                            <option value="0"  > Visitante </option>
+                                            <option value="1"  > Administrador </option>
+                                            <option value="2"  > Clientes </option>
+                                            <option value="3"  > Parceiros </option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="label-floating">Nome Login</label>
-                                        <input type="text" class="form-control" id="login_name" name="login_name"
-                                            value="{$user.login_name}" disabled>
+                                        <label class="bmd-label-floating">Nome Login é igual ao Email</label>
+                                        <input type="text" class="form-control" id="login-name" name="login_name" disabled >
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="label-floating">Empresa</label>
-                                        <input type="text" class="form-control" id="company_name" name="company_name"
-                                            value="{$user.company_name}">
+                                        <label class="bmd-label-floating">Empresa</label>
+                                        <input type="text" class="form-control" id="company_name" name="company_name">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="label-floating">Cargo</label>
+                                        <label class="bmd-label-floating">Cargo</label>
                                         <input type="text" class="form-control" id="person-jobrole"  oninput="DuplicateJobrole()"
-                                            name="person_jobrole" value="{$user.person_jobrole}">
+                                            name="person_jobrole" >
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="label-floating">Primeiro Nome</label>
+                                        <label class="bmd-label-floating">Primeiro Nome</label>
                                         <input type="text" class="form-control" id="person-firstname" oninput="DuplicateFullname()"
-                                            name="person_firstname" value="{$user.person_firstname}" required>
+                                            name="person_firstname" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="label-floating">Último Nome</label>
+                                        <label class="bmd-label-floating">Último Nome</label>
                                         <input type="text" class="form-control" id="person-lastname" oninput="DuplicateFullname()"
-                                            name="person_lastname" value="{$user.person_lastname}" required>
+                                            name="person_lastname" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="label-floating">Email</label>
-                                        <input type="email" class="form-control" id="person_email" name="person_email"
-                                            value="{$user.person_email}" required>
+                                        <label class="bmd-label-floating">Email</label>
+                                        <input type="email" class="form-control" id="person-email" name="person_email" oninput="DuplicateEmail()" 
+                                             required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="label-floating">Celular</label>
-                                        <input type="text"  class="form-control" id="person_phone" name="person_phone"
-                                            value="{$user.person_phone}">
+                                        <label class="bmd-label-floating">Celular</label>
+                                        <input type="text"  class="form-control" id="person_phone" name="person_phone">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="label-floating">Whatsapp</label>
+                                        <label class="bmd-label-floating">Whatsapp</label>
                                         <input type="text"  class="form-control" id="person_whatsapp"
-                                            name="person_whatsapp" value="{$user.person_whatsapp}">
+                                            name="person_whatsapp" >
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="label-floating">Facebook</label>
+                                        <label class="bmd-label-floating">Facebook</label>
                                         <input type="text" class="form-control" id="person_facebook"
-                                            name="person_facebook" value="{$user.person_facebook}">
+                                            name="person_facebook" >
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="label-floating">Instagram</label>
+                                        <label class="bmd-label-floating">Instagram</label>
                                         <input type="text" class="form-control" id="person_instagram"
-                                            name="person_instagram" value="{$user.person_instagram}">
+                                            name="person_instagram">
                                     </div>
                                 </div>
                             </div>
@@ -110,29 +102,16 @@
                                     <div class="form-group">
                                         <label>Observação</label>
                                         <div class="form-group">
-                                            <label class="label-floating"> Coloque alguma informação sobre
+                                            <label class="bmd-bmd-label-floating"> Coloque alguma informação sobre
                                                 você.</label>
                                             <textarea class="form-control" rows="5" id="person-about" oninput="DuplicateAbout()"
-                                                name="person_about" >{$user.person_about}</textarea>
+                                                name="person_about" ></textarea>
                                         </div>
                                     </div>
                                 </div>  
                             </div>
-                            <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="btn btn-primary pull-right" for="file"> <i class="material-icons">insert_photo</i> Selecione a Foto</label>
-                                            <input type="file" class="form-control" id="file" name="file" >
-                                            <div class="box box-widget">
-                                                    <div class="box-body ">
-                                                    <img class="img-responsive photo-avatar" id="image-preview" src="{$user.person_urlphoto}" alt="Photo">
-                                            </div>
-                                        </div>
-                                    </div>
-                            </div>
-                            </div> 
-                            <button type="submit" class="btn btn-primary pull-right">Atualizar Usuário</button>
-                            <div class="clearfix"></div>
+                        <button type="submit" class="btn btn-primary pull-right">Criar Usuário</button>
+                        <div class="clearfix"></div>
                         </form>
                     </div>
                 </div>
@@ -141,17 +120,13 @@
                 <div class="card card-profile">
                     <div class="card-avatar">
                         <a >
-                            <img class="img-responsive" id="image-preview-avatar"  src="{$user.person_urlphoto}" />
+                            <img class="img-responsive" id="image-preview-avatar"  src="/assets/site/img/faces/avatar_0.jpg" />
                         </a>
                     </div>
                     <div class="card-body">
-                        <h6 class="card-category text-gray" id="person-jobrole-avatar">{$user.person_jobrole}</h6>
-                        <h4 class="card-title" id="person-fullname-avatar" >{$user.person_fullname}</h4>
-                        <p class="card-description" id="person-about-avatar">
-                            {$user.person_about}
-                        </p>
-                        <a href="https://www.facebook.com/{$user.person_facebook}" 
-                        class="btn btn-primary btn-round card-text">  seguir  </a>
+                        <h6 class="card-category text-gray" id="person-jobrole-avatar"></h6>
+                        <h4 class="card-title" id="person-fullname-avatar" ></h4>
+                        <p class="card-description" id="person-about-avatar"></p>
                     </div>
                 </div>
             </div>
@@ -175,6 +150,12 @@
     file.readAsDataURL(this.files[0]);
     
     });
+
+    function DuplicateEmail() 
+    {
+        var x = document.getElementById("person-email").value;
+        document.getElementById("login-name").innerHTML = x;
+    }
     function DuplicateJobrole() 
     {
         var x = document.getElementById("person-jobrole").value;

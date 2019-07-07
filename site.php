@@ -99,7 +99,15 @@ $app->post("/register", function() {
 		'person_firstname'=>$_POST['person_firstname'],		
 		'person_lastname'=>$_POST['person_lastname'],
 		'person_email'=>$_POST['person_email'],
-		'person_phone'=>$_POST['person_phone']
+		'person_phone'=>$_POST['person_phone'],
+		'person_whatsapp'=>'',
+		'person_facebook'=>'',
+		'person_instagram'=>'',
+		'company_name'=>'',
+		'person_jobrole'=>'',
+		'person_about'=>'',
+		'person_urlphoto'=>''
+
 	]);
 
 
