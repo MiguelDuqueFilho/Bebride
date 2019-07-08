@@ -37,3 +37,14 @@
   padding: 30px 15px;
   min-height: calc(100vh - 123px);
 }
+
+.table.table_task>thead>tr>th, 
+.table.table_task>tbody>tr>th, 
+.table.table_task>tfoot>tr>th, 
+.table.table_task>thead>tr>td, 
+.table.table_task>tbody>tr>td, 
+.table.table_task>tfoot>tr>td {
+  padding: 0px 7px;
+  vertical-align: middle;
+  border-color: #ddd;
+}

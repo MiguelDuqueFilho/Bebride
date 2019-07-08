@@ -31,7 +31,12 @@
                           <td>{function="formatDate($value.event_date)"}</td>
                           <td>{$value.status_type_name}</td>
                           <td class="td-actions text-right">
-                            <a  href="/admin/events/{$value.event_id}/update" >
+                              <a  href="/admin/events/{$value.event_id}/eventtasks" >
+                                <button type="button" rel="tooltip" title="Tarefas" class="btn btn-primary btn-link btn-sm">
+                                  <i class="material-icons">timeline</i>
+                                </button>
+                              </a>
+                              <a  href="/admin/events/{$value.event_id}/update" >
                               <button type="button" rel="tooltip" title="Atualizar Evento" class="btn btn-primary btn-link btn-sm">
                                 <i class="material-icons">edit</i>
                               </button>

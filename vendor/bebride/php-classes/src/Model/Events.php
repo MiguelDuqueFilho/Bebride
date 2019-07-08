@@ -5,9 +5,10 @@ namespace BeBride\Model;
 use \BeBride\DB\Sql;
 use \BeBride\Model;
 
-class Events extends Model {
+class Events extends Model 
+{
 
-    
+
    
     public static function getEventType() {
 
@@ -104,7 +105,7 @@ class Events extends Model {
     }
 
 
-    public static function getPage($page = 1, $itensPerPage = 10)
+    public static function getPage($page = 1, $itensPerPage = 9)
     {
 
         $start = ($page - 1) * $itensPerPage; 
@@ -132,7 +133,7 @@ class Events extends Model {
             ];
     }
 
-    public static function getPageSearch($search, $page = 1, $itensPerPage = 10)
+    public static function getPageSearch($search, $page = 1, $itensPerPage = 9)
     {
 
         $start = ($page - 1) * $itensPerPage; 

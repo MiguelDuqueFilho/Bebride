@@ -75,7 +75,7 @@ class Address extends Model {
         }
         else 
         {
-            Address::setNotification("Erro na Inclusão ou Atualiização do Endereço.","error");
+            Address::setNotification("Erro na Inclusão ou Atualização do Endereço.","error");
         }
     }
 

@@ -1,0 +1,125 @@
+{include="dashboard-menu"}
+        <div class="content main-content" >
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-md-3"></div>
+                  <div class="col-md-5">
+                    <a class="nav-link justify-content-end" href="/admin/events/{$event['event_id']}/eventtasks/create">
+                        <i class="material-icons">event</i>
+                        <p>Criar Tarefa</p>
+                    </a>        
+                </div>
+                <div class="col-md-3">
+                    <form id="form" name="form"  class="navbar-form"  action="/admin/eventtasks" method="get">
+                        <div class="form-group"> 
+                            <label class="bmd-label-floating">Tipos de Evento</label>      
+                                <select id="searchtype" name="searchtype" class="form-control" onchange="this.form.submit()" >
+                                <option  value="0" {if="$searchtype == '0'"} selected {/if} > Todos os eventos </option>
+                                {loop="$eventstype"}
+                                    <option  value="{$value.event_type_id}" {if="$searchtype == $value.event_type_id"} 
+                                    selected {/if} > {$value.event_type_name} </option>
+                                {/loop}
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card ">
+                      <div class="card-header card-header-info">
+                          <h4 class="card-title">{$event['event_name']}</h4>
+                          <p class="card-category">{$event['event_type_name']}</p>
+                      </div>
+                      <div class="card-body">
+                          <p><i class="material-icons">event</i> {function="formatDate($event['event_date'])"}</i></p>
+                          <p><i class="material-icons">flag</i> {$event['status_type_name']}</i></p>
+                      </div>
+                      <div class="card-footer">
+                        <div class="stats">
+                          <i class="material-icons">access_time</i> Dados Online</i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <div class="col-md-9">      
+                <div class="card" >
+                  <div class="card-header  card-header-primary card-header-tabs" >
+                    <div class="col-md-12">
+                        <h4 class="card-title ">Lista de Tarefas</h4>
+                        <p class="card-category"> Tarefas por evento.</p>
+                    </div>
+                  </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-hover table_task">
+                      <thead class=" text-primary">
+                        <th hidden>Evento</th>
+                        <th>#</th>
+                        <th>Nome</th>
+                        <th>Status</th>
+                        <th>Duração</th>
+                        <th>Inicio</th>
+                        <th>Fim</th>
+                        <th>%</th>
+                        <th>Responsável</th>
+                      </thead>
+                      <tbody>
+                        {loop="$eventtasks"}
+                        <tr>
+                          <td hidden>{$value.event_id}</td>
+                          <td width="5%" >#{$value.task_id}</td>
+                          <td width="30%">{$value.task_name}</td>
+                          <td width="5%"><img class="img-raised rounded-circle img-fluid" name="image_status" 
+                            src="/assets/admin/img/image-status-green.jpg"></td>
+                          <!-- <td>{$value.task_status}</td> -->
+                          <td width="5%">{$value.task_duration} dia(s)</td>
+                          <td width="5%">{function="formatDate($value.task_start)"}</td>
+                          <td width="5%">{function="formatDate($value.task_finish)"}</td>
+                          <td width="30%" >
+                          <div class="progress">
+                                <div class="progress-bar bg-info" role="progressbar" style="width: {$value.task_completed}%" aria-valuenow="{$value.task_completed}" aria-valuemin="0" aria-valuemax="100">{$value.task_completed}%</div>
+                            </div>
+                          </td>
+                          <td width="5%">{$value.person_firstname}</td>
+                          <td width="10%" class="td-actions text-right">
+                            <a  href="/admin/events/:event_id/eventtasks/{$value.task_id}/update" >
+                              <button type="button" rel="tooltip" title="Atualizar Evento" class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">edit</i>
+                              </button>
+                            </a>
+                            <a  href="/admin/events/:event_id/eventtasks/{$value.task_id}/delete" onclick="return confirm('Deseja realmente excluir a tarefa?')" >
+                              <button type="button" rel="tooltip" title="Excluir" class="btn btn-danger btn-link btn-sm">
+                                <i class="material-icons">close</i>
+                              </button>
+                            </a>
+                          </td>
+                        </tr>
+                        {/loop}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            
+              <div> 
+                <nav aria-label="...">
+                    <ul class="pagination" >
+                        {loop="$pages"}
+                        <li class="page-item text-primary {$value.active} " ><a class="page-link" href="{$value.href}">{$value.text}</a></li>
+                        {/loop}
+                    </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+<script>
+
+    document.getElementById('searchtype').addEventListener('change', function() {
+        this.form.submit();
+    });
+
+</script>
+   

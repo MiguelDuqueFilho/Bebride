@@ -156,7 +156,7 @@ class Order extends Model {
            ];
    }
 
-   public static function getPageSearch($search, $page = 1, $itensPerPage = 10)
+   public static function getPageSearch($search, $page = 1, $itensPerPage = 9)
    {
 
        $start = ($page - 1) * $itensPerPage; 

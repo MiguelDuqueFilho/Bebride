@@ -443,109 +443,61 @@ public static function checkLogin($user_type_id = 0) //não revisado totalmente
 //         return $results;
 //     }
 
-    public static function getPage($page = 1, $itensPerPage = 10)
-    {
+public static function getPage($page = 1, $itensPerPage = 9)
+{
 
-        $start = ($page - 1) * $itensPerPage; 
+    $start = ($page - 1) * $itensPerPage; 
 
-        $sql = new Sql();
+    $sql = new Sql();
 
-        $results = $sql->select("SELECT sql_calc_found_rows * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_fullname  
-            FROM tb_users a 
-            INNER JOIN tb_persons b on b.person_id = a.person_id
-            INNER JOIN tb_userstype c on c.user_type_id = a.user_type_id
-            ORDER BY b.person_firstname, b.person_lastname
-            LIMIT $start , $itensPerPage;
-            ");
+    $results = $sql->select("SELECT sql_calc_found_rows * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_fullname  
+        FROM tb_users a 
+        INNER JOIN tb_persons b on b.person_id = a.person_id
+        INNER JOIN tb_userstype c on c.user_type_id = a.user_type_id
+        ORDER BY b.person_firstname, b.person_lastname
+        LIMIT $start , $itensPerPage;
+        ");
 
-            $resultsTotal = $sql->select("select found_rows() as nrtotal ");
+        $resultsTotal = $sql->select("select found_rows() as nrtotal ");
 
-            return [
-                'data'=>$results,
-                'total'=>(int) $resultsTotal[0]["nrtotal"],
-                'pages'=>ceil( $resultsTotal[0]["nrtotal"] / $itensPerPage)
-            ];
-    }
+        return [
+            'data'=>$results,
+            'total'=>(int) $resultsTotal[0]["nrtotal"],
+            'pages'=>ceil( $resultsTotal[0]["nrtotal"] / $itensPerPage)
+        ];
+}
 
-    public static function getPageSearch($search, $page = 1, $itensPerPage = 10)
-    {
+public static function getPageSearch($search, $page = 1, $itensPerPage = 9)
+{
 
-        $start = ($page - 1) * $itensPerPage; 
+    $start = ($page - 1) * $itensPerPage; 
 
-        $sql = new Sql();
+    $sql = new Sql();
 
-        $results = $sql->select("SELECT sql_calc_found_rows * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_fullname  
-            FROM tb_users a 
-            INNER JOIN tb_persons b on b.person_id = a.person_id
-            INNER JOIN tb_userstype c on c.user_type_id = a.user_type_id
-            WHERE b.person_firstname LIKE :search OR b.person_lastname LIKE :search OR b.person_email LIKE :search OR  a.login_name LIKE :search 
-            LIMIT $start , $itensPerPage;
-            ", [
-                ':search'=>'%'.$search.'%'
-            ]);
+    $results = $sql->select("SELECT sql_calc_found_rows * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_fullname  
+        FROM tb_users a 
+        INNER JOIN tb_persons b on b.person_id = a.person_id
+        INNER JOIN tb_userstype c on c.user_type_id = a.user_type_id
+        WHERE b.person_firstname LIKE :search OR b.person_lastname LIKE :search OR b.person_email LIKE :search OR  a.login_name LIKE :search 
+        LIMIT $start , $itensPerPage;
+        ", [
+            ':search'=>'%'.$search.'%'
+        ]);
 
-            $resultsTotal = $sql->select("select found_rows() as nrtotal ");
+        $resultsTotal = $sql->select("select found_rows() as nrtotal ");
 
-            return [
-                'data'=>$results,
-                'total'=>(int) $resultsTotal[0]["nrtotal"],
-                'pages'=>ceil( $resultsTotal[0]["nrtotal"] / $itensPerPage)
-            ];
-    }
+        return [
+            'data'=>$results,
+            'total'=>(int) $resultsTotal[0]["nrtotal"],
+            'pages'=>ceil( $resultsTotal[0]["nrtotal"] / $itensPerPage)
+        ];
+}
 
-    public static function calcPageMenu($page, $pagination, $search, $href = '/admin/users?')
-    {
-
-        $pages = [];
-
-        for ($x=0; $x < $pagination['pages']; $x++) { 
-
-        
-
-            if ($x == 0) 
-            {
-                $active = ($page === 1) ? $active='disabled' : '' ;
-
-                array_push($pages, [
-                    'href'=>$href . http_build_query([
-                        'page'=>$page-1,
-                        'search'=>$search
-                    ]),
-                    'text'=>'Anterior',
-                    'active'=>$active
-                ]);
-            }
-
-            $active = ($page === $x+1) ? $active='active' : '' ;
-
-            array_push($pages, [
-                'href'=>'/admin/users?' . http_build_query([
-                    'page'=>$x+1,
-                    'search'=>$search
-                ]),
-                'text'=>$x+1,
-                'active'=>$active
-            ]);
-
-
-            if ($x+1 === (int) $pagination['pages']) 
-            {
-
-                $active = ($page < $pagination['pages']) ? '' :  $active='disabled';
-
-                array_push($pages, [
-                    'href'=>'/admin/users?' . http_build_query([
-                        'page'=>$page+1,
-                        'search'=>$search
-                    ]),
-                    'text'=>'Proximo',
-                    'active'=>$active
-                ]);
-            }
-
-        }
-        return $pages;
-    }
+    
+public static function calcPageMenu($page, $pagination, $search, $href = '/admin/users?')
+{
+    return parent::calcPageMenu($page, $pagination, $search, $href);
+}
 
 
 public function checkPhoto() 

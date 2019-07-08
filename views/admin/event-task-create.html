@@ -1,0 +1,131 @@
+{include="dashboard-menu"}
+<div class="content main-content" >
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card ">
+                <div class="card-header card-header-warning">
+                    <h4 class="card-title">{$event['event_name']}</h4>
+                    <p class="card-category">{$event['event_type_name']}</p>
+                </div>
+                <div class="card-body">
+                    <p><i class="material-icons">event</i> {function="formatDate($event['event_date'])"}</i></p>
+                    <p><i class="material-icons">flag</i> {$event['status_type_name']}</i></p>
+                </div>
+                <div class="card-footer">
+                    <div class="stats">
+                    <i class="material-icons">access_time</i> Dados Online</i>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Criar Evento</h4>
+                        <p class="card-category">Inserir um novo Evento.</p>
+                    </div>
+                    <div class="card-body">
+                        <form class="form" action="/admin/events/{$event['event_id']}/eventtasks/create" method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group"> 
+                                        <label class="bmd-label-floating">Seção da tarefa</label>      
+                                        <select type="text" class="form-control" id="event_type_id" name="event_type_id" required>
+                                            {loop="$session"}
+                                                <option value="{$value.session_task_id}"  > {$value.session_task_name} </option>
+                                            {/loop}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Nome da tarefa</label>
+                                        <input type="text" class="form-control" id="task_name" name="task_name"
+                                            required> 
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating"> Status</label>
+                                        <input type="text" class="form-control" id="task_status" name="task_status" 
+                                        required>
+                                     </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Duração dia(s)</label>
+                                        <input type="number" class="form-control" id="task_duration" name="task_duration"
+                                            required> 
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-static"> Data inicio.</label>
+                                        <input type="date" class="form-control" id="task_start" name="task_start" 
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-static"> Data Término.</label>
+                                        <input type="date" class="form-control" id="task_finish" name="task_finish" 
+                                            required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating"> % </label>
+                                        <input type="number" class="form-control" id="task_completed" name="task_completed" 
+                                        value="0"    required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Responsável</label>
+                                        <input type="number" class="form-control" id="task_responsible" name="task_responsible"
+                                            required> 
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Mostra em pendencias</label>      
+                                        <select type="text" class="form-control" id="task_showboard" name="task_showboard" required>
+                                            <option value="1"  > Sim </option>
+                                            <option value="0"  > Não </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Tarefa para Clientes</label>      
+                                        <select type="text" class="form-control" id="task_showcustomer" name="task_showcustomer" required>
+                                            <option value="1"  > Sim </option>
+                                            <option value="0"  > Não </option>
+                                        </select>
+                                    </div>
+                                 </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary pull-right">Criar Tarefa</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
