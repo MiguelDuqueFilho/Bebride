@@ -5,8 +5,39 @@ namespace BeBride\Model;
 use \BeBride\DB\Sql;
 use \BeBride\Model;
 
-class EventTask extends Model 
+class ModelTask extends Model 
 {
+
+    public function getTasks($related = true)
+    {
+        $sql = new Sql();
+
+        if ($related === true) 
+        {
+            return $sql->select("
+            select * from tb_products c where c.idproduct in (
+                select a.idproduct from tb_products a
+                inner join tb_productscategories b
+                on a.idproduct = b.idproduct 
+                where b.idcategory = :idcategory)", 
+                array(
+                    ":idcategory"=>$this->getidcategory()
+            ));
+        } 
+        else
+        {
+            return $sql->select("
+            select * from tb_products c where c.idproduct not in (
+                select a.idproduct from tb_products a
+                inner join tb_productscategories b
+                on a.idproduct = b.idproduct 
+                where b.idcategory = :idcategory)", 
+                array(
+                    ":idcategory"=>$this->getidcategory()
+            ));
+        }
+    }
+
 
 
     public function getEventTasks($event_id, $task_id) 
@@ -98,15 +129,13 @@ class EventTask extends Model
 
         $sql = new Sql();
 
-        $sql->select("DELETE FROM tb_eventtasks WHERE event_id = :event_id AND task_id = :task_id;", array(
-            ":event_id"=>$this->getevent_id(),
+        $sql->select("DELETE FROM tb_modeltasks WHERE modeltask_id = :event_id", array(
             ":task_id"=>$this->gettask_id()
         ));
 
-
     }
     
-public static function getPage($event_id, $searchsection, $page = 1, $itensPerPage = 18)
+public static function getPage( $searchsection, $page = 1, $itensPerPage = 18)
 {
 
     $start = ($page - 1) * $itensPerPage; 
@@ -116,30 +145,22 @@ public static function getPage($event_id, $searchsection, $page = 1, $itensPerPa
     if($searchsection == "0") 
     {
         $results = $sql->select("SELECT sql_calc_found_rows *  
-            FROM tb_eventtasks a 
-            INNER JOIN tb_statustask b on b.status_task_id = a.task_status_id
-            INNER JOIN tb_section_task c on c.section_task_id = a.task_section_id
-            WHERE a.event_id = :event_id
-            ORDER BY a.event_id, a.task_id
-            LIMIT $start , $itensPerPage;
-            ", [
-                ':event_id'=>$event_id
-        ]);
+            FROM tb_modeltasks a 
+            INNER JOIN tb_section_task b on b.section_task_id = a.modeltask_section_id
+            ORDER BY a.modeltask_id
+            LIMIT $start , $itensPerPage;");
     }
     else 
     {
         $results = $sql->select("SELECT sql_calc_found_rows *  
-            FROM tb_eventtasks a 
-            INNER JOIN tb_statustask b on b.status_task_id = a.task_status_id
-            INNER JOIN tb_section_task c on c.section_task_id = a.task_section_id
-            WHERE a.event_id = :event_id 
-            AND a.task_section_id = :searchsection
-            ORDER BY a.event_id, a.task_id  
+            FROM tb_modeltasks a 
+            INNER JOIN tb_section_task b on b.section_task_id = a.modeltask_section_id
+            WHERE a.modeltask_section_id = :searchsection
+            ORDER BY a.modeltask_id  
             LIMIT $start , $itensPerPage;
             ", [
-                ':event_id'=>$event_id,
                 ':searchsection'=>$searchsection
-        ]);
+            ]);
     }
         $resultsTotal = $sql->select("select found_rows() as nrtotal ");
 
@@ -150,7 +171,7 @@ public static function getPage($event_id, $searchsection, $page = 1, $itensPerPa
         ];
 }
 
-public static function getPageSearch($event_id, $search, $searchsection, $page = 1, $itensPerPage = 18)
+public static function getPageSearch($search, $searchsection, $page = 1, $itensPerPage = 18)
 {
 
     $start = ($page - 1) * $itensPerPage; 
@@ -161,17 +182,13 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
     {
 
         $results = $sql->select("SELECT sql_calc_found_rows *  
-        FROM tb_eventtasks a  
-        INNER JOIN tb_statustask b on b.status_task_id = a.task_status_id
-        INNER JOIN tb_section_task c on c.section_task_id = a.task_section_id
-        WHERE a.event_id = :event_id
-        AND ( a.task_name LIKE :search 
-        OR b.task_status_name LIKE :search 
-        OR a.task_responsible LIKE :search ) 
-        ORDER BY a.event_id, a.task_id 
+        FROM tb_modeltasks a  
+        INNER JOIN tb_section_task b on b.section_task_id = a.modeltask_section_id
+        WHERE a.modeltask_name LIKE :search 
+        OR a.task_responsible LIKE :search 
+        ORDER BY a.modeltask_id 
         LIMIT $start , $itensPerPage;
         ", [
-            ':event_id'=>$event_id,
             ':search'=>'%'.$search.'%'
         ]);
     }
@@ -181,15 +198,12 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
         FROM tb_eventtasks a 
         INNER JOIN tb_statustask b on b.status_task_id = a.task_status_id
         INNER JOIN tb_section_task c on c.section_task_id = a.task_section_id
-        WHERE a.event_id = :event_id
-        AND ( a.task_name LIKE :search 
-        OR b.task_status_name LIKE :search 
+        WHERE ( a.modeltask_name LIKE :search 
         OR a.task_responsible LIKE :search )
         AND a.task_section_id = :searchsection  
-        ORDER BY a.event_id, a.task_id
+        ORDER BY a.modeltask_id
         LIMIT $start , $itensPerPage;
         ", [
-            ':event_id'=>$event_id,
             ':search'=>'%'.$search.'%',
             ':searchsection'=>$searchsection
         ]);
@@ -204,14 +218,10 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
         ];
 }
 
-
-
-    public static function calcPageMenu($page, $pagination, $search, $href = '/admin/eventtasks?')
-    {
-        return parent::calcPageMenu($page, $pagination, $search, $href);
-    }
-
-
+public static function calcPageMenu($page, $pagination, $search, $href = '/admin/modeltasks?')
+{
+    return parent::calcPageMenu($page, $pagination, $search, $href);
+}
 
 }
 ?>

@@ -1,0 +1,111 @@
+{include="dashboard-menu"}
+        <div class="content main-content" >
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-md-8">
+                    <a class="nav-link justify-content-end" href="/admin/modeltasks/create">
+                        <i class="material-icons">event</i>
+                        <p>Criar Tarefa Modelo</p>
+                    </a>        
+                </div>
+                <div class="col-md-3">
+                    <form id="form" name="form"  class="navbar-form"  action="/admin/moldeltasks" method="get">
+                        <div class="form-group"> 
+                            <label class="bmd-label-floating">Seção de Tarefas</label>      
+                                <select id="searchsection" name="searchsection" class="form-control" onchange="this.form.submit()" >
+                                <option  value="0" {if="$searchsection == '0'"} selected {/if} > Todos os eventos </option>
+                                {loop="$sessiontask"}
+                                    <option  value="{$value.section_task_id}" {if="$searchsection == $value.section_task_id"} 
+                                    selected {/if} > {$value.section_task_name} </option>
+                                {/loop}
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">      
+                <div class="card" >
+                  <div class="card-header  card-header-primary card-header-tabs" >
+                    <div class="col-md-12">
+                        <h4 class="card-title ">Lista de Tarefas</h4>
+                        <p class="card-category"> Tarefas Modelo por Seção.</p>
+                    </div>
+                  </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-hover table_task">
+                      <thead class=" text-primary">
+                        <th>#</th>
+                        <th>Seção</th>
+                        <th>Nome</th>
+                        <th>Duração</th>
+                        <th>Predecessor</th>
+                        <th>Sucessor</th>
+                        <th>Responsável</th>                        
+                        <th>Mostra Pendência</th>
+                        <th>Mostra Tarefa</th>
+                        <Th class="text-center" >Ações</Th>
+                      </thead>
+                      <tbody>
+                        {loop="$modeltasks"}
+                        <tr>
+                          <td width="5%">#{$value.modeltask_id}</td>
+                          <td width="30%">{$value.section_task_name}</td>
+                          <td width="30%">{$value.modeltask_name}</td>
+                          <td width="5%">{$value.modeltask_duration} dia(s)</td>
+                          <td width="2%">{$value.modeltask_predecessors}</td>
+                          <td width="2%">{$value.modeltask_successors}</td>
+                          <td width="10%">{$value.modeltask_responsible}</td>
+                          <td width="3%">{$value.modeltask_showboard}</td>
+                          <td width="3%">{$value.modeltask_showcustomer}</td>
+                          <td width="10%" class="td-actions text-center">
+                            <a  href="/admin/modeltasks/{$value.modeltask_id}/update" >
+                              <button type="button" rel="tooltip" title="Atualizar Tarefa" class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">edit</i>
+                              </button>
+                            </a>
+                            <a  href="/admin/modeltasks/{$value.modeltask_id}/delete" onclick="return confirm('Deseja realmente excluir a tarefa?')" >
+                              <button type="button" rel="tooltip" title="Excluir tarefa" class="btn btn-danger btn-link btn-sm">
+                                <i class="material-icons">close</i>
+                              </button>
+                            </a>
+                          </td>
+                        </tr>
+                        {/loop}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div> 
+                <div class="row">
+                  <div class="col-md-10">
+                    <nav aria-label="...">
+                      <ul class="pagination">
+                        {loop="$pages"}
+                        <li class="page-item text-primary {$value.active} "><a class="page-link" href="{$value.href}">{$value.text}</a>
+                        </li>
+                        {/loop}
+                      </ul>
+                    </nav>
+                  </div>
+                  <div class="col-md-2">
+                    <a class="nav-link justify-content-end" href="/admin">
+                      <i class="material-icons" data-notify="icon">backspace</i> Voltar
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+<script>
+
+    document.getElementById('searchsection').addEventListener('change', function() {
+        this.form.submit();
+    });
+
+</script>
+   

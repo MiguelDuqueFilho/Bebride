@@ -4,6 +4,7 @@ use \BeBride\PageAdmin;
 use \BeBride\Model\User;
 use \BeBride\Model\Events;
 use \BeBride\Model\EventTask;
+use \BeBride\Model\ModelTask;
 
 
 
@@ -176,18 +177,18 @@ $app->get('/admin/events/:event_id/eventtasks', function($event_id) {
 
 	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
 	
-	$searchtype = (isset($_GET['searchtype'])) ? $_GET['searchtype'] : "0";
+	$searchSection = (isset($_GET['searchsection'])) ? $_GET['searchsection'] : "0";
 
 	$page = (isset($_GET['page'])) ? (int)$_GET['page'] : 1 ;
 
 	if ($search != "")
 	{
 		
-		$pagination = EventTask::getPageSearch($event_id, $search, $searchtype, $page);
+		$pagination = EventTask::getPageSearch($event_id, $search, $searchSection, $page);
 	}
 	else
 	{
-		$pagination = EventTask::getPage($event_id, $searchtype, $page);
+		$pagination = EventTask::getPage($event_id, $searchSection, $page);
 	}
 
 	$event = new Events();
@@ -206,13 +207,51 @@ $app->get('/admin/events/:event_id/eventtasks', function($event_id) {
 		"notification"=>EventTask::getNotification(),
 		"event"=>$event->getValues(),
 		"eventtasks"=>$pagination['data'],
-		'sessiontask'=>Events::getEventsType(),
+		'sessiontask'=>EventTask::getSectionTask(),
 		'search'=>$search,
-		'searchtype'=>$searchtype,
+		'searchsection'=>$searchSection,
 		'pages'=>$pages
 	));
 
 });
  
+// ***************  modelo de tasks ****************************
+
+
+$app->get('/admin/moldeltasks', function() {
+
+	User::verifyLogin(1);
+
+	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
+	
+	$searchSection = (isset($_GET['searchsection'])) ? $_GET['searchsection'] : "0";
+
+	$page = (isset($_GET['page'])) ? (int)$_GET['page'] : 1 ;
+
+	if ($search != "")
+	{
+		$pagination = ModelTask::getPageSearch( $search, $searchSection, $page);
+	}
+	else
+	{
+		$pagination = ModelTask::getPage( $searchSection, $page);
+	}
+
+	$pages = [];
+
+	$pages = ModelTask::calcPageMenu($page, $pagination, $search);
+
+	$page = new PageAdmin();
+
+	$page->setTpl("model-tasks", array(
+		"notification"=>ModelTask::getNotification(),
+		"modeltasks"=>$pagination['data'],
+		'sessiontask'=>ModelTask::getSectionTask(),
+		'search'=>$search,
+		'searchsection'=>$searchSection,
+		'pages'=>$pages
+	));
+
+});
 
 ?>
