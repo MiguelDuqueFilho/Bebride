@@ -5,14 +5,18 @@ namespace BeBride\Model;
 use \BeBride\DB\Sql;
 use \BeBride\Model;
 
-class EventTask extends Model {
+class EventTask extends Model 
+{
 
-    public function getEventTasks($event_id, $task_id) {
+
+    public function getEventTasks($event_id, $task_id) 
+    {
 
         $sql = new Sql();
         
         $results = $sql->select("SELECT sql_calc_found_rows *  
         FROM tb_eventtasks a 
+        INNER JOIN tb_statustask b on b.status_task_id = a.task_status_id
         WHERE a.event_id = :event_id AND a.task_id = :task_id
         ORDER BY a.event_id, a.task_id
         ", [
@@ -45,30 +49,14 @@ class EventTask extends Model {
 
     public static function statusTasks() 
     {
-        $status = array(
-            array(
-                'status_id' => '0',
-                'status_name' => 'inicial',
-                'status_color' => 'info',
-            ),
-            array(
-                'status_id' => '1',
-                'status_name' => 'em dia',
-                'status_color' => 'success',
-            ),
-            array(
-                'status_id' => '2',
-                'status_name' => 'pendente',
-                'status_color' => 'warning',
-            ),
-            array(
-                'status_id' => '3',
-                'status_name' => 'inicial',
-                'status_color' => 'danger',
-            )
-        );
 
-        return $status;
+        $sql = new Sql();
+
+        $results = $sql->select("SELECT * 
+            FROM tb_statustask 
+            ORDER BY  status_task_id");
+
+        return $results;
     }
 
     public function save()
@@ -128,6 +116,7 @@ public static function getPage($event_id, $searchtype, $page = 1, $itensPerPage 
     {
         $results = $sql->select("SELECT sql_calc_found_rows *  
             FROM tb_eventtasks a 
+            INNER JOIN tb_statustask b on b.status_task_id = a.task_status_id
             WHERE a.event_id = :event_id
             ORDER BY a.event_id, a.task_id
             LIMIT $start , $itensPerPage;
@@ -139,6 +128,7 @@ public static function getPage($event_id, $searchtype, $page = 1, $itensPerPage 
     {
         $results = $sql->select("SELECT sql_calc_found_rows *  
             FROM tb_eventtasks a 
+            INNER JOIN tb_statustask b on b.status_task_id = a.task_status_id
             WHERE a.event_id = :event_id 
             AND a.task_type_id = :searchtype
             ORDER BY a.event_id, a.task_id  
@@ -169,9 +159,10 @@ public static function getPageSearch($event_id, $search, $searchtype, $page = 1,
 
         $results = $sql->select("SELECT sql_calc_found_rows *  
         FROM tb_eventtasks a  
+        INNER JOIN tb_statustask b on b.status_task_id = a.task_status_id
         WHERE a.event_id = :event_id
         AND ( a.task_name LIKE :search 
-        OR a.task_status LIKE :search 
+        OR b.task_status_name LIKE :search 
         OR a.task_responsible LIKE :search ) 
         ORDER BY a.event_id, a.task_id 
         LIMIT $start , $itensPerPage;
@@ -184,9 +175,10 @@ public static function getPageSearch($event_id, $search, $searchtype, $page = 1,
     {
         $results = $sql->select("SELECT sql_calc_found_rows *  
         FROM tb_eventtasks a 
+        INNER JOIN tb_statustask b on b.status_task_id = a.task_status_id
         WHERE a.event_id = :event_id
         AND ( a.task_name LIKE :search 
-        OR a.task_status LIKE :search 
+        OR b.task_status_name LIKE :search 
         OR a.task_responsible LIKE :search )
         AND a.task_type_id = :searchtype  
         ORDER BY a.event_id, a.task_id

@@ -59,7 +59,7 @@ $app->post('/admin/events/:event_id/eventtasks/create', function($event_id) {
 	{
 		User::setNotification("Data de início da tarefa não pode ser maior que a data de término.",'error');
 
-		header("location: /admin/events/".$event_id."/eventtasks/".$task_id."/update");
+		header("location: /admin/events/".$event_id."/eventtasks/create");
 		exit;
 	}
 
@@ -68,7 +68,7 @@ $app->post('/admin/events/:event_id/eventtasks/create', function($event_id) {
 
 	$event_task->setValues($_POST);
 
-	$event_task->settask_status('0');
+	$event_task->settask_status('1');
 
 	$event_task->setevent_id($event_id);
 
@@ -136,7 +136,6 @@ $app->post('/admin/events/:event_id/eventtasks/:eventtask_id/update', function($
 		header("location: /admin/events/".$event_id."/eventtasks/".$task_id."/update");
 		exit;
 	}
-
 
 	$event_task = new EventTask();
 

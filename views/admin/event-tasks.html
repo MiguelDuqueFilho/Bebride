@@ -72,8 +72,7 @@
                           <td width="5%" >#{$value.task_id}</td>
                           <td width="30%">{$value.task_name}</td>
                           <td width="5%"><img class="img-raised rounded-circle img-fluid" name="image_status" 
-                            src="/assets/admin/img/image-status-green.jpg"></td>
-                          <!-- <td>{$value.task_status}</td> -->
+                            src="/assets/admin/img/image-status-{$value.status_task_color}.jpg"></td>
                           <td width="5%">{$value.task_duration} dia(s)</td>
                           <td width="5%">{function="formatDate($value.task_start)"}</td>
                           <td width="5%">{function="formatDate($value.task_finish)"}</td>
