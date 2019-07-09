@@ -7,63 +7,17 @@ use \BeBride\Model;
 
 class EventTask extends Model {
 
-    public function getEventTasks($event_id) {
+    public function getEventTasks($event_id, $task_id) {
 
         $sql = new Sql();
         
-        $results = $sql->select("SELECT *   
-            FROM tb_users a 
-            INNER JOIN tb_persons b on b.person_id = a.person_id
-            INNER JOIN tb_userstype c on c.user_type_id = a.user_type_id
-            WHERE a.user_id = :user_id", array(
-            ":user_id"=>$event_id
-        ));
-
-
-        $data = $results[0];
-
-        $this->setValues($data);
-
-    }
-
-    public static function getSessionTask()
-    {
-
-        $sql = new Sql();
-
-        $results = $sql->select("SELECT * 
-            FROM tb_session_task 
-            ORDER BY  session_task_id");
-            
-       return $results;
-    }
-
-    public static function statusTasks() {
-        $status = [
-            '1'=>'info',
-            '2'=>'success',
-            '3'=>'warning',
-            '4'=>'danger',
-        ];
-        return $status;
-    }
-
-    public function save()
-    {
-        $sql = new Sql();
-
-        $results = $sql->select("call sp_EventTask_save(:address_id, :person_id, :street_address, :street_number, :street_complement, 
-                :district_name, :city_name, :state_name, :country_name, :zipcode_number)", [
-                ':address_id'=>(int) $this->getaddress_id(),
-                ':person_id'=>(int) $this->getperson_id(),
-                ':street_address'=>$this->getstreet_address(),
-                ':street_number'=>$this->getstreet_number(),                
-                ':street_complement'=>$this->getstreet_complement(),
-                ':district_name'=>$this->getdistrict_name(),
-                ':city_name'=>$this->getcity_name(),
-                ':state_name'=>$this->getstate_name(),
-                ':country_name'=>$this->getcountry_name(),
-                ':zipcode_number'=>(int) $this->getzipcode_number()
+        $results = $sql->select("SELECT sql_calc_found_rows *  
+        FROM tb_eventtasks a 
+        WHERE a.event_id = :event_id AND a.task_id = :task_id
+        ORDER BY a.event_id, a.task_id
+        ", [
+            ':event_id'=>$event_id,
+            ':task_id'=>$task_id
         ]);
 
         if (count($results) > 0) 
@@ -72,10 +26,125 @@ class EventTask extends Model {
         }
         else 
         {
-            Address::setNotification("Erro na Inclusão ou Atualização de Tarefas.","error");
+            EventTask::setNotification("Erro na função getEventTasks(:event_id, :task_id) ","error");
+        }
+
+    }
+
+    public static function getSectionTask()
+    {
+
+        $sql = new Sql();
+
+        $results = $sql->select("SELECT * 
+            FROM tb_section_task 
+            ORDER BY  section_task_id");
+
+       return $results;
+    }
+
+    public static function statusTasks() 
+    {
+        $status = array(
+            array(
+                'status_id' => '0',
+                'status_name' => 'inicial',
+                'status_color' => 'info',
+            ),
+            array(
+                'status_id' => '1',
+                'status_name' => 'em dia',
+                'status_color' => 'success',
+            ),
+            array(
+                'status_id' => '2',
+                'status_name' => 'pendente',
+                'status_color' => 'warning',
+            ),
+            array(
+                'status_id' => '3',
+                'status_name' => 'inicial',
+                'status_color' => 'danger',
+            )
+        );
+
+        return $status;
+    }
+
+    public function save()
+    {
+        $sql = new Sql();
+ 
+        $results = $sql->select("call sp_eventtask_save(
+            :event_id, 
+            :task_id
+            :task_section_id, 
+            :task_name, 
+            :task_status, 
+            :task_duration, 
+            :task_start, 
+            :task_finish, 
+            :task_completed, 
+            :task_responsible, 
+            :task_showboard, 
+            :task_showcustomer
+            )", [
+            ':event_id'=>(int) $this->getevent_id(),
+            ':task_id'=>(int) $this->gettask_id(),
+            ':task_section_id'=> (int) $this->gettask_section_id(),
+            ':task_name'=>$this->gettask_name(),                
+            ':task_status'=>(int) $this->gettask_status(),
+            ':task_duration'=>(int) $this->gettask_duration(),
+            ':task_start'=>convertdate($this->gettask_start()),
+            ':task_finish'=>convertdate($this->gettask_finish()),
+            ':task_completed'=>(int) $this->gettask_completed(),
+            ':task_responsible'=>$this->gettask_responsible(),            
+            ':task_showboard'=> $this->gettask_showboard(),           
+            ':task_showcustomer'=> $this->gettask_showcustomer()
+        ]);
+
+
+        $teste = [
+            ':event_id'=>(int) $this->getevent_id(),
+            ':task_id'=>(int) $this->gettask_id(),
+            ':task_section_id'=> (int) $this->gettask_section_id(),
+            ':task_name'=>$this->gettask_name(),                
+            ':task_status'=>(int) $this->gettask_status(),
+            ':task_duration'=>(int) $this->gettask_duration(),
+            ':task_start'=>convertdate($this->gettask_start()),
+            ':task_finish'=>convertdate($this->gettask_finish()),
+            ':task_completed'=>(int) $this->gettask_completed(),
+            ':task_responsible'=>$this->gettask_responsible(),            
+            ':task_showboard'=> $this->gettask_showboard(),           
+            ':task_showcustomer'=> $this->gettask_showcustomer()
+        ];
+        var_dump($teste);
+        echo "<br>";
+        var_dump($results);
+        exit;
+ 
+
+        if (count($results) > 0) 
+        {
+            $this->setValues($results[0]);
+        }
+        else 
+        {
+            EventTask::setNotification("Erro na Inclusão ou Atualização de Tarefas.","error");
         }
     }
 
+    public function delete() {
+
+        $sql = new Sql();
+
+        $sql->select("DELETE FROM tb_eventtasks WHERE event_id = :event_id AND task_id = :task_id;", array(
+            ":event_id"=>$this->getevent_id(),
+            ":task_id"=>$this->gettask_id()
+        ));
+
+
+    }
     
 public static function getPage($event_id, $searchtype, $page = 1, $itensPerPage = 18)
 {
@@ -88,9 +157,8 @@ public static function getPage($event_id, $searchtype, $page = 1, $itensPerPage 
     {
         $results = $sql->select("SELECT sql_calc_found_rows *  
             FROM tb_eventtasks a 
-            INNER JOIN tb_persons b on a.task_responsible = b.person_id 
             WHERE a.event_id = :event_id
-            ORDER BY a.task_id
+            ORDER BY a.event_id, a.task_id
             LIMIT $start , $itensPerPage;
             ", [
                 ':event_id'=>$event_id
@@ -100,10 +168,9 @@ public static function getPage($event_id, $searchtype, $page = 1, $itensPerPage 
     {
         $results = $sql->select("SELECT sql_calc_found_rows *  
             FROM tb_eventtasks a 
-            INNER JOIN tb_persons b on a.task_responsible = b.person_id 
             WHERE a.event_id = :event_id 
             AND a.task_type_id = :searchtype
-            ORDER BY a.task_id  
+            ORDER BY a.event_id, a.task_id  
             LIMIT $start , $itensPerPage;
             ", [
                 ':event_id'=>$event_id,
@@ -130,13 +197,12 @@ public static function getPageSearch($event_id, $search, $searchtype, $page = 1,
     {
 
         $results = $sql->select("SELECT sql_calc_found_rows *  
-        FROM tb_eventtasks a 
-        INNER JOIN tb_persons b on a.task_responsible = b.person_id 
+        FROM tb_eventtasks a  
         WHERE a.event_id = :event_id
         AND ( a.task_name LIKE :search 
         OR a.task_status LIKE :search 
         OR a.task_responsible LIKE :search ) 
-        ORDER BY a.task_id 
+        ORDER BY a.event_id, a.task_id 
         LIMIT $start , $itensPerPage;
         ", [
             ':event_id'=>$event_id,
@@ -147,13 +213,12 @@ public static function getPageSearch($event_id, $search, $searchtype, $page = 1,
     {
         $results = $sql->select("SELECT sql_calc_found_rows *  
         FROM tb_eventtasks a 
-        INNER JOIN tb_persons b on a.task_responsible = b.person_id 
         WHERE a.event_id = :event_id
         AND ( a.task_name LIKE :search 
         OR a.task_status LIKE :search 
         OR a.task_responsible LIKE :search )
         AND a.task_type_id = :searchtype  
-        ORDER BY a.task_id 
+        ORDER BY a.event_id, a.task_id
         LIMIT $start , $itensPerPage;
         ", [
             ':event_id'=>$event_id,

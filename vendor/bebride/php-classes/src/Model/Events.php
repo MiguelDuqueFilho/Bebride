@@ -40,10 +40,14 @@ class Events extends Model
             ":event_id"=>$event_id
         ));
 
-
-        $data = $results[0];
-
-        $this->setValues($data);
+        if (count($results) > 0) 
+        {
+            $this->setValues($results[0]);
+        }
+        else 
+        {
+            Events::setNotification("Erro na Função getEvent() Event:".$event_id,"error");
+        }
 
     }
 
@@ -67,7 +71,7 @@ class Events extends Model
         }
         else 
         {
-            Address::setNotification("Erro na Inclusão ou Atualização do Evento.","error");
+            Events::setNotification("Erro na Inclusão ou Atualização do Evento.","error");
         }
     }
 
