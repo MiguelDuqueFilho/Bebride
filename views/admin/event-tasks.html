@@ -61,8 +61,9 @@
                         <th>Duração</th>
                         <th>Inicio</th>
                         <th>Fim</th>
-                        <th>%</th>
+                        <th>% Tarefa</th>
                         <th>Responsável</th>
+                        <Th class="text-center" >Ações</Th>
                       </thead>
                       <tbody>
                         {loop="$eventtasks"}
@@ -82,7 +83,7 @@
                             </div>
                           </td>
                           <td width="5%">{$value.task_responsible}</td>
-                          <td width="10%" class="td-actions text-right">
+                          <td width="10%" class="td-actions text-center">
                             <a  href="/admin/events/{$value.event_id}/eventtasks/{$value.task_id}/update" >
                               <button type="button" rel="tooltip" title="Atualizar Evento" class="btn btn-primary btn-link btn-sm">
                                 <i class="material-icons">edit</i>
@@ -101,15 +102,24 @@
                   </div>
                 </div>
               </div>
-            
               <div> 
-                <nav aria-label="...">
-                    <ul class="pagination" >
+                <div class="row">
+                  <div class="col-md-10">
+                    <nav aria-label="...">
+                      <ul class="pagination">
                         {loop="$pages"}
-                        <li class="page-item text-primary {$value.active} " ><a class="page-link" href="{$value.href}">{$value.text}</a></li>
+                        <li class="page-item text-primary {$value.active} "><a class="page-link" href="{$value.href}">{$value.text}</a>
+                        </li>
                         {/loop}
-                    </ul>
-                </nav>
+                      </ul>
+                    </nav>
+                  </div>
+                  <div class="col-md-2">
+                    <a class="nav-link justify-content-end" href="/admin/events">
+                      <i class="material-icons" data-notify="icon">backspace</i> Voltar
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

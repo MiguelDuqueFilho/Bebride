@@ -16,23 +16,24 @@
                   <div class="table-responsive">
                     <table class="table table-hover">
                       <thead class=" text-primary">
-                        <th>ID</th>
+                        <th>#</th>
                         <th>Nome</th>                        
                         <th>Login</th>
                         <th>Email</th>
                         <th>Telefone</th>
                         <th>Tipo</th>
+                        <Th class="text-center" >Ações</Th>
                       </thead>
                       <tbody>
                         {loop="$users"}
                         <tr>
-                          <td>{$value.user_id}</td>
+                          <td>#{$value.user_id}</td>
                           <td>{$value.person_fullname}</td>
                           <td>{$value.login_name}</td>
                           <td>{$value.person_email}</td>
                           <td>{$value.person_phone}</td>
                           <td>{$value.user_type_name}</td>
-                          <td class="td-actions text-right">
+                          <td class="td-actions text-center">
                             <a  href="/admin/user/{$value.user_id}/address/create" >
                               <button type="button" rel="tooltip" title="Endereço" class="btn btn-primary btn-link btn-sm">
                                 <i class="material-icons">my_location</i>
@@ -62,13 +63,23 @@
                 </div>
               </div>
               <div> 
-                <nav aria-label="...">
-                    <ul class="pagination" >
-                        {loop="$pages"}
-                        <li class="page-item text-primary {$value.active} " ><a class="page-link" href="{$value.href}">{$value.text}</a></li>
-                        {/loop}
-                    </ul>
-                </nav>
+                  <div class="row">
+                    <div class="col-md-10">
+                      <nav aria-label="...">
+                        <ul class="pagination">
+                          {loop="$pages"}
+                          <li class="page-item text-primary {$value.active} "><a class="page-link" href="{$value.href}">{$value.text}</a>
+                          </li>
+                          {/loop}
+                        </ul>
+                      </nav>
+                    </div>
+                    <div class="col-md-2">
+                      <a class="nav-link justify-content-end" href="/admin">
+                        <i class="material-icons" data-notify="icon">backspace</i> Voltar
+                      </a>
+                    </div>
+                  </div>
               </div>
             </div>
           </div>

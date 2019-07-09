@@ -75,20 +75,10 @@ class EventTask extends Model {
     {
         $sql = new Sql();
  
-        $results = $sql->select("call sp_eventtask_save(
-            :event_id, 
-            :task_id
-            :task_section_id, 
-            :task_name, 
-            :task_status, 
-            :task_duration, 
-            :task_start, 
-            :task_finish, 
-            :task_completed, 
-            :task_responsible, 
-            :task_showboard, 
-            :task_showcustomer
-            )", [
+       
+        $results = $sql->select("call sp_eventtask_save(:event_id, :task_id, :task_section_id, :task_name, :task_status, 
+            :task_duration, :task_start, :task_finish, :task_completed, :task_responsible, :task_showboard, :task_showcustomer)", 
+            [
             ':event_id'=>(int) $this->getevent_id(),
             ':task_id'=>(int) $this->gettask_id(),
             ':task_section_id'=> (int) $this->gettask_section_id(),
@@ -104,25 +94,6 @@ class EventTask extends Model {
         ]);
 
 
-        $teste = [
-            ':event_id'=>(int) $this->getevent_id(),
-            ':task_id'=>(int) $this->gettask_id(),
-            ':task_section_id'=> (int) $this->gettask_section_id(),
-            ':task_name'=>$this->gettask_name(),                
-            ':task_status'=>(int) $this->gettask_status(),
-            ':task_duration'=>(int) $this->gettask_duration(),
-            ':task_start'=>convertdate($this->gettask_start()),
-            ':task_finish'=>convertdate($this->gettask_finish()),
-            ':task_completed'=>(int) $this->gettask_completed(),
-            ':task_responsible'=>$this->gettask_responsible(),            
-            ':task_showboard'=> $this->gettask_showboard(),           
-            ':task_showcustomer'=> $this->gettask_showcustomer()
-        ];
-        var_dump($teste);
-        echo "<br>";
-        var_dump($results);
-        exit;
- 
 
         if (count($results) > 0) 
         {
