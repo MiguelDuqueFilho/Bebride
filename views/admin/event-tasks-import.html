@@ -1,0 +1,141 @@
+{include="dashboard-menu"}
+        <div class="content main-content" >
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="card ">
+                          <div class="card-header card-header-primary">
+                              <h4 class="card-title">Importar Tarefas Evento</h4>
+                              <p class="card-category">Importar tarefas modelo para um evento expecífico. pode também filtrar por seção.</p>
+                          </div>
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <div class="card" >
+                                      <div class="card-header  card-header-info card-header-tabs" >
+                                        <div class="col-md-12">
+                                            <h4 class="card-title ">Lista de Tarefas Modelo Seções</h4>
+                                            <p class="card-category"> Tarefas modelo</p>
+                                        </div>
+                                      </div>
+                                      <div class="card-body">
+                                          <div class="table-responsive">
+                                            <table class="table table-hover table_task">
+                                              <thead class=" text-primary">
+                                                <th hidden>Evento</th>
+                                                <th>#</th>
+                                                <th>Nome</th>
+                                                <th>Duração</th>
+                                                <th>Inicio</th>
+                                                <th>Fim</th>
+                                                <Th class="text-center" >Ações</Th>
+                                              </thead>
+                                              <tbody>
+                                                {loop="$eventtasks"}
+                                                <tr>
+                                                  <td hidden>{$value.event_id}</td>
+                                                  <td width="5%" >#{$value.task_id}</td>
+                                                  <td width="30%" data-toggle="tooltip" title="{$value.section_task_name}" >{$value.task_name}</td>
+                                                  <td width="5%">{$value.task_duration} dia(s)</td>
+                                                  <td width="5%">{function="formatDate($value.task_start)"}</td>
+                                                  <td width="5%">{function="formatDate($value.task_finish)"}</td>
+                                                  <td width="10%" class="td-actions text-center">
+                                                    <a  href="#" >
+                                                      <button type="button" rel="tooltip" title="Importar Tarefa" class="btn btn-primary btn-link btn-sm">
+                                                        <i class="material-icons">arrow_forward</i>
+                                                      </button>
+                                                    </a>
+                                                  </td>
+                                                </tr>
+                                                {/loop}
+                                              </tbody>
+                                            </table>
+                                        </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="card" >
+                                    <div class="card-header  card-header-warning card-header-tabs" >
+                                      <div class="col-md-12">
+                                          <h4 class="card-title ">Lista de Tarefas Evento: Casamento xxxxxxxxx</h4>
+                                          <p class="card-category"> Tarefas Evento</p>
+                                      </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                          <table class="table table-hover table_task">
+                                            <thead class=" text-primary">
+                                              <th hidden>Evento</th>
+                                              <Th class="text-center" >Ações</Th>
+                                              <th>#</th>
+                                              <th>Nome</th>
+                                              <th>Duração</th>
+                                              <th>Inicio</th>
+                                              <th>Fim</th>
+                                            </thead>
+                                            <tbody>
+                                              {loop="$eventtasks"}
+                                              <tr>
+                                              <td width="15%" class="td-actions text-center">
+                                                  <a  href="#" >
+                                                    <button type="button" rel="tooltip" title="Importar Tarefa" class="btn btn-primary btn-link btn-sm">
+                                                      <i class="material-icons">arrow_back</i>
+                                                    </button>
+                                                  </a>
+                                                </td>
+                                                <td hidden>{$value.event_id}</td>
+                                                <td width="5%" >#{$value.task_id}</td>
+                                                <td width="30%" data-toggle="tooltip" title="{$value.section_task_name}" >{$value.task_name}</td>
+                                                <td width="5%">{$value.task_duration} dia(s)</td>
+                                                <td width="5%">{function="formatDate($value.task_start)"}</td>
+                                                <td width="5%">{function="formatDate($value.task_finish)"}</td>
+                                              </tr>
+                                              {/loop}
+                                            </tbody>
+                                          </table>
+                                      </div>
+                                    </div>
+                                </div>
+                              </div>
+                          </div> 
+                          <div class="row">
+                            <div class="col-md-6">
+                              <nav aria-label="...">
+                                <ul class="pagination">
+                                  {loop="$pages"}
+                                  <li class="page-item text-primary {$value.active} "><a class="page-link" href="{$value.href}">{$value.text}</a>
+                                  </li>
+                                  {/loop}
+                                </ul>
+                              </nav>
+                            </div>
+                            <div class="col-md-4">
+                                <nav aria-label="...">
+                                  <ul class="pagination">
+                                    {loop="$pages"}
+                                    <li class="page-item text-primary {$value.active} "><a class="page-link" href="{$value.href}">{$value.text}</a>
+                                    </li>
+                                    {/loop}
+                                  </ul>
+                                </nav>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <a class="nav-link text-right" href="/admin/events/xxxxxxxx/eventtasks">
+                      <i class="material-icons" data-notify="icon">backspace</i> Voltar
+                    </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+<script>
+    document.getElementById('searchsection').addEventListener('change', function() {
+        this.form.submit();
+    });
+</script>
+   

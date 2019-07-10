@@ -3,16 +3,22 @@
           <div class="container-fluid">
               <div class="row">
                   <div class="col-md-3"></div>
-                  <div class="col-md-5">
-                    <a class="nav-link justify-content-end" href="/admin/events/{$event['event_id']}/eventtasks/create">
+                  <div class="col-md-2">
+                      <a class="nav-link justify-content-end" href="/admin/events/{$event['event_id']}/eventtasks/create">
+                          <i class="material-icons">event</i>
+                          <p>Criar Tarefa</p>
+                      </a>        
+                  </div>
+                  <div class="col-md-4">
+                    <a class="nav-link justify-content-end" href="/admin/events/{$event['event_id']}/eventtasks/import">
                         <i class="material-icons">event</i>
-                        <p>Criar Tarefa</p>
+                        <p>Importar Tarefas Modelo</p>
                     </a>        
-                </div>
-                <div class="col-md-3">
+                  </div>
+                  <div class="col-md-3">
                     <form id="form" name="form"  class="navbar-form"  action="/admin/events/{$event['event_id']}/eventtasks" method="get">
                         <div class="form-group"> 
-                            <label class="bmd-label-floating">Seção de Tarefas</label>      
+                            <label class="bmd-label-floating text-primary">Seção de Tarefas</label>      
                                 <select id="searchsection" name="searchsection" class="form-control" onchange="this.form.submit()" >
                                 <option  value="0" {if="$searchsection == '0'"} selected {/if}  > Todos os eventos </option>
                                 {loop="$sessiontask"}
@@ -46,8 +52,10 @@
                 <div class="card" >
                   <div class="card-header  card-header-primary card-header-tabs" >
                     <div class="col-md-12">
-                        <h4 class="card-title ">Lista de Tarefas</h4>
-                        <p class="card-category"> Tarefas por evento.</p>
+                        <h4 class="card-title ">Lista de Tarefas Eventos</h4>
+                        <p class="card-category"> Tarefas para este evento específico. classificado por numero de evento.
+                          Voce também pode selecionar por seção.
+                        </p>
                     </div>
                   </div>
                 <div class="card-body">

@@ -214,6 +214,54 @@ $app->get('/admin/events/:event_id/eventtasks', function($event_id) {
 	));
 
 });
+
+
+
+
+
+$app->get('/admin/events/:event_id/eventtasks/import', function($event_id) {
+
+	User::verifyLogin(1);
+
+	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
+	
+	$searchSection = (isset($_GET['searchsection'])) ? $_GET['searchsection'] : "0";
+
+	$page = (isset($_GET['page'])) ? (int)$_GET['page'] : 1 ;
+
+	if ($search != "")
+	{
+		
+		$pagination = EventTask::getPageSearch($event_id, $search, $searchSection, $page);
+	}
+	else
+	{
+		$pagination = EventTask::getPage($event_id, $searchSection, $page);
+	}
+
+	$event = new Events();
+
+	$event->getEvent((int) $event_id);
+
+	$href = '/admin/events/'.$event_id.'/eventtasks?';
+
+	$pages = [];
+
+	$pages = EventTask::calcPageMenu($page, $pagination, $search, $href);
+
+	$page = new PageAdmin();
+
+	$page->setTpl("event-tasks-import", array(
+		"notification"=>EventTask::getNotification(),
+		"event"=>$event->getValues(),
+		"eventtasks"=>$pagination['data'],
+		'sessiontask'=>EventTask::getSectionTask(),
+		'search'=>$search,
+		'searchsection'=>$searchSection,
+		'pages'=>$pages
+	));
+
+});
  
 // ***************  modelo de tasks ****************************
 
