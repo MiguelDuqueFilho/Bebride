@@ -166,7 +166,7 @@ $app->get('/admin/events/:event_id/eventtasks/:eventtask_id/delete', function($e
 
 	$event_task->setNotification("Tarefa excluida com sucesso.",'success');
 
-	header("Location: /admin/events/".$event_id."/eventtasks");
+	header("Location: /admin/modeltasks");
 	exit;
 });
 
@@ -218,7 +218,7 @@ $app->get('/admin/events/:event_id/eventtasks', function($event_id) {
 // ***************  modelo de tasks ****************************
 
 
-$app->get('/admin/moldeltasks', function() {
+$app->get('/admin/modeltasks', function() {
 
 	User::verifyLogin(1);
 
@@ -246,12 +246,100 @@ $app->get('/admin/moldeltasks', function() {
 	$page->setTpl("model-tasks", array(
 		"notification"=>ModelTask::getNotification(),
 		"modeltasks"=>$pagination['data'],
-		'sessiontask'=>ModelTask::getSectionTask(),
+		'sessiontask'=>EventTask::getSectionTask(),
 		'search'=>$search,
 		'searchsection'=>$searchSection,
 		'pages'=>$pages
 	));
 
+});
+
+
+$app->get('/admin/modeltasks/create', function() {
+
+	User::verifyLogin(1);
+
+	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
+
+	$page = new PageAdmin();
+
+	$page->setTpl("model-task-create", array(
+		"notification"=>ModelTask::getNotification(),
+		'search'=>$search,
+		'sessiontask'=>EventTask::getSectionTask()
+	));    
+
+});
+
+
+$app->post('/admin/modeltasks/create', function() {
+
+	User::verifyLogin(1);
+
+	$modeltask = new ModelTask();
+
+	$modeltask->setValues($_POST);
+
+	$modeltask->save();
+
+	header("Location: /admin/modeltasks");
+ 	exit;
+});    
+
+
+$app->get('/admin/modeltasks/:modeltask_id/update', function($modeltask_id) {
+
+	User::verifyLogin(1);
+
+	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
+
+	$modeltask = new ModelTask();
+
+	$modeltask->getModelTasks($modeltask_id);
+
+	$page = new PageAdmin();
+
+	$page->setTpl("model-task-update", array(
+		"notification"=>EventTask::getNotification(),
+		'search'=>$search,
+		'section'=>EventTask::getSectionTask(),
+		'modeltask'=>$modeltask->getValues()
+	));    
+});    
+
+
+$app->post('/admin/modeltasks/:modeltask_id/update', function($modeltask_id) {
+
+	User::verifyLogin(1);
+
+	$event_task = new ModelTask();
+
+	$event_task->setValues($_POST);
+
+
+	$event_task->setmodeltask_id($modeltask_id);
+
+	$event_task->save();
+
+	header("Location: /admin/modeltasks");
+ 	exit;
+});    
+
+
+$app->get('/admin/modeltasks/:modeltask_id/delete', function($modeltask_id) {
+
+	User::verifyLogin(1);
+
+	$modeltask = new ModelTask();
+
+	$modeltask->setmodeltask_id($modeltask_id);
+
+	$modeltask->delete();
+
+	$modeltask->setNotification("Tarefa excluida com sucesso.",'success');
+
+	header("Location: /admin/modeltasks");
+	exit;
 });
 
 ?>

@@ -8,7 +8,7 @@ use \BeBride\Model;
 class ModelTask extends Model 
 {
 
-    public function getTasks($related = true)
+    public function getRelationTask($related = true)
     {
         $sql = new Sql();
 
@@ -40,20 +40,17 @@ class ModelTask extends Model
 
 
 
-    public function getEventTasks($event_id, $task_id) 
+    public function getModelTasks($modeltask_id) 
     {
 
         $sql = new Sql();
         
-        $results = $sql->select("SELECT sql_calc_found_rows *  
-        FROM tb_eventtasks a 
-        INNER JOIN tb_statustask b on b.status_task_id = a.task_status_id
-        INNER JOIN tb_section_task c on c.section_task_id = a.task_section_id
-        WHERE a.event_id = :event_id AND a.task_id = :task_id
-        ORDER BY a.event_id, a.task_id
+        $results = $sql->select("SELECT *  
+        FROM tb_modeltasks a 
+        INNER JOIN tb_section_task b on b.section_task_id = a.modeltask_section_id
+        WHERE a.modeltask_id = :modeltask_id
         ", [
-            ':event_id'=>$event_id,
-            ':task_id'=>$task_id
+            ':modeltask_id'=>$modeltask_id
         ]);
 
         if (count($results) > 0) 
@@ -62,57 +59,38 @@ class ModelTask extends Model
         }
         else 
         {
-            EventTask::setNotification("Erro na função getEventTasks(:event_id, :task_id) ","error");
+            ModelTask::setNotification("Erro na função getModelTasks(:getModelTasks) ","error");
         }
 
     }
 
-    public static function getSectionTask()
-    {
-
-        $sql = new Sql();
-
-        $results = $sql->select("SELECT * 
-            FROM tb_section_task 
-            ORDER BY  section_task_id");
-
-       return $results;
-    }
-
-    public static function statusTasks() 
-    {
-
-        $sql = new Sql();
-
-        $results = $sql->select("SELECT * 
-            FROM tb_statustask 
-            ORDER BY  status_task_id");
-
-        return $results;
-    }
 
     public function save()
     {
         $sql = new Sql();
  
        
-        $results = $sql->select("call sp_eventtask_save(:event_id, :task_id, :task_section_id, :task_name, :task_status, 
-            :task_duration, :task_start, :task_finish, :task_completed, :task_responsible, :task_showboard, :task_showcustomer)", 
+        $results = $sql->select("call sp_modeltasks_save(
+            :modeltask_id,
+            :modeltask_section_id,
+            :modeltask_name, 
+            :modeltask_duration, 
+            :modeltask_predecessors,
+            :modeltask_successors,
+            :modeltask_responsible, 
+            :modeltask_showboard,
+            :modeltask_showcustomer)", 
             [
-            ':event_id'=>(int) $this->getevent_id(),
-            ':task_id'=>(int) $this->gettask_id(),
-            ':task_section_id'=> (int) $this->gettask_section_id(),
-            ':task_name'=>$this->gettask_name(),                
-            ':task_status'=>(int) $this->gettask_status(),
-            ':task_duration'=>(int) $this->gettask_duration(),
-            ':task_start'=>convertdate($this->gettask_start()),
-            ':task_finish'=>convertdate($this->gettask_finish()),
-            ':task_completed'=>(int) $this->gettask_completed(),
-            ':task_responsible'=>$this->gettask_responsible(),            
-            ':task_showboard'=> $this->gettask_showboard(),           
-            ':task_showcustomer'=> $this->gettask_showcustomer()
+            ':modeltask_id'=>(int) $this->getmodeltask_id(),
+            ':modeltask_section_id'=>(int) $this->getmodeltask_section_id(),
+            ':modeltask_name'=>$this->getmodeltask_name(),
+            ':modeltask_duration'=>(int) $this->getmodeltask_duration(),                
+            ':modeltask_predecessors'=>(int) $this->getmodeltask_predecessors(),
+            ':modeltask_successors'=>(int) $this->getmodeltask_successors(),
+            ':modeltask_responsible'=>$this->getmodeltask_responsible(),
+            ':modeltask_showboard'=>(int) $this->getmodeltask_showboard(),
+            ':modeltask_showcustomer'=>(int) $this->getmodeltask_showcustomer()
         ]);
-
 
 
         if (count($results) > 0) 
@@ -121,7 +99,7 @@ class ModelTask extends Model
         }
         else 
         {
-            EventTask::setNotification("Erro na Inclusão ou Atualização de Tarefas.","error");
+            ModelTask::setNotification("Erro na Inclusão ou Atualização de Tarefas.","error");
         }
     }
 
@@ -129,13 +107,13 @@ class ModelTask extends Model
 
         $sql = new Sql();
 
-        $sql->select("DELETE FROM tb_modeltasks WHERE modeltask_id = :event_id", array(
-            ":task_id"=>$this->gettask_id()
+        $sql->select("DELETE FROM tb_modeltasks WHERE modeltask_id = :modeltask_id", array(
+            ":modeltask_id"=>$this->getmodeltask_id()
         ));
 
     }
     
-public static function getPage( $searchsection, $page = 1, $itensPerPage = 18)
+public static function getPage( $searchsection, $page = 1, $itensPerPage = 15)
 {
 
     $start = ($page - 1) * $itensPerPage; 
@@ -171,7 +149,7 @@ public static function getPage( $searchsection, $page = 1, $itensPerPage = 18)
         ];
 }
 
-public static function getPageSearch($search, $searchsection, $page = 1, $itensPerPage = 18)
+public static function getPageSearch($search, $searchsection, $page = 1, $itensPerPage = 15)
 {
 
     $start = ($page - 1) * $itensPerPage; 
@@ -184,23 +162,25 @@ public static function getPageSearch($search, $searchsection, $page = 1, $itensP
         $results = $sql->select("SELECT sql_calc_found_rows *  
         FROM tb_modeltasks a  
         INNER JOIN tb_section_task b on b.section_task_id = a.modeltask_section_id
-        WHERE a.modeltask_name LIKE :search 
-        OR a.task_responsible LIKE :search 
+        WHERE ( a.modeltask_name LIKE :search 
+        OR a.modeltask_responsible LIKE :search 
+        OR b.section_task_name LIKE :search )
         ORDER BY a.modeltask_id 
         LIMIT $start , $itensPerPage;
         ", [
-            ':search'=>'%'.$search.'%'
+            ':search'=>'%'.$search.'%', 
         ]);
     }
     else 
     {
         $results = $sql->select("SELECT sql_calc_found_rows *  
-        FROM tb_eventtasks a 
+        FROM tb_modeltasks a 
         INNER JOIN tb_statustask b on b.status_task_id = a.task_status_id
         INNER JOIN tb_section_task c on c.section_task_id = a.task_section_id
-        WHERE ( a.modeltask_name LIKE :search 
-        OR a.task_responsible LIKE :search )
-        AND a.task_section_id = :searchsection  
+        WHERE a.modeltask_section_id = :searchsection 
+        AND ( a.modeltask_name LIKE :search 
+        OR a.task_responsible LIKE :search
+        OR b.section_task_name LIKE :search  )
         ORDER BY a.modeltask_id
         LIMIT $start , $itensPerPage;
         ", [

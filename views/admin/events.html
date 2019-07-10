@@ -14,7 +14,7 @@
                   </div>
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table class="table table-hover table_task">
                       <thead class=" text-primary">
                         <th>#</th>
                         <th>Tipo</th>                        
@@ -55,25 +55,23 @@
                   </div>
                 </div>
               </div>
-              <div> 
-                <div class="row">
-                    <div class="col-md-10">
-                      <nav aria-label="...">
-                        <ul class="pagination">
-                          {loop="$pages"}
-                          <li class="page-item text-primary {$value.active} "><a class="page-link" href="{$value.href}">{$value.text}</a>
-                          </li>
-                          {/loop}
-                        </ul>
-                      </nav>
-                    </div>
-                    <div class="col-md-2">
-                      <a class="nav-link justify-content-end" href="/admin">
-                        <i class="material-icons" data-notify="icon">backspace</i> Voltar
-                      </a>
-                    </div>
-                  </div>
-                </div>
+            </div>
+          </div> 
+          <div class="row">
+            <div class="col-md-10">
+              <nav aria-label="...">
+                <ul class="pagination">
+                  {loop="$pages"}
+                  <li class="page-item text-primary {$value.active} "><a class="page-link" href="{$value.href}">{$value.text}</a>
+                  </li>
+                  {/loop}
+                </ul>
+              </nav>
+            </div>
+            <div class="col-md-2">
+              <a class="nav-link text-right" href="/admin">
+                <i class="material-icons" data-notify="icon">backspace</i> Voltar
+              </a>
             </div>
           </div>
         </div>

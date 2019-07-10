@@ -14,12 +14,11 @@ class EventTask extends Model
 
         $sql = new Sql();
         
-        $results = $sql->select("SELECT sql_calc_found_rows *  
+        $results = $sql->select("SELECT *  
         FROM tb_eventtasks a 
         INNER JOIN tb_statustask b on b.status_task_id = a.task_status_id
         INNER JOIN tb_section_task c on c.section_task_id = a.task_section_id
         WHERE a.event_id = :event_id AND a.task_id = :task_id
-        ORDER BY a.event_id, a.task_id
         ", [
             ':event_id'=>$event_id,
             ':task_id'=>$task_id
@@ -106,7 +105,7 @@ class EventTask extends Model
 
     }
     
-public static function getPage($event_id, $searchsection, $page = 1, $itensPerPage = 18)
+public static function getPage($event_id, $searchsection, $page = 1, $itensPerPage = 15)
 {
 
     $start = ($page - 1) * $itensPerPage; 
@@ -150,7 +149,7 @@ public static function getPage($event_id, $searchsection, $page = 1, $itensPerPa
         ];
 }
 
-public static function getPageSearch($event_id, $search, $searchsection, $page = 1, $itensPerPage = 18)
+public static function getPageSearch($event_id, $search, $searchsection, $page = 1, $itensPerPage = 15)
 {
 
     $start = ($page - 1) * $itensPerPage; 

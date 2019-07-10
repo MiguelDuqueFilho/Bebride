@@ -1,30 +1,30 @@
 {include="dashboard-menu"}
-        <div class="content main-content" >
-          <div class="container-fluid">
-              <div class="row">
-                  <div class="col-md-8">
-                    <a class="nav-link justify-content-end" href="/admin/modeltasks/create">
-                        <i class="material-icons">event</i>
-                        <p>Criar Tarefa Modelo</p>
-                    </a>        
-                </div>
-                <div class="col-md-3">
-                    <form id="form" name="form"  class="navbar-form"  action="/admin/moldeltasks" method="get">
-                        <div class="form-group"> 
-                            <label class="bmd-label-floating">Seção de Tarefas</label>      
-                                <select id="searchsection" name="searchsection" class="form-control" onchange="this.form.submit()" >
-                                <option  value="0" {if="$searchsection == '0'"} selected {/if} > Todos os eventos </option>
-                                {loop="$sessiontask"}
-                                    <option  value="{$value.section_task_id}" {if="$searchsection == $value.section_task_id"} 
-                                    selected {/if} > {$value.section_task_name} </option>
-                                {/loop}
-                            </select>
-                        </div>
-                    </form>
-                </div>
+      <div class="content main-content" >
+        <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-8">
+                <a class="nav-link justify-content-end" href="/admin/modeltasks/create">
+                    <i class="material-icons">event</i>
+                    <p>Criar Tarefa Modelo</p>
+                </a>        
+              </div>
+              <div class="col-md-3">
+                  <form id="form" name="form"  class="navbar-form"  action="/admin/modeltasks" method="get">
+                      <div class="form-group"> 
+                          <label class="bmd-label-floating">Seção de Tarefas</label>      
+                              <select id="searchsection" name="searchsection" class="form-control" onchange="this.form.submit()" >
+                              <option  value="0" {if="$searchsection == '0'"} selected {/if} > Todos os eventos </option>
+                              {loop="$sessiontask"}
+                                  <option  value="{$value.section_task_id}" {if="$searchsection == $value.section_task_id"} 
+                                  selected {/if} > {$value.section_task_name} </option>
+                              {/loop}
+                          </select>
+                      </div>
+                  </form>
+              </div>
             </div>
             <div class="row">
-                <div class="col-md-12">      
+              <div class="col-md-12">      
                 <div class="card" >
                   <div class="card-header  card-header-primary card-header-tabs" >
                     <div class="col-md-12">
@@ -51,14 +51,14 @@
                         {loop="$modeltasks"}
                         <tr>
                           <td width="5%">#{$value.modeltask_id}</td>
-                          <td width="30%">{$value.section_task_name}</td>
-                          <td width="30%">{$value.modeltask_name}</td>
+                          <td width="15%">{$value.section_task_name}</td>
+                          <td width="35%">{$value.modeltask_name}</td>
                           <td width="5%">{$value.modeltask_duration} dia(s)</td>
                           <td width="2%">{$value.modeltask_predecessors}</td>
                           <td width="2%">{$value.modeltask_successors}</td>
-                          <td width="10%">{$value.modeltask_responsible}</td>
-                          <td width="3%">{$value.modeltask_showboard}</td>
-                          <td width="3%">{$value.modeltask_showcustomer}</td>
+                          <td width="20%">{$value.modeltask_responsible}</td>
+                          <td width="3%" class="text-center">{$value.modeltask_showboard}</td>
+                          <td width="3%" class="text-center">{$value.modeltask_showcustomer}</td>
                           <td width="10%" class="td-actions text-center">
                             <a  href="/admin/modeltasks/{$value.modeltask_id}/update" >
                               <button type="button" rel="tooltip" title="Atualizar Tarefa" class="btn btn-primary btn-link btn-sm">
@@ -78,25 +78,23 @@
                   </div>
                 </div>
               </div>
-              <div> 
-                <div class="row">
-                  <div class="col-md-10">
-                    <nav aria-label="...">
-                      <ul class="pagination">
-                        {loop="$pages"}
-                        <li class="page-item text-primary {$value.active} "><a class="page-link" href="{$value.href}">{$value.text}</a>
-                        </li>
-                        {/loop}
-                      </ul>
-                    </nav>
-                  </div>
-                  <div class="col-md-2">
-                    <a class="nav-link justify-content-end" href="/admin">
-                      <i class="material-icons" data-notify="icon">backspace</i> Voltar
-                    </a>
-                  </div>
-                </div>
-              </div>
+            </div>
+          </div> 
+          <div class="row">
+            <div class="col-md-10">
+              <nav aria-label="...">
+                <ul class="pagination">
+                  {loop="$pages"}
+                  <li class="page-item text-primary {$value.active} "><a class="page-link" href="{$value.href}">{$value.text}</a>
+                  </li>
+                  {/loop}
+                </ul>
+              </nav>
+            </div>
+            <div class="col-md-2">
+                <a class="nav-link text-right" href="/admin">
+                  <i class="material-icons" data-notify="icon">backspace</i> Voltar
+                </a>
             </div>
           </div>
         </div>

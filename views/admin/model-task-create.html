@@ -2,37 +2,20 @@
 <div class="content main-content" >
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3">
-                <div class="card ">
-                <div class="card-header card-header-warning">
-                    <h4 class="card-title">{$event['event_name']}</h4>
-                    <p class="card-category">{$event['event_type_name']}</p>
-                </div>
-                <div class="card-body">
-                    <p><i class="material-icons">event</i> {function="formatDate($event['event_date'])"}</i></p>
-                    <p><i class="material-icons">flag</i> {$event['status_type_name']}</i></p>
-                </div>
-                <div class="card-footer">
-                    <div class="stats">
-                    <i class="material-icons">access_time</i> Dados Online</i>
-                    </div>
-                </div>
-                </div>
-            </div>
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header card-header-primary">
-                        <h4 class="card-title"> Criar Tarefa Evento</h4>
-                        <p class="card-category"> Inserir uma nova tarefa especifica para o evento.</p>
+                        <h4 class="card-title"> Criar Tarefa</h4>
+                        <p class="card-category"> Inserir uma nova tarefa modelo.</p>
                     </div>
                     <div class="card-body">
-                        <form class="form" action="/admin/events/{$event['event_id']}/eventtasks/create" method="post">
+                        <form class="form" action="/admin/modeltasks/create" method="post">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group"> 
                                         <label class="bmd-label-floating"> Seção da tarefa</label>      
-                                        <select type="text" class="form-control" id="task_section_id" name="task_section_id" required>
-                                            {loop="$session"}
+                                        <select type="text" class="form-control" id="modeltask_section_id" name="modeltask_section_id" required>
+                                            {loop="$sessiontask"}
                                                 <option value="{$value.section_task_id}"  > {$value.section_task_name} </option>
                                             {/loop}
                                         </select>
@@ -45,7 +28,7 @@
                                 <div class="col-md-9">
                                     <div class="form-group">
                                         <label class="bmd-label-floating"> Nome da tarefa</label>
-                                        <input type="text" class="form-control" id="task_name" name="task_name"
+                                        <input type="text" class="form-control" id="modeltask_name" name="modeltask_name"
                                             required> 
                                     </div>
                                 </div>
@@ -54,29 +37,22 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="bmd-label-floating"> Duração dia(s)</label>
-                                        <input type="number" class="form-control" id="task_duration" name="task_duration"
+                                        <input type="number" class="form-control" id="modeltask_duration" name="modeltask_duration"
                                         min="1" max="365"    required> 
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="bmd-label-static"> Data inicio.</label>
-                                        <input type="date" class="form-control" id="task_start" name="task_start" 
-                                            required>
+                                        <label class="bmd-label-floating"> Predecessor </label>
+                                        <input type="number" class="form-control" id="modeltask_predecessors" name="modeltask_predecessors" 
+                                        value="0"  min="0"   required>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="bmd-label-static"> Data Término.</label>
-                                        <input type="date" class="form-control" id="task_finish" name="task_finish" 
-                                            required>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label class="bmd-label-floating"> % Tarefa </label>
-                                        <input type="number" class="form-control" id="task_completed" name="task_completed" 
-                                        value=""    min="1" max="100"    required>
+                                        <label class="bmd-label-floating"> Sucessor </label>
+                                        <input type="number" class="form-control" id="modeltask_successors" name="modeltask_successors" 
+                                        value="0"  min="0"   required>
                                     </div>
                                 </div>
                             </div>
@@ -84,7 +60,7 @@
                                 <div class="col-md-9">
                                     <div class="form-group">
                                         <label class="bmd-label-floating"> Responsável</label>
-                                        <input type="text" class="form-control" id="task_responsible" name="task_responsible"
+                                        <input type="text" class="form-control" id="modeltask_responsible" name="modeltask_responsible"
                                             required> 
                                     </div>
                                 </div>
@@ -92,8 +68,8 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="bmd-label-floating"> Mostra em pendencias</label>      
-                                        <select type="text" class="form-control" id="task_showboard" name="task_showboard" required>
+                                        <label class="bmd-label-floating"> Mostra Pendencias </label>      
+                                        <select type="text" class="form-control" id="modeltask_showboard" name="modeltask_showboard" required>
                                             <option value="1" selected > Sim </option>
                                             <option value="0"  > Não </option>
                                         </select>
@@ -101,8 +77,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="bmd-label-floating"> Tarefa para Clientes</label>      
-                                        <select type="text" class="form-control" id="task_showcustomer" name="task_showcustomer" required>
+                                        <label class="bmd-label-floating"> Mostrar Tarefa </label>      
+                                        <select type="text" class="form-control" id="modeltask_showcustomer" name="modeltask_showcustomer" required>
                                             <option value="1"  > Sim </option>
                                             <option value="0" selected > Não </option>
                                         </select>
@@ -117,13 +93,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-9"></div>
+            <div class="col-md-6"></div>
             <div class="col-md-2">
-                <a class="nav-link text-right" href="/admin/events/{$event['event_id']}/eventtasks">
+                <a class="nav-link text-right" href="/admin/modeltasks">
                     <i class="material-icons" data-notify="icon">backspace</i> Voltar
                 </a>
             </div>
         </div>
+    
     </div>
 </div>
 

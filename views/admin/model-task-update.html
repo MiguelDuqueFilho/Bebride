@@ -1,0 +1,110 @@
+{include="dashboard-menu"}
+<div class="content main-content" >
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title"> Atualizar Tarefa</h4>
+                        <p class="card-category"> Atualizar uma tarefa modelo.</p>
+                    </div>
+                    <div class="card-body">
+                        <form class="form" action="/admin/modeltasks/{$modeltask.modeltask_id}/update" method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group"> 
+                                        <label class="bmd-label-floating"> Seção da tarefa</label>      
+                                        <select type="text" class="form-control" id="modeltask_section_id" name="modeltask_section_id" required>
+                                            {loop="$section"}
+                                                <option value="{$value.section_task_id}" {if="$value.section_task_id == $modeltask.modeltask_section_id"} selected {/if} > {$value.section_task_name} </option>
+                                            {/loop}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating"> Nome da tarefa</label>
+                                        <input type="text" class="form-control" id="modeltask_name" name="modeltask_name"
+                                        value="{$modeltask.modeltask_name}"   required> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating"> Duração dia(s)</label>
+                                        <input type="number" class="form-control" id="modeltask_duration" name="modeltask_duration"
+                                        min="1" max="365"  value="{$modeltask.modeltask_duration}"  required> 
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating"> Predecessor </label>
+                                        <input type="number" class="form-control" id="modeltask_predecessors" name="modeltask_predecessors" 
+                                        value="0"  min="0"  value="{$modeltask.modeltask_predecessors}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating"> Sucessor </label>
+                                        <input type="number" class="form-control" id="modeltask_successors" name="modeltask_successors" 
+                                        value="0"  min="0"  value="{$modeltask.modeltask_successors}"  required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating"> Responsável</label>
+                                        <input type="text" class="form-control" id="modeltask_responsible" name="modeltask_responsible"
+                                        value="{$modeltask.modeltask_responsible}"    required> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating"> Mostra Pendencias </label>      
+                                        <select type="text" class="form-control" id="modeltask_showboard" name="modeltask_showboard" required>
+                                            <option value="1" {if="$modeltask.modeltask_showboard == '1'"} selected {/if} > Sim </option>
+                                            <option value="0" {if="$modeltask.modeltask_showboard == '0'"} selected {/if} > Não </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating"> Mostrar Tarefa </label>      
+                                        <select type="text" class="form-control" id="modeltask_showcustomer" name="modeltask_showcustomer" required>
+                                            <option value="1" {if="$modeltask.modeltask_showcustomer == '1'"} selected {/if} > Sim </option>
+                                            <option value="0" {if="$modeltask.modeltask_showcustomer == '0'"} selected {/if} > Não </option>
+                                        </select>
+                                    </div>
+                                 </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary pull-right"> Atualizar Tarefa</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <a class="nav-link text-right" href="/admin/modeltasks">
+                    <i class="material-icons" data-notify="icon">backspace</i> Voltar
+                </a>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
