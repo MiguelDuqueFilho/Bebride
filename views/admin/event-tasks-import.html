@@ -5,39 +5,55 @@
                   <div class="col-md-12">
                       <div class="card ">
                           <div class="card-header card-header-primary">
-                              <h4 class="card-title">Importar Tarefas Evento</h4>
+                              <div class="row">
+                              <div class="col-md-9">
+                              <h4 class="card-title">Importar Tarefas para o Evento: <strong> {$event['event_name']} </strong></h4>
                               <p class="card-category">Importar tarefas modelo para um evento expecífico. pode também filtrar por seção.</p>
+                              </div>
+                              <div class="col-md-3">
+                                <form id="form" name="form"  class="navbar-form"  action="/admin/events/{$event['event_id']}/eventtasks/import" method="get">
+                                    <div class="form-group"> 
+                                        <label class="bmd-label-floating text-white">Seção de Tarefas</label>      
+                                            <select id="searchsection" name="searchsection" class="form-control text-white" onchange="this.form.submit()" >
+                                            <option  value="0" {if="$searchsection == '0'"} selected {/if}  > Todos os eventos </option>
+                                            {loop="$sessiontask"}
+                                                <option class="" value="{$value.section_task_id}" {if="$searchsection == $value.section_task_id"} 
+                                                selected {/if} > {$value.section_task_name} </option>
+                                            {/loop}
+                                        </select>
+                                    </div>
+                                </form>
+                              </div>
+                            </div>
                           </div>
                           <div class="row">
                               <div class="col-md-6">
                                   <div class="card" >
                                       <div class="card-header  card-header-info card-header-tabs" >
                                         <div class="col-md-12">
-                                            <h4 class="card-title ">Lista de Tarefas Modelo Seções</h4>
-                                            <p class="card-category"> Tarefas modelo</p>
-                                        </div>
+                                            <h4 class="card-title ">Lista de Tarefas Modelo</h4>
+                                            <p class="card-category">Tarefas modelo por seção</p>
+                                        </div>                      
                                       </div>
                                       <div class="card-body">
                                           <div class="table-responsive">
                                             <table class="table table-hover table_task">
                                               <thead class=" text-primary">
-                                                <th hidden>Evento</th>
                                                 <th>#</th>
                                                 <th>Nome</th>
                                                 <th>Duração</th>
-                                                <th>Inicio</th>
-                                                <th>Fim</th>
+                                                <th>Predecessor</th>
+                                                <th>Sucessor</th>
                                                 <Th class="text-center" >Ações</Th>
                                               </thead>
                                               <tbody>
-                                                {loop="$eventtasks"}
+                                                {loop="$modeltasks"}
                                                 <tr>
-                                                  <td hidden>{$value.event_id}</td>
-                                                  <td width="5%" >#{$value.task_id}</td>
-                                                  <td width="30%" data-toggle="tooltip" title="{$value.section_task_name}" >{$value.task_name}</td>
-                                                  <td width="5%">{$value.task_duration} dia(s)</td>
-                                                  <td width="5%">{function="formatDate($value.task_start)"}</td>
-                                                  <td width="5%">{function="formatDate($value.task_finish)"}</td>
+                                                  <td width="5%" >#{$value.modeltask_id}</td>
+                                                  <td width="30%" data-toggle="tooltip" title="{$value.section_task_name}" >{$value.modeltask_name}</td>
+                                                  <td width="5%">{$value.modeltask_duration} dia(s)</td>
+                                                  <td width="5%">{$value.modeltask_predecessors}</td>
+                                                  <td width="5%">{$value.modeltask_successors}</td>
                                                   <td width="10%" class="td-actions text-center">
                                                     <a  href="#" >
                                                       <button type="button" rel="tooltip" title="Importar Tarefa" class="btn btn-primary btn-link btn-sm">
@@ -57,8 +73,8 @@
                                 <div class="card" >
                                     <div class="card-header  card-header-warning card-header-tabs" >
                                       <div class="col-md-12">
-                                          <h4 class="card-title ">Lista de Tarefas Evento: Casamento xxxxxxxxx</h4>
-                                          <p class="card-category"> Tarefas Evento</p>
+                                          <h4 class="card-title">Lista de Tarefas Evento: <strong> {$event['event_name']} </strong></h4>
+                                          <p class="card-category"> Tarefas de Evento por seção</p>
                                       </div>
                                     </div>
                                     <div class="card-body">
@@ -78,8 +94,8 @@
                                               <tr>
                                               <td width="15%" class="td-actions text-center">
                                                   <a  href="#" >
-                                                    <button type="button" rel="tooltip" title="Importar Tarefa" class="btn btn-primary btn-link btn-sm">
-                                                      <i class="material-icons">arrow_back</i>
+                                                    <button type="button" rel="tooltip" title="Retirar Tarefa" class="btn btn-primary btn-link btn-sm">
+                                                      <i class="material-icons">close</i>
                                                     </button>
                                                   </a>
                                                 </td>
@@ -102,7 +118,7 @@
                             <div class="col-md-6">
                               <nav aria-label="...">
                                 <ul class="pagination">
-                                  {loop="$pages"}
+                                  {loop="$pages_model"}
                                   <li class="page-item text-primary {$value.active} "><a class="page-link" href="{$value.href}">{$value.text}</a>
                                   </li>
                                   {/loop}
@@ -112,20 +128,20 @@
                             <div class="col-md-4">
                                 <nav aria-label="...">
                                   <ul class="pagination">
-                                    {loop="$pages"}
+                                    {loop="$pages_event"}
                                     <li class="page-item text-primary {$value.active} "><a class="page-link" href="{$value.href}">{$value.text}</a>
                                     </li>
                                     {/loop}
                                   </ul>
                                 </nav>
-                              </div>
+                            </div>
                           </div>
                       </div>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-12">
-                    <a class="nav-link text-right" href="/admin/events/xxxxxxxx/eventtasks">
+                    <a class="nav-link text-right" href="/admin/events/{$event['event_id']}/eventtasks">
                       <i class="material-icons" data-notify="icon">backspace</i> Voltar
                     </a>
                   </div>

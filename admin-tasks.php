@@ -69,9 +69,12 @@ $app->post('/admin/events/:event_id/eventtasks/create', function($event_id) {
 
 	$event_task->setValues($_POST);
 
-	$event_task->settask_status('1');
+	$event_task->settask_status_id('1');
+
+	$event_task->setmodeltask_id('0');
 
 	$event_task->setevent_id($event_id);
+
 
 	$event_task->save();
 
@@ -227,38 +230,45 @@ $app->get('/admin/events/:event_id/eventtasks/import', function($event_id) {
 	
 	$searchSection = (isset($_GET['searchsection'])) ? $_GET['searchsection'] : "0";
 
-	$page = (isset($_GET['page'])) ? (int)$_GET['page'] : 1 ;
+	$page_event = (isset($_GET['pages_event'])) ? (int)$_GET['pages_event'] : 1 ;
+	$page_model = (isset($_GET['pages_model'])) ? (int)$_GET['pages_model'] : 1 ;
+
 
 	if ($search != "")
 	{
-		
-		$pagination = EventTask::getPageSearch($event_id, $search, $searchSection, $page);
+		$pagination_event = EventTask::getPageSearchImportRelated($event_id, $search, $searchSection, $page_event);
+		$pagination_model = ModelTask::getPageSearchImportNotRelated($search, $searchSection, $page_model);
 	}
 	else
 	{
-		$pagination = EventTask::getPage($event_id, $searchSection, $page);
+		$pagination_event = EventTask::getPageImportRelated($event_id, $searchSection, $page_event);
+		$pagination_model = ModelTask::getPageImportNotRelated($searchSection, $page_model);
 	}
 
 	$event = new Events();
 
-	$event->getEvent((int) $event_id);
+	$event->getEvent($event_id);
 
-	$href = '/admin/events/'.$event_id.'/eventtasks?';
+	$href = '/admin/events/'.$event_id.'/eventtasks/import?';
 
-	$pages = [];
+	$pages_event = [];	
+	$pages_model = [];
 
-	$pages = EventTask::calcPageMenu($page, $pagination, $search, $href);
+	$pages_event = EventTask::calcPageMenuImport($page_event, $pagination_event, $search, $href);
+	$pages_model = ModelTask::calcPageMenuImport($page_model, $pagination_model, $search, $href);
 
 	$page = new PageAdmin();
 
 	$page->setTpl("event-tasks-import", array(
 		"notification"=>EventTask::getNotification(),
 		"event"=>$event->getValues(),
-		"eventtasks"=>$pagination['data'],
+		"eventtasks"=>$pagination_event['data'],
+		"modeltasks"=>$pagination_model['data'],
 		'sessiontask'=>EventTask::getSectionTask(),
 		'search'=>$search,
 		'searchsection'=>$searchSection,
-		'pages'=>$pages
+		'pages_event'=>$pages_event,
+		'pages_model'=>$pages_model
 	));
 
 });
