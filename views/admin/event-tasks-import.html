@@ -39,7 +39,7 @@
                                           <div class="table-responsive">
                                             <table class="table table-hover table_task">
                                               <thead class=" text-primary">
-                                                <th>#</th>
+                                                <th>#Ref:</th>
                                                 <th>Nome</th>
                                                 <th>Duração</th>
                                                 <th>Predecessor</th>
@@ -55,7 +55,7 @@
                                                   <td width="5%">{$value.modeltask_predecessors}</td>
                                                   <td width="5%">{$value.modeltask_successors}</td>
                                                   <td width="10%" class="td-actions text-center">
-                                                    <a  href="#" >
+                                                    <a  href="/admin/events/{$event['event_id']}/eventtasks/import/{$value.modeltask_id}" >
                                                       <button type="button" rel="tooltip" title="Importar Tarefa" class="btn btn-primary btn-link btn-sm">
                                                         <i class="material-icons">arrow_forward</i>
                                                       </button>
@@ -83,6 +83,7 @@
                                             <thead class=" text-primary">
                                               <th hidden>Evento</th>
                                               <Th class="text-center" >Ações</Th>
+                                              <th>#Ref:</th>
                                               <th>#</th>
                                               <th>Nome</th>
                                               <th>Duração</th>
@@ -93,13 +94,14 @@
                                               {loop="$eventtasks"}
                                               <tr>
                                               <td width="15%" class="td-actions text-center">
-                                                  <a  href="#" >
+                                                  <a  href="/admin/events/{$event['event_id']}/eventtasks/{$value.task_id}/import/delete" >
                                                     <button type="button" rel="tooltip" title="Retirar Tarefa" class="btn btn-primary btn-link btn-sm">
                                                       <i class="material-icons">close</i>
                                                     </button>
                                                   </a>
                                                 </td>
                                                 <td hidden>{$value.event_id}</td>
+                                                <td width="5%" >#{$value.modeltask_id}</td>
                                                 <td width="5%" >#{$value.task_id}</td>
                                                 <td width="30%" data-toggle="tooltip" title="{$value.section_task_name}" >{$value.task_name}</td>
                                                 <td width="5%">{$value.task_duration} dia(s)</td>

@@ -155,7 +155,7 @@ $app->post('/admin/events/:event_id/eventtasks/:eventtask_id/update', function($
 
 
 
-$app->get('/admin/events/:event_id/eventtasks/:eventtask_id/delete', function($event_id,$task_id) {
+$app->get('/admin/events/:event_id/eventtasks/:task_id/delete', function($event_id,$task_id) {
 
 	User::verifyLogin(1);
 
@@ -220,58 +220,6 @@ $app->get('/admin/events/:event_id/eventtasks', function($event_id) {
 
 
 
-
-
-$app->get('/admin/events/:event_id/eventtasks/import', function($event_id) {
-
-	User::verifyLogin(1);
-
-	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
-	
-	$searchSection = (isset($_GET['searchsection'])) ? $_GET['searchsection'] : "0";
-
-	$page_event = (isset($_GET['pages_event'])) ? (int)$_GET['pages_event'] : 1 ;
-	$page_model = (isset($_GET['pages_model'])) ? (int)$_GET['pages_model'] : 1 ;
-
-
-	if ($search != "")
-	{
-		$pagination_event = EventTask::getPageSearchImportRelated($event_id, $search, $searchSection, $page_event);
-		$pagination_model = ModelTask::getPageSearchImportNotRelated($search, $searchSection, $page_model);
-	}
-	else
-	{
-		$pagination_event = EventTask::getPageImportRelated($event_id, $searchSection, $page_event);
-		$pagination_model = ModelTask::getPageImportNotRelated($searchSection, $page_model);
-	}
-
-	$event = new Events();
-
-	$event->getEvent($event_id);
-
-	$href = '/admin/events/'.$event_id.'/eventtasks/import?';
-
-	$pages_event = [];	
-	$pages_model = [];
-
-	$pages_event = EventTask::calcPageMenuImport($page_event, $pagination_event, $search, $href);
-	$pages_model = ModelTask::calcPageMenuImport($page_model, $pagination_model, $search, $href);
-
-	$page = new PageAdmin();
-
-	$page->setTpl("event-tasks-import", array(
-		"notification"=>EventTask::getNotification(),
-		"event"=>$event->getValues(),
-		"eventtasks"=>$pagination_event['data'],
-		"modeltasks"=>$pagination_model['data'],
-		'sessiontask'=>EventTask::getSectionTask(),
-		'search'=>$search,
-		'searchsection'=>$searchSection,
-		'pages_event'=>$pages_event,
-		'pages_model'=>$pages_model
-	));
-
-});
  
 // ***************  modelo de tasks ****************************
 
@@ -399,5 +347,110 @@ $app->get('/admin/modeltasks/:modeltask_id/delete', function($modeltask_id) {
 	header("Location: /admin/modeltasks");
 	exit;
 });
+
+
+
+$app->get('/admin/events/:event_id/eventtasks/import', function($event_id) {
+
+	User::verifyLogin(1);
+
+	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
+	
+	$searchSection = (isset($_GET['searchsection'])) ? $_GET['searchsection'] : "0";
+
+	$page_event = (isset($_GET['pages_event'])) ? (int)$_GET['pages_event'] : 1 ;
+	$page_model = (isset($_GET['pages_model'])) ? (int)$_GET['pages_model'] : 1 ;
+
+
+	if ($search != "")
+	{
+		$pagination_event = EventTask::getPageSearchImportRelated($event_id, $search, $searchSection, $page_event);
+		$pagination_model = ModelTask::getPageSearchImportNotRelated($search, $searchSection, $page_model);
+	}
+	else
+	{
+		$pagination_event = EventTask::getPageImportRelated($event_id, $searchSection, $page_event);
+		$pagination_model = ModelTask::getPageImportNotRelated($searchSection, $page_model);
+	}
+
+	$event = new Events();
+
+	$event->getEvent($event_id);
+
+	$href = '/admin/events/'.$event_id.'/eventtasks/import?';
+
+	$pages_event = [];	
+	$pages_model = [];
+
+	$pages_event = EventTask::calcPageMenuImport($page_event, $pagination_event, $search, $href);
+	$pages_model = ModelTask::calcPageMenuImport($page_model, $pagination_model, $search, $href);
+
+	$page = new PageAdmin();
+
+	$page->setTpl("event-tasks-import", array(
+		"notification"=>EventTask::getNotification(),
+		"event"=>$event->getValues(),
+		"eventtasks"=>$pagination_event['data'],
+		"modeltasks"=>$pagination_model['data'],
+		'sessiontask'=>EventTask::getSectionTask(),
+		'search'=>$search,
+		'searchsection'=>$searchSection,
+		'pages_event'=>$pages_event,
+		'pages_model'=>$pages_model
+	));
+
+});
+
+
+$app->get('/admin/events/:event_id/eventtasks/import/:modeltask_id', function($event_id,$modeltask_id) 
+{
+
+	User::verifyLogin(1);
+
+	$modeltask = new ModelTask();
+
+	$modeltask->getModelTasks($modeltask_id);
+
+	$event_task = new EventTask();
+
+	$event_task->settask_id('0');
+	$event_task->setevent_id($event_id);
+	$event_task->setmodeltask_id($modeltask->getmodeltask_id());
+	$event_task->settask_section_id($modeltask->getmodeltask_section_id());
+	$event_task->settask_name($modeltask->getmodeltask_name());
+	$event_task->settask_status_id('1');
+	$event_task->settask_duration($modeltask->getmodeltask_duration());
+	$event_task->settask_start(null);
+	$event_task->settask_finish(null);
+	$event_task->settask_completed('0');
+	$event_task->settask_responsible($modeltask->getmodeltask_responsible());
+	$event_task->settask_showboard($modeltask->getmodeltask_showboard());
+	$event_task->settask_showcustomer($modeltask->getmodeltask_showcustomer());
+
+	$event_task->save();
+
+	header("Location: /admin/events/".$event_id."/eventtasks/import");
+	exit;
+	 
+});
+
+
+$app->get('/admin/events/:event_id/eventtasks/:task_id/import/delete', function($event_id,$task_id) 
+{
+	User::verifyLogin(1);
+
+	$event_task = new EventTask();
+
+	$event_task->setevent_id($event_id);
+	$event_task->settask_id($task_id);
+
+	$event_task->delete();
+
+	header("Location: /admin/events/".$event_id."/eventtasks/import");
+	exit;
+	 	 
+});
+
+
 
 ?>

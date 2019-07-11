@@ -48,3 +48,9 @@
   vertical-align: middle;
   border-color: #ddd;
 }
+
+/* ainda falta implementar  na task sem referecia no moldeltask*/
+.task_manual {
+  background: #f1f1f1;
+  color: #000
+}
