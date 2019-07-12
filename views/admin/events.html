@@ -19,7 +19,9 @@
                         <th>#</th>
                         <th>Tipo</th>                        
                         <th>Nome</th>
-                        <th>Data</th>
+                        <th>Data Inicio</th>                        
+                        <th>Data Evento</th>                        
+                        <th>Data Término</th>
                         <th>Situação</th>
                         <Th class="text-center" >Ações</Th>
                       </thead>
@@ -29,22 +31,24 @@
                           <td>#{$value.event_id}</td>
                           <td>{$value.event_type_name}</td>
                           <td>{$value.event_name}</td>
+                          <td>{function="formatDate($value.event_start)"}</td>
                           <td>{function="formatDate($value.event_date)"}</td>
+                          <td>{function="formatDate($value.event_finish)"}</td>
                           <td>{$value.status_type_name}</td>
                           <td class="td-actions text-center">
                               <a  href="/admin/events/{$value.event_id}/eventtasks" >
-                                <button type="button" rel="tooltip" title="Tarefas" class="btn btn-primary btn-link btn-sm">
-                                  <i class="material-icons">timeline</i>
+                                <button type="button"  class="btn btn-primary btn-link btn-sm">
+                                  <i class="material-icons">assignment</i> Tarefas
                                 </button>
                               </a>
-                              <a  href="/admin/events/{$value.event_id}/update" >
-                              <button type="button" rel="tooltip" title="Atualizar Evento" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
+                              <a  href="/admin/events/{$value.event_id}/update" > 
+                              <button type="button"  class="btn btn-primary btn-link btn-sm"> 
+                                <i class="material-icons">edit</i> Editar
                               </button>
                             </a>
                             <a  href="/admin/events/{$value.event_id}/delete" onclick="return confirm('Deseja realmente excluir o Evento?')" >
-                              <button type="button" rel="tooltip" title="Excluir" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
+                              <button type="button"  class="btn btn-danger btn-link btn-sm"> 
+                                <i class="material-icons">close</i> Excluir
                               </button>
                             </a>
                           </td>

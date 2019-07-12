@@ -233,7 +233,7 @@ public static function calcPageMenuImport($page, $pagination, $search, $href = '
 }
 
     
-public static function getPageImportNotRelated( $searchsection, $page = 1, $itensPerPage = 15)
+public static function getPageImportNotRelated($event_id, $searchsection, $page = 1, $itensPerPage = 15)
 {
 
     $start = ($page - 1) * $itensPerPage; 
@@ -250,10 +250,13 @@ public static function getPageImportNotRelated( $searchsection, $page = 1, $iten
                 SELECT a.modeltask_id 
                     FROM tb_eventtasks a 
                     INNER JOIN tb_modeltasks b ON a.modeltask_id = b.modeltask_id
+                    WHERE a.event_id = :event_id
             )
             ORDER BY c.modeltask_id   
             LIMIT $start , $itensPerPage;
-        ");
+            ", [
+                ':event_id'=>$event_id
+            ]);
     }
     else 
     {
@@ -264,13 +267,14 @@ public static function getPageImportNotRelated( $searchsection, $page = 1, $iten
                 select a.modeltask_id 
                     from tb_eventtasks a 
                     inner join tb_modeltasks b on  a.modeltask_id = b.modeltask_id
-                    where a.task_section_id = :searchsection
+                    WHERE a.event_id = :event_id
             )
             AND c.modeltask_section_id = :searchsection
             ORDER BY c.modeltask_id  
             LIMIT $start , $itensPerPage;
             ", [
-                ':searchsection'=>$searchsection
+                ':searchsection'=>$searchsection,
+                ':event_id'=>$event_id
             ]);
     }      
 
@@ -283,7 +287,7 @@ public static function getPageImportNotRelated( $searchsection, $page = 1, $iten
         ];
 }
 
-public static function getPageSearchImportNotRelated($search, $searchsection, $page = 1, $itensPerPage = 15)
+public static function getPageSearchImportNotRelated($event_id, $search, $searchsection, $page = 1, $itensPerPage = 15)
 {
 
     $start = ($page - 1) * $itensPerPage; 
@@ -303,11 +307,13 @@ public static function getPageSearchImportNotRelated($search, $searchsection, $p
                 SELECT a.modeltask_id 
                     FROM tb_eventtasks a 
                     INNER JOIN tb_modeltasks b ON a.modeltask_id = b.modeltask_id
+                    WHERE a.event_id = :event_id
             )
             ORDER BY c.modeltask_id  
             LIMIT $start , $itensPerPage;
         ", [
-            ':search'=>'%'.$search.'%', 
+            ':search'=>'%'.$search.'%',
+            ':event_id'=>$event_id 
         ]);
 
     }
@@ -324,14 +330,15 @@ public static function getPageSearchImportNotRelated($search, $searchsection, $p
                 SELECT a.modeltask_id 
                     FROM tb_eventtasks a 
                     INNER JOIN tb_modeltasks b ON a.modeltask_id = b.modeltask_id
-                    WHERE a.task_section_id = :searchsection
+                    WHERE a.event_id = :event_id
             )
             AND c.modeltask_section_id = :searchsection
             ORDER BY c.modeltask_id  
             LIMIT $start , $itensPerPage;
         ",[
             ':search'=>'%'.$search.'%',
-            ':searchsection'=>$searchsection
+            ':searchsection'=>$searchsection,
+            ':event_id'=>$event_id
         ]);
 
     }

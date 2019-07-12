@@ -9,9 +9,11 @@
                     <p class="card-category">{$event['event_type_name']}</p>
                 </div>
                 <div class="card-body">
-                    <p><i class="material-icons">event</i> {function="formatDate($event['event_date'])"}</i></p>
-                    <p><i class="material-icons">flag</i> {$event['status_type_name']}</i></p>
-                </div>
+                    <p><i class="material-icons">date_range</i>   Início : {function="formatDate($event['event_start'])"}</i></p>
+                    <p><i class="material-icons">event</i>   Evento : {function="formatDate($event['event_date'])"}</i></p>
+                    <p><i class="material-icons">date_range</i>   Término: {function="formatDate($event['event_finish'])"}</i></p>
+                    <p><i class="material-icons">flag</i>   Status : {$event['status_type_name']}</i></p>
+            </div>
                 <div class="card-footer">
                     <div class="stats">
                     <i class="material-icons">access_time</i> Dados Online</i>
@@ -42,11 +44,11 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-9">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="bmd-label-floating"> Nome da tarefa</label>
                                         <input type="text" class="form-control" id="task_name" name="task_name"
-                                         value="{$eventtasks.task_name}"   required> 
+                                         max="128" value="{$eventtasks.task_name}"   required> 
                                     </div>
                                 </div>
                             </div>
@@ -55,9 +57,25 @@
                                     <div class="form-group">
                                         <label class="bmd-label-floating"> Duração dia(s)</label>
                                         <input type="number" class="form-control" id="task_duration" name="task_duration"
-                                        min="0" max="365"  value="{$eventtasks.task_duration}"   required> 
+                                        min="0" max="1095"  value="{$eventtasks.task_duration}"   required> 
                                     </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating"> Predecessor</label>
+                                        <input type="number" class="form-control" id="task_predecessors" name="task_predecessors"
+                                        min="0"   value="{$eventtasks.task_predecessors}"   required> 
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating"> Sucessor</label>
+                                        <input type="number" class="form-control" id="task_successors" name="task_successors"
+                                        min="0"  value="{$eventtasks.task_successors}"   required> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="bmd-label-static"> Data inicio.</label>

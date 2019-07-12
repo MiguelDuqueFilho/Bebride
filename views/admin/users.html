@@ -35,23 +35,23 @@
                           <td>{$value.user_type_name}</td>
                           <td class="td-actions text-center">
                             <a  href="/admin/user/{$value.user_id}/address/create" >
-                              <button type="button" rel="tooltip" title="Endereço" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">my_location</i>
-                              </button>
-                            </a>
-                            <a  href="/admin/users/{$value.user_id}" >
-                              <button type="button" rel="tooltip" title="Atualizar Usuário" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
+                              <button type="button"  class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">my_location</i> Endereço
                               </button>
                             </a>
                             <a  href="/admin/users/{$value.user_id}/password" >
-                              <button type="button" rel="tooltip" title="Alterar password" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">lock</i>
+                              <button type="button"  class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">lock</i> Password
+                              </button>
+                            </a>
+                            <a  href="/admin/users/{$value.user_id}" >
+                              <button type="button"  class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">edit</i> Editar
                               </button>
                             </a>
                             <a  href="/admin/users/{$value.user_id}/delete" onclick="return confirm('Deseja realmente excluir este registro?')" >
-                              <button type="button" rel="tooltip" title="Excluir" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
+                              <button type="button"  class="btn btn-danger btn-link btn-sm">
+                                <i class="material-icons">close</i> Excluir
                               </button>
                             </a>
                           </td>

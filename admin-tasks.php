@@ -365,12 +365,12 @@ $app->get('/admin/events/:event_id/eventtasks/import', function($event_id) {
 	if ($search != "")
 	{
 		$pagination_event = EventTask::getPageSearchImportRelated($event_id, $search, $searchSection, $page_event);
-		$pagination_model = ModelTask::getPageSearchImportNotRelated($search, $searchSection, $page_model);
+		$pagination_model = ModelTask::getPageSearchImportNotRelated($event_id, $search, $searchSection, $page_model);
 	}
 	else
 	{
 		$pagination_event = EventTask::getPageImportRelated($event_id, $searchSection, $page_event);
-		$pagination_model = ModelTask::getPageImportNotRelated($searchSection, $page_model);
+		$pagination_model = ModelTask::getPageImportNotRelated($event_id, $searchSection, $page_model);
 	}
 
 	$event = new Events();
@@ -420,6 +420,8 @@ $app->get('/admin/events/:event_id/eventtasks/import/:modeltask_id', function($e
 	$event_task->settask_name($modeltask->getmodeltask_name());
 	$event_task->settask_status_id('1');
 	$event_task->settask_duration($modeltask->getmodeltask_duration());
+	$event_task->settask_predecessors($modeltask->getmodeltask_predecessors());
+	$event_task->settask_successors($modeltask->getmodeltask_successors());
 	$event_task->settask_start(null);
 	$event_task->settask_finish(null);
 	$event_task->settask_completed('0');

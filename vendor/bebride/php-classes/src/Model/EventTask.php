@@ -65,7 +65,7 @@ class EventTask extends Model
  
        
         $results = $sql->select("call sp_eventtask_save(:event_id, :task_id, :modeltask_id, :task_section_id, :task_name, :task_status_id, 
-            :task_duration, :task_start, :task_finish, :task_completed, :task_responsible, :task_showboard, :task_showcustomer)", 
+            :task_duration, :task_predecessors, :task_successors, :task_start, :task_finish, :task_completed, :task_responsible, :task_showboard, :task_showcustomer)", 
             [
             ':event_id'=>(int) $this->getevent_id(),
             ':task_id'=>(int) $this->gettask_id(),
@@ -74,6 +74,8 @@ class EventTask extends Model
             ':task_name'=>$this->gettask_name(),                
             ':task_status_id'=>(int) $this->gettask_status_id(),
             ':task_duration'=>(int) $this->gettask_duration(),
+            ':task_predecessors'=>(int) $this->gettask_predecessors(),
+            ':task_successors'=>(int) $this->gettask_successors(),
             ':task_start'=>convertdate($this->gettask_start()),
             ':task_finish'=>convertdate($this->gettask_finish()),
             ':task_completed'=>(int) $this->gettask_completed(),
@@ -389,5 +391,78 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
    }
    
 
+
+   public static function taskEventInitial($event_id) 
+   {
+    
+        $event = new Events();
+        $event_task = new EventTask();
+        $modeltask = new ModelTask();
+        
+        $event->getEvent((int) $event_id);
+
+        $modeltask->getModelTasks('1');
+
+        $event_task->settask_id('0');
+        $event_task->setevent_id($event_id);
+        $event_task->setmodeltask_id($modeltask->getmodeltask_id());
+        $event_task->settask_section_id($modeltask->getmodeltask_section_id());
+        $event_task->settask_name($modeltask->getmodeltask_name());
+        $event_task->settask_status_id('1');
+        $event_task->settask_duration($modeltask->getmodeltask_duration());
+        $event_task->settask_predecessors($modeltask->getmodeltask_predecessors());
+        $event_task->settask_successors($modeltask->getmodeltask_successors());
+        $event_task->settask_start($event->getevent_start());
+        $event_task->settask_finish($event->getevent_start());
+        $event_task->settask_completed('0');
+        $event_task->settask_responsible($modeltask->getmodeltask_responsible());
+        $event_task->settask_showboard($modeltask->getmodeltask_showboard());
+        $event_task->settask_showcustomer($modeltask->getmodeltask_showcustomer());
+        $event_task->save();
+    
+        $modeltask->getModelTasks('2');
+        
+        $event_task->settask_id('0');
+        $event_task->setevent_id($event_id);
+        $event_task->setmodeltask_id($modeltask->getmodeltask_id());
+        $event_task->settask_section_id($modeltask->getmodeltask_section_id());
+        $event_task->settask_name($modeltask->getmodeltask_name());
+        $event_task->settask_status_id('1');
+        $event_task->settask_duration($modeltask->getmodeltask_duration());
+        $event_task->settask_predecessors($modeltask->getmodeltask_predecessors());
+        $event_task->settask_successors($modeltask->getmodeltask_successors());
+        $event_task->settask_start($event->getevent_date());
+        $event_task->settask_finish($event->getevent_date());
+        $event_task->settask_completed('0');
+        $event_task->settask_responsible($modeltask->getmodeltask_responsible());
+        $event_task->settask_showboard($modeltask->getmodeltask_showboard());
+        $event_task->settask_showcustomer($modeltask->getmodeltask_showcustomer());
+        $event_task->save();
+
+        $modeltask->getModelTasks('3');
+        
+        $event_task->settask_id('0');
+        $event_task->setevent_id($event_id);
+        $event_task->setmodeltask_id($modeltask->getmodeltask_id());
+        $event_task->settask_section_id($modeltask->getmodeltask_section_id());
+        $event_task->settask_name($modeltask->getmodeltask_name());
+        $event_task->settask_status_id('1');
+        $event_task->settask_duration($modeltask->getmodeltask_duration());
+        $event_task->settask_predecessors($modeltask->getmodeltask_predecessors());
+        $event_task->settask_successors($modeltask->getmodeltask_successors());
+        $event_task->settask_start($event->getevent_finish());
+        $event_task->settask_finish($event->getevent_finish());
+        $event_task->settask_completed('0');
+        $event_task->settask_responsible($modeltask->getmodeltask_responsible());
+        $event_task->settask_showboard($modeltask->getmodeltask_showboard());
+        $event_task->settask_showcustomer($modeltask->getmodeltask_showcustomer());
+        $event_task->save();
+
+
+    }
+
+
 }
+
+
 ?>

@@ -26,7 +26,7 @@
                                 <label class="bmd-label-floating">Status Evento</label>         
                                 <select class="form-control" id="status_type_id" name="status_type_id" required>
                                     {loop="$eventsstatus"}
-                                        <option value="{$value.status_type_id}"   > {$value.status_type_name} </option>
+                                       <option value="{$value.status_type_id}"   > {$value.status_type_name} </option>
                                     {/loop}
                                 </select>
                             </div>
@@ -34,21 +34,37 @@
     
                     </div>
                     <div class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Nome do Evento</label>
                                 <input type="text" class="form-control" id="event_name" name="event_name"
-                                     required> 
+                                max="128"     required> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">   
+                        <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="bmd-label-static">Data início Projeto</label>
+                                    <input type="date" class="form-control" id="event_start" name="event_start" 
+                                     required>
+                                </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="bmd-label-static">Data do Evento</label>
+                                <input type="date" class="form-control" id="event_date" name="event_date"
+                                   required> 
                             </div>
                         </div>
                         <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="bmd-label-static"> Data do Evento.</label>
-                                    <input type="date" class="form-control" id="event_date" name="event_date" 
+                                    <label class="bmd-label-static">Data término Projeto</label>
+                                    <input type="date" class="form-control" id="event_finish" name="event_finish" 
                                      required>
                                 </div>
-                            </div>
                         </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">

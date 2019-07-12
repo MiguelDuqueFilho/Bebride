@@ -14,6 +14,11 @@ function formatDate($date)
     return date('d/m/Y',strtotime($date));
 }
 
+function formatDateHtml($date)
+{
+    return date('Y-m-d',strtotime($date));
+}
+
 function convertdate($date) 
 { 
     return date("Y-m-d", strtotime($date));

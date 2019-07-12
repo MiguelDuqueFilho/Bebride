@@ -54,3 +54,8 @@
   background: #f1f1f1;
   color: #000
 }
+/*  select dentro do card no import de tarefas modelo  */
+select#searchsection.form-control.text-white.import_sel:not([size]):not([multiple]) {
+  height: calc(2.4375rem + 2px);
+  background-color: #8e24aa
+}

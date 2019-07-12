@@ -12,7 +12,7 @@
                   <form id="form" name="form"  class="navbar-form"  action="/admin/modeltasks" method="get">
                       <div class="form-group"> 
                           <label class="bmd-label-floating">Seção de Tarefas</label>      
-                              <select id="searchsection" name="searchsection" class="form-control" onchange="this.form.submit()" >
+                              <select id="searchsection" name="searchsection" class="form-control " onchange="this.form.submit()" >
                               <option  value="0" {if="$searchsection == '0'"} selected {/if} > Todos os eventos </option>
                               {loop="$sessiontask"}
                                   <option  value="{$value.section_task_id}" {if="$searchsection == $value.section_task_id"} 
@@ -40,8 +40,8 @@
                         <th>Seção</th>
                         <th>Nome</th>
                         <th>Duração</th>
-                        <th>Predecessor</th>
-                        <th>Sucessor</th>
+                        <th>Pred.</th>
+                        <th>Suc.</th>
                         <th>Responsável</th>                        
                         <th>Mostra Pendência</th>
                         <th>Mostra Tarefa</th>
@@ -56,20 +56,22 @@
                           <td width="5%">{$value.modeltask_duration} dia(s)</td>
                           <td width="2%">{$value.modeltask_predecessors}</td>
                           <td width="2%">{$value.modeltask_successors}</td>
-                          <td width="20%">{$value.modeltask_responsible}</td>
+                          <td width="15%">{$value.modeltask_responsible}</td>
                           <td width="3%" class="text-center">{$value.modeltask_showboard}</td>
                           <td width="3%" class="text-center">{$value.modeltask_showcustomer}</td>
-                          <td width="10%" class="td-actions text-center">
+                          <td width="15%" class="td-actions text-center">
                             <a  href="/admin/modeltasks/{$value.modeltask_id}/update" >
-                              <button type="button" rel="tooltip" title="Atualizar Tarefa" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
+                              <button type="button" class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">edit</i> Editar
                               </button>
                             </a>
+                            {if="$value.section_task_id != '1'"}
                             <a  href="/admin/modeltasks/{$value.modeltask_id}/delete" onclick="return confirm('Deseja realmente excluir a tarefa?')" >
-                              <button type="button" rel="tooltip" title="Excluir tarefa" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
+                              <button type="button" class="btn btn-danger btn-link btn-sm">
+                                <i class="material-icons">close</i> Excluir
                               </button>
                             </a>
+                            {/if}
                           </td>
                         </tr>
                         {/loop}

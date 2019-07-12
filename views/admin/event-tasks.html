@@ -5,13 +5,13 @@
                   <div class="col-md-3"></div>
                   <div class="col-md-2">
                       <a class="nav-link justify-content-end" href="/admin/events/{$event['event_id']}/eventtasks/create">
-                          <i class="material-icons">event</i>
+                          <i class="material-icons">assignment</i>
                           <p>Criar Tarefa</p>
                       </a>        
                   </div>
                   <div class="col-md-4">
                     <a class="nav-link justify-content-end" href="/admin/events/{$event['event_id']}/eventtasks/import">
-                        <i class="material-icons">event</i>
+                        <i class="material-icons">assignment</i>
                         <p>Importar Tarefas Modelo</p>
                     </a>        
                   </div>
@@ -38,8 +38,10 @@
                           <p class="card-category">{$event['event_type_name']}</p>
                       </div>
                       <div class="card-body">
-                          <p><i class="material-icons">event</i> {function="formatDate($event['event_date'])"}</i></p>
-                          <p><i class="material-icons">flag</i> {$event['status_type_name']}</i></p>
+                        <p><i class="material-icons">date_range</i>   Início : {function="formatDate($event['event_start'])"}</i></p>
+                        <p><i class="material-icons">event</i>   Evento : {function="formatDate($event['event_date'])"}</i></p>
+                        <p><i class="material-icons">date_range</i>   Término: {function="formatDate($event['event_finish'])"}</i></p>
+                        <p><i class="material-icons">flag</i>   Status : {$event['status_type_name']}</i></p>
                       </div>
                       <div class="card-footer">
                         <div class="stats">
@@ -63,6 +65,7 @@
                     <table class="table table-hover table_task">
                       <thead class=" text-primary">
                         <th hidden>Evento</th>
+                        <th>#Ref.</th>
                         <th>#</th>
                         <th>Nome</th>
                         <th>Status</th>
@@ -70,37 +73,38 @@
                         <th>Inicio</th>
                         <th>Fim</th>
                         <th>% Tarefa</th>
-                        <th>Responsável</th>
                         <Th class="text-center" >Ações</Th>
                       </thead>
                       <tbody>
                         {loop="$eventtasks"}
                           <tr  >
                           <td hidden>{$value.event_id}</td>
+                          <td width="5%" >#{$value.modeltask_id}</td>
                           <td width="5%" >#{$value.task_id}</td>
-                          <td width="30%" data-toggle="tooltip" title="{$value.section_task_name}" >{$value.task_name}</td>
-                          <td width="5%"  data-toggle="tooltip" title="{$value.status_task_name}" ><img class="img-raised rounded-circle img-fluid" name="image_status" 
+                          <td width="25%" data-toggle="tooltip" title="{$value.section_task_name}" >{$value.task_name}</td>
+                          <td  width="5%"  title="{$value.status_task_name}" class="text-center" ><img class="img-raised rounded-circle img-fluid " name="image_status" 
                             src="/assets/admin/img/image-status-{$value.status_task_color}.jpg"></td>
                           <td width="5%">{$value.task_duration} dia(s)</td>
                           <td width="5%">{function="formatDate($value.task_start)"}</td>
                           <td width="5%">{function="formatDate($value.task_finish)"}</td>
-                          <td width="30%" >
+                          <td width="25%" >
                           <div class="progress">
                                 <div class="progress-bar bg-info" role="progressbar" style="width: {$value.task_completed}%" aria-valuenow="{$value.task_completed}" aria-valuemin="0" aria-valuemax="100">{$value.task_completed}%</div>
                             </div>
                           </td>
-                          <td width="5%">{$value.task_responsible}</td>
-                          <td width="10%" class="td-actions text-center">
+                          <td width="20%" class="td-actions text-center">
                             <a  href="/admin/events/{$value.event_id}/eventtasks/{$value.task_id}/update" >
-                              <button type="button" rel="tooltip" title="Atualizar Tarefa" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
+                              <button type="button" class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">edit</i> Editar
                               </button>
                             </a>
+                            {if="$value.section_task_id != '1'"}
                             <a  href="/admin/events/{$value.event_id}/eventtasks/{$value.task_id}/delete" onclick="return confirm('Deseja realmente excluir a tarefa?')" >
-                              <button type="button" rel="tooltip" title="Excluir Tarefa" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
+                              <button type="button" class="btn btn-danger btn-link btn-sm">
+                                <i class="material-icons">close</i> Exluir
                               </button>
                             </a>
+                            {/if}
                           </td>
                         </tr>
                         {/loop}

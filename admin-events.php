@@ -3,7 +3,7 @@
 use \BeBride\PageAdmin;
 use \BeBride\Model\User;
 use \BeBride\Model\Events;
-
+use \BeBride\Model\EventTask;
 
 $app->get('/admin/events', function() {
 	
@@ -39,14 +39,13 @@ $app->get('/admin/events', function() {
 });
 
 
-
 $app->get('/admin/events/:event_id/delete', function($event_id) {
 
 	User::verifyLogin(1);
 
 	$event = new Events();
 
-	$event->getEvents((int) $event_id);
+	$event->getEvent((int) $event_id);
 
 	$event->delete();
 
@@ -89,6 +88,11 @@ $app->post("/admin/events/create", function () {
 	$events->setevent_id(0);
 
 	$events->save();
+
+	if ($events->getevent_id() != '0') 
+	{
+		EventTask::taskEventInitial($events->getevent_id()); 
+	}
 
 	header("Location: /admin/events");
  	exit;

@@ -14,7 +14,7 @@
                                 <form id="form" name="form"  class="navbar-form"  action="/admin/events/{$event['event_id']}/eventtasks/import" method="get">
                                     <div class="form-group"> 
                                         <label class="bmd-label-floating text-white">Seção de Tarefas</label>      
-                                            <select id="searchsection" name="searchsection" class="form-control text-white" onchange="this.form.submit()" >
+                                            <select id="searchsection" name="searchsection" class="form-control text-white import_sel" onchange="this.form.submit()" >
                                             <option  value="0" {if="$searchsection == '0'"} selected {/if}  > Todos os eventos </option>
                                             {loop="$sessiontask"}
                                                 <option class="" value="{$value.section_task_id}" {if="$searchsection == $value.section_task_id"} 
