@@ -9,10 +9,16 @@
                           <p>Criar Tarefa</p>
                       </a>        
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-2">
                     <a class="nav-link justify-content-end" href="/admin/events/{$event['event_id']}/eventtasks/import">
                         <i class="material-icons">assignment</i>
                         <p>Importar Tarefas Modelo</p>
+                    </a>        
+                  </div>
+                  <div class="col-md-2">
+                    <a class="nav-link justify-content-end" href="/admin/events/{$event['event_id']}/eventtasks/processdate">
+                        <i class="material-icons">date_range</i>
+                        <p>Processar Datas</p>
                     </a>        
                   </div>
                   <div class="col-md-3">
@@ -81,13 +87,13 @@
                           <td hidden>{$value.event_id}</td>
                           <td width="5%" >#{$value.modeltask_id}</td>
                           <td width="5%" >#{$value.task_id}</td>
-                          <td width="25%" data-toggle="tooltip" title="{$value.section_task_name}" >{$value.task_name}</td>
+                          <td width="35%" data-toggle="tooltip" title="{$value.section_task_name}" >{$value.task_name}</td>
                           <td  width="5%"  title="{$value.status_task_name}" class="text-center" ><img class="img-raised rounded-circle img-fluid " name="image_status" 
                             src="/assets/admin/img/image-status-{$value.status_task_color}.jpg"></td>
                           <td width="5%">{$value.task_duration} dia(s)</td>
                           <td width="5%">{function="formatDate($value.task_start)"}</td>
                           <td width="5%">{function="formatDate($value.task_finish)"}</td>
-                          <td width="25%" >
+                          <td width="20%" >
                           <div class="progress">
                                 <div class="progress-bar bg-info" role="progressbar" style="width: {$value.task_completed}%" aria-valuenow="{$value.task_completed}" aria-valuemin="0" aria-valuemax="100">{$value.task_completed}%</div>
                             </div>

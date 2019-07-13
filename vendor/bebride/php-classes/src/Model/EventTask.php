@@ -9,16 +9,18 @@ class EventTask extends Model
 {
 
 
+
+
     public function getEventTasks($event_id, $task_id) 
     {
 
         $sql = new Sql();
         
         $results = $sql->select("SELECT *  
-        FROM tb_eventtasks a 
-        INNER JOIN tb_statustask b on b.status_task_id = a.task_status_id
-        INNER JOIN tb_section_task c on c.section_task_id = a.task_section_id
-        WHERE a.event_id = :event_id AND a.task_id = :task_id
+            FROM tb_eventtasks a 
+            INNER JOIN tb_statustask b on b.status_task_id = a.task_status_id
+            INNER JOIN tb_section_task c on c.section_task_id = a.task_section_id
+            WHERE a.event_id = :event_id and a.task_id = :task_id
         ", [
             ':event_id'=>$event_id,
             ':task_id'=>$task_id
@@ -34,6 +36,33 @@ class EventTask extends Model
         }
 
     }
+
+    public function getModelEventTasks($event_id, $task_id) 
+    {
+
+        $sql = new Sql();
+        
+        $results = $sql->select("SELECT *  
+            FROM tb_eventtasks a 
+            INNER JOIN tb_statustask b on b.status_task_id = a.task_status_id
+            INNER JOIN tb_section_task c on c.section_task_id = a.task_section_id
+            WHERE a.event_id = :event_id and a.modeltask_id = :modeltask_id
+        ", [
+            ':event_id'=>$event_id,
+            ':modeltask_id'=>$task_id
+        ]);
+
+        if (count($results) > 0) 
+        {
+            $this->setValues($results[0]);
+        }
+        else 
+        {
+            EventTask::setNotification("Erro na função getModelEventTasks(:event_id, :modeltask_id) ","error");
+        }
+
+    }
+
 
     public static function getSectionTask()
     {
@@ -65,7 +94,8 @@ class EventTask extends Model
  
        
         $results = $sql->select("call sp_eventtask_save(:event_id, :task_id, :modeltask_id, :task_section_id, :task_name, :task_status_id, 
-            :task_duration, :task_predecessors, :task_successors, :task_start, :task_finish, :task_completed, :task_responsible, :task_showboard, :task_showcustomer)", 
+            :task_duration, :task_predecessors, :task_successors, :task_start, :task_finish, :task_completed, :task_responsible, 
+            :task_showboard, :task_showcustomer, :task_calculatetask)", 
             [
             ':event_id'=>(int) $this->getevent_id(),
             ':task_id'=>(int) $this->gettask_id(),
@@ -81,7 +111,8 @@ class EventTask extends Model
             ':task_completed'=>(int) $this->gettask_completed(),
             ':task_responsible'=>$this->gettask_responsible(),            
             ':task_showboard'=> $this->gettask_showboard(),           
-            ':task_showcustomer'=> $this->gettask_showcustomer()
+            ':task_showcustomer'=> $this->gettask_showcustomer(),
+            ':task_calculatetask'=> $this->gettask_calculatetask()
         ]);
 
 
@@ -418,6 +449,7 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
         $event_task->settask_responsible($modeltask->getmodeltask_responsible());
         $event_task->settask_showboard($modeltask->getmodeltask_showboard());
         $event_task->settask_showcustomer($modeltask->getmodeltask_showcustomer());
+        $event_task->settask_calculatetask($modeltask->getmodeltask_calculatetask());
         $event_task->save();
     
         $modeltask->getModelTasks('2');
@@ -437,6 +469,7 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
         $event_task->settask_responsible($modeltask->getmodeltask_responsible());
         $event_task->settask_showboard($modeltask->getmodeltask_showboard());
         $event_task->settask_showcustomer($modeltask->getmodeltask_showcustomer());
+        $event_task->settask_calculatetask($modeltask->getmodeltask_calculatetask());
         $event_task->save();
 
         $modeltask->getModelTasks('3');
@@ -456,13 +489,95 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
         $event_task->settask_responsible($modeltask->getmodeltask_responsible());
         $event_task->settask_showboard($modeltask->getmodeltask_showboard());
         $event_task->settask_showcustomer($modeltask->getmodeltask_showcustomer());
+        $event_task->settask_calculatetask($modeltask->getmodeltask_calculatetask());
         $event_task->save();
 
 
     }
 
+    
+
+
+
+   public static function calcTaskPredecessors($event_id) 
+   {
+        
+        $sql = new Sql();
+        
+        $resultsPred = $sql->select("SELECT * 
+            FROM tb_eventtasks 
+            WHERE event_id = :event_id 
+            AND ( task_section_id != '1' AND modeltask_id != '0')
+            order by task_predecessors
+        ", [
+            ':event_id'=>$event_id
+        ]);
+
+
+        if (count($resultsPred) == 0)  
+        {
+            EventTask::setNotification("Não tem tarefas para processar (Predecessores) ","info");
+            return false;
+        }
+
+        $loop = true;
+
+        do {
+            
+            $loop = false;
+
+            foreach ( $resultsPred as &$itemPred ) {
+
+                $event_task = new EventTask();
+                $event_task->setValues($itemPred);
+
+                $predecessors = $event_task->gettask_predecessors();
+
+                if ($predecessors == '0')
+                {
+                    $predecessors = '1';
+                }
+
+                $event_pred = new EventTask();
+                $event_pred->getModelEventTasks($event_id, $predecessors);
+ 
+                if ($event_pred->gettask_section_id() == '1' ||  $event_pred->gettask_calculatetask() == '1')
+                {
+                    $finishDate = $event_pred->gettask_finish();
+
+                    $event_task->settask_start(somar_dias_uteis($finishDate, 1));
+                    $event_task->settask_finish(somar_dias_uteis($finishDate, $event_task->gettask_duration()));
+
+                    $event_task->settask_calculatetask('1');
+
+                    $event_task->save();
+ 
+                }
+                else 
+                {
+                        // echo "<br> loop false event_pred <br>";
+                        // var_dump($event_pred);
+                        $loop = true;
+                }
+                // echo "<br> loop em cada foreach <br>";
+                // var_dump($loop);
+                
+            }
+
+ 
+        } while ($loop == true);
+
+        return true;
+    }
+
+   public function calcTaskSuccessors($event_id) 
+   {
+
+   }
+ 
+ 
+   
 
 }
-
 
 ?>

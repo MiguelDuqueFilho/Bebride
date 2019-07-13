@@ -50,7 +50,9 @@ class ModelTask extends Model
             :modeltask_successors,
             :modeltask_responsible, 
             :modeltask_showboard,
-            :modeltask_showcustomer)", 
+            :modeltask_showcustomer,
+            :modeltask_calculatetask
+            ", 
             [
             ':modeltask_id'=>(int) $this->getmodeltask_id(),
             ':modeltask_section_id'=>(int) $this->getmodeltask_section_id(),
@@ -60,7 +62,8 @@ class ModelTask extends Model
             ':modeltask_successors'=>(int) $this->getmodeltask_successors(),
             ':modeltask_responsible'=>$this->getmodeltask_responsible(),
             ':modeltask_showboard'=>(int) $this->getmodeltask_showboard(),
-            ':modeltask_showcustomer'=>(int) $this->getmodeltask_showcustomer()
+            ':modeltask_showcustomer'=>(int) $this->getmodeltask_showcustomer(),
+            ':modeltask_calculatetask'=>(int) $this->getmodeltask_calculatetask()
         ]);
 
 

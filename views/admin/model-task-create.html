@@ -16,7 +16,9 @@
                                         <label class="bmd-label-floating"> Seção da tarefa</label>      
                                         <select type="text" class="form-control" id="modeltask_section_id" name="modeltask_section_id" required>
                                             {loop="$sessiontask"}
-                                                <option value="{$value.section_task_id}"  > {$value.section_task_name} </option>
+                                                {if="$value.section_task_id != '1'"}
+                                                    <option value="{$value.section_task_id}"  > {$value.section_task_name} </option>
+                                                {/if}
                                             {/loop}
                                         </select>
                                     </div>

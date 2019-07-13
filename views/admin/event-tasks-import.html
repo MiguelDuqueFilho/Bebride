@@ -42,8 +42,8 @@
                                                 <th>#Ref:</th>
                                                 <th>Nome</th>
                                                 <th>Duração</th>
-                                                <th>Predecessor</th>
-                                                <th>Sucessor</th>
+                                                <th>Pred.</th>
+                                                <th>Suc.</th>
                                                 <Th class="text-center" >Ações</Th>
                                               </thead>
                                               <tbody>
@@ -93,7 +93,7 @@
                                             <tbody>
                                               {loop="$eventtasks"}
                                               <tr>
-                                              <td width="15%" class="td-actions text-center">
+                                              <td width="5%" class="td-actions text-center">
                                                   <a  href="/admin/events/{$event['event_id']}/eventtasks/{$value.task_id}/import/delete" >
                                                     <button type="button" rel="tooltip" title="Retirar Tarefa" class="btn btn-primary btn-link btn-sm">
                                                       <i class="material-icons">close</i>
@@ -103,7 +103,7 @@
                                                 <td hidden>{$value.event_id}</td>
                                                 <td width="5%" >#{$value.modeltask_id}</td>
                                                 <td width="5%" >#{$value.task_id}</td>
-                                                <td width="30%" data-toggle="tooltip" title="{$value.section_task_name}" >{$value.task_name}</td>
+                                                <td width="50%" data-toggle="tooltip" title="{$value.section_task_name}" >{$value.task_name}</td>
                                                 <td width="5%">{$value.task_duration} dia(s)</td>
                                                 <td width="5%">{function="formatDate($value.task_start)"}</td>
                                                 <td width="5%">{function="formatDate($value.task_finish)"}</td>

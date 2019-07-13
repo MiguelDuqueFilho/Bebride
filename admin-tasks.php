@@ -7,6 +7,29 @@ use \BeBride\Model\EventTask;
 use \BeBride\Model\ModelTask;
 
 
+$app->get('/admin/events/:event_id/eventtasks/create', function($event_id) {
+
+	User::verifyLogin(1);
+
+	$search = (isset($_GET['search'])) ? $_GET['search'] : "";
+
+	$event = new Events();
+
+	$event->getEvent((int) $event_id);
+
+	$section_task = EventTask::getSectionTask();
+
+	$page = new PageAdmin();
+
+	$page->setTpl("event-task-create", array(
+		"notification"=>EventTask::getNotification(),
+		'search'=>$search,
+		"event"=>$event->getValues(),
+		'session'=>$section_task,
+		'status'=>EventTask::statusTasks()
+	));    
+
+});
 
 $app->get('/admin/events/:event_id/eventtasks/create', function($event_id) {
 
@@ -69,9 +92,11 @@ $app->post('/admin/events/:event_id/eventtasks/create', function($event_id) {
 
 	$event_task->setValues($_POST);
 
-	$event_task->settask_status_id('1');
+	$event_task->settask_status_id('1'); // status inicial
 
-	$event_task->setmodeltask_id('0');
+	$event_task->setmodeltask_id('0'); // tarefa sem modelo 
+
+	$event_task->setmodeltask_calculatetask('0'); // task pode ser será calculada
 
 	$event_task->setevent_id($event_id);
 
@@ -146,6 +171,8 @@ $app->post('/admin/events/:event_id/eventtasks/:eventtask_id/update', function($
 	$event_task->getEventTasks( $event_id, $task_id);
 
 	$event_task->setValues($_POST);
+
+	$event_task->setmodeltask_calculatetask('0'); // task pode ser calculada
 
 	$event_task->save();
 
@@ -285,6 +312,12 @@ $app->post('/admin/modeltasks/create', function() {
 	$modeltask = new ModelTask();
 
 	$modeltask->setValues($_POST);
+
+	if ($modeltask->setmodeltask_calculatetask(false)) 
+	{
+
+	}
+	$modeltask->setmodeltask_calculatetask(false);
 
 	$modeltask->save();
 
@@ -428,6 +461,7 @@ $app->get('/admin/events/:event_id/eventtasks/import/:modeltask_id', function($e
 	$event_task->settask_responsible($modeltask->getmodeltask_responsible());
 	$event_task->settask_showboard($modeltask->getmodeltask_showboard());
 	$event_task->settask_showcustomer($modeltask->getmodeltask_showcustomer());
+	$event_task->settask_calculatetask($modeltask->getmodeltask_calculatetask());
 
 	$event_task->save();
 
@@ -453,6 +487,16 @@ $app->get('/admin/events/:event_id/eventtasks/:task_id/import/delete', function(
 	 	 
 });
 
+
+$app->get('/admin/events/:event_id/eventtasks/processdate', function($event_id) {
+
+	User::verifyLogin(1);
+
+	EventTask::calcTaskPredecessors($event_id);
+
+	header("Location: /admin/events/".$event_id."/eventtasks");
+ 	exit;
+});
 
 
 ?>
