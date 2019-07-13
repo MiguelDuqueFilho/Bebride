@@ -507,7 +507,7 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
         $resultsPred = $sql->select("SELECT * 
             FROM tb_eventtasks 
             WHERE event_id = :event_id 
-            AND ( task_section_id != '1' AND modeltask_id != '0')
+            AND ( task_section_id != '1' AND modeltask_id != '0' AND task_calculatetask != '1')
             order by task_predecessors
         ", [
             ':event_id'=>$event_id
@@ -516,11 +516,12 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
 
         if (count($resultsPred) == 0)  
         {
-            EventTask::setNotification("Não tem tarefas para processar (Predecessores) ","info");
+            EventTask::setNotification("Não tem tarefas para processar ","info");
             return false;
         }
 
         $loop = true;
+        $icalc = 0;
 
         do {
             
@@ -551,7 +552,7 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
                     $event_task->settask_calculatetask('1');
 
                     $event_task->save();
- 
+                    $icalc++;
                 }
                 else 
                 {
@@ -567,6 +568,7 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
  
         } while ($loop == true);
 
+        EventTask::setNotification("Recalculada: ".$icalc." tarefas.","info");
         return true;
     }
 
