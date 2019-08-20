@@ -42,7 +42,6 @@
                         <th>Duração</th>
                         <th>Pred.</th>
                         <th>Suc.</th>
-                        <th>Responsável</th>                        
                         <th>Mostra Pendência</th>
                         <th>Mostra Tarefa</th>
                         <Th class="text-center" >Ações</Th>
@@ -56,10 +55,9 @@
                           <td width="5%">{$value.modeltask_duration} dia(s)</td>
                           <td width="2%">{$value.modeltask_predecessors}</td>
                           <td width="2%">{$value.modeltask_successors}</td>
-                          <td width="15%">{$value.modeltask_responsible}</td>
                           <td width="3%" class="text-center">{$value.modeltask_showboard}</td>
                           <td width="3%" class="text-center">{$value.modeltask_showcustomer}</td>
-                          <td width="15%" class="td-actions text-center">
+                          <td width="20%" class="td-actions text-center">
                             <a  href="/admin/modeltasks/{$value.modeltask_id}/update" >
                               <button type="button" class="btn btn-primary btn-link btn-sm">
                                 <i class="material-icons">edit</i> Editar

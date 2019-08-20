@@ -440,6 +440,10 @@ $app->get('/admin/events/:event_id/eventtasks/import/:modeltask_id', function($e
 
 	User::verifyLogin(1);
 
+	$event = new Events();
+
+	$event->getEvent((int) $event_id);	
+
 	$modeltask = new ModelTask();
 
 	$modeltask->getModelTasks($modeltask_id);
@@ -462,6 +466,22 @@ $app->get('/admin/events/:event_id/eventtasks/import/:modeltask_id', function($e
 	$event_task->settask_showboard($modeltask->getmodeltask_showboard());
 	$event_task->settask_showcustomer($modeltask->getmodeltask_showcustomer());
 	$event_task->settask_calculatetask($modeltask->getmodeltask_calculatetask());
+
+	if ($modeltask->getmodeltask_id() == '1') 
+	{
+		$event_task->settask_start($event->getevent_start());
+		$event_task->settask_finish($event->getevent_start());
+	}
+	if ($modeltask->getmodeltask_id() == '2') 
+	{
+		$event_task->settask_start($event->getevent_date());
+		$event_task->settask_finish($event->getevent_date());
+	}
+	if ($modeltask->getmodeltask_id() == '3') 
+	{
+		$event_task->settask_start($event->getevent_finish());
+		$event_task->settask_finish($event->getevent_finish());
+	}
 
 	$event_task->save();
 
@@ -494,6 +514,8 @@ $app->get('/admin/events/:event_id/eventtasks/processdate', function($event_id) 
 
 	EventTask::calcTaskPredecessors($event_id);
 
+	EventTask::calcTaskSuccessors($event_id);
+	
 	header("Location: /admin/events/".$event_id."/eventtasks");
  	exit;
 });

@@ -2,23 +2,35 @@
 
 namespace BeBride\DB;
 
+use \BeBride\Model;
+
 class Sql {
 
-	const HOSTNAME = "127.0.0.1";
+	const HOSTNAME = "localhost";
 	const USERNAME = "root";
 	const PASSWORD = "root";
-	const DBNAME = "db_bebride_v01";
+	const DBNAME = "bebride_v01";
+
 
 	private $conn;
 
 	public function __construct()
 	{
-
-		$this->conn = new \PDO(
+	
+		try {
+			$this->conn = new \PDO(
 			"mysql:dbname=".Sql::DBNAME.";host=".Sql::HOSTNAME, 
 			Sql::USERNAME,
-			Sql::PASSWORD
-		);
+			Sql::PASSWORD,
+			array(
+				\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
+			));
+		} catch (\PDOException $e) {
+			Model::setNotification('Connection failed: ' . $e->getMessage(),'error');
+			echo 'Connection failed: ' . $e->getMessage();
+			exit;
+		}
+			
 
 	}
 

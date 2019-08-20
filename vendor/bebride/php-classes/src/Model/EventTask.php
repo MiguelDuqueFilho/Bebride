@@ -58,7 +58,7 @@ class EventTask extends Model
         }
         else 
         {
-            EventTask::setNotification("Erro na função getModelEventTasks(:event_id, :modeltask_id) ","error");
+            EventTask::setNotification("Erro na função getModelEventTasks(".$event_id.", " . $task_id . ") ","error");
         }
 
     }
@@ -130,11 +130,16 @@ class EventTask extends Model
 
         $sql = new Sql();
 
-        $sql->select("DELETE FROM tb_eventtasks WHERE event_id = :event_id AND task_id = :task_id;", array(
-            ":event_id"=>$this->getevent_id(),
-            ":task_id"=>$this->gettask_id()
-        ));
-
+        try 
+        {
+            $sql->query("DELETE FROM tb_eventtasks WHERE event_id = :event_id AND task_id = :task_id;", array(
+                ":event_id"=>$this->getevent_id(),
+                ":task_id"=>$this->gettask_id()
+            ));
+    
+        } catch (\PDOException $e) {
+            Events::setNotification("Função delete tb_eventtasks Erro:".$e->getMessage(),"error");
+        }
 
     }
     
@@ -495,10 +500,6 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
 
     }
 
-    
-
-
-
    public static function calcTaskPredecessors($event_id) 
    {
         
@@ -516,7 +517,6 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
 
         if (count($resultsPred) == 0)  
         {
-            EventTask::setNotification("Não tem tarefas para processar ","info");
             return false;
         }
 
@@ -556,30 +556,85 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
                 }
                 else 
                 {
-                        // echo "<br> loop false event_pred <br>";
-                        // var_dump($event_pred);
                         $loop = true;
-                }
-                // echo "<br> loop em cada foreach <br>";
-                // var_dump($loop);
-                
+                }                
             }
-
  
         } while ($loop == true);
 
-        EventTask::setNotification("Recalculada: ".$icalc." tarefas.","info");
+        EventTask::setNotification("Recalculada: ".$icalc." tarefas predecessoras.","info");
         return true;
     }
 
    public function calcTaskSuccessors($event_id) 
-   {
-
-   }
+   {         
+         $sql = new Sql();
+         
+         $resultsSucc = $sql->select("SELECT * 
+             FROM tb_eventtasks 
+             WHERE event_id = :event_id 
+             AND ( task_section_id != '1' AND modeltask_id != '0'  AND task_successors != '0')
+             order by task_start desc
+         ", [
+             ':event_id'=>$event_id
+         ]);
  
  
-   
+         if (count($resultsSucc) == 0)  
+         {
+             return false;
+         }
+ 
+         $loop = true;
+         $icalc = 0;
+ 
+         do {
+             
+             $loop = false;
+//echo "loop = false <br>"; 
+             foreach ( $resultsSucc as &$itemPred ) {
+ 
+                 $event_task = new EventTask();
+                 $event_task->setValues($itemPred);
+ 
+                 $predecessors = $event_task->gettask_predecessors();
+                 $successors = $event_task->gettask_successors();
 
+//                 var_dump($successors);
+//                 echo "<br>";
+
+                 $event_succ = new EventTask();
+                 $event_succ->getModelEventTasks($event_id, $successors);
+  
+                 if ($event_succ->gettask_section_id() == '1' ||  $event_succ->gettask_calculatetask() == '1')
+                 {
+                     $startDate = $event_succ->gettask_start();
+ 
+                     $startCalc = subtrair_dias_uteis($startDate, $event_task->gettask_duration());
+                     $finishCalc = subtrair_dias_uteis($startDate, 1);
+
+                     if ($predecessors == '0')
+                     {
+                        $event_task->settask_finish($finishCalc);
+                        $event_task->settask_start($startCalc);   
+                     }
+
+                     $event_task->settask_calculatetask('1');
+ 
+                     $event_task->save();
+                     $icalc++;
+                 }
+                 else 
+                 {
+                         $loop = true;
+                 }                
+             }
+
+         } while ($loop == true);
+ 
+         EventTask::setNotification("Recalculada: ".$icalc." tarefas sucessoras.","info");
+         return true;
+     }
 }
 
 ?>

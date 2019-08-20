@@ -49,8 +49,6 @@ $app->get('/admin/events/:event_id/delete', function($event_id) {
 
 	$event->delete();
 
-	$event->setNotification("Evento excluido com sucesso.",'success');
-
 	header("Location: /admin/events");
 	exit;
 });

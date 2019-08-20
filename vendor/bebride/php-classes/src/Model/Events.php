@@ -12,9 +12,18 @@ class Events extends Model
 
         $sql = new Sql();
 
-        $sql->select("DELETE FROM tb_events WHERE event_id = :event_id;", array(
+        try 
+        {
+            $sql->select("DELETE FROM tb_events WHERE event_id = :event_id;", array(
             ":event_id"=>$this->getevent_id()
-        ));
+            ));
+
+            Events::setNotification("Evento excluido com sucesso.",'success');
+
+        } catch (\PDOException $e) {
+            Events::setNotification("Função delete Event Erro:".$e->getMessage(),"error");
+            }
+
     }
 
    
