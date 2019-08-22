@@ -6,10 +6,10 @@ use \BeBride\Model;
 
 class Sql {
 
-	const HOSTNAME = "localhost";
+	const HOSTNAME = "mysql";
 	const USERNAME = "root";
-	const PASSWORD = "root";
-	const DBNAME = "bebride_v01";
+	const PASSWORD = "rootbebride";
+	const DBNAME = "db_bebride";
 
 
 	private $conn;
