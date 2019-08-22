@@ -17,6 +17,8 @@ use \BeBride\Model\Events;
 // use \BeBride\Model\OrderStatus;
 
 
+
+
 $app->get('/', function() {
 
 	$page = new Page();
@@ -28,6 +30,7 @@ $app->get('/', function() {
 
 
 });
+
 
 $app->get('/register', function() {
 	
@@ -131,7 +134,6 @@ $app->post("/register", function() {
 
 
 $app->get('/login', function() {
-
 
 	$page = new Page();
 
