@@ -1,0 +1,65 @@
+{include="dashboard-menu"}
+        <div class="content main-content" >
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12">       
+                <div class="card" >
+                  <div class="card-header  card-header-primary card-header-tabs" >
+                    <h4 class="card-title ">convidados por Evento</h4>
+                    <p class="card-category">Todos os eventos da empresa.</p>
+                  </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-hover table_task">
+                      <thead class=" text-primary">
+                        <th>#</th>
+                        <th>Tipo</th>                        
+                        <th>Nome</th>
+                        <th>Data Evento</th>                        
+                        <th>Situação</th>
+                        <Th class="text-center" >Ações</Th>
+                      </thead>
+                      <tbody>
+                        <?php $counter1=-1;  if( isset($events) && ( is_array($events) || $events instanceof Traversable ) && sizeof($events) ) foreach( $events as $key1 => $value1 ){ $counter1++; ?>
+                        <tr>
+                          <td>#<?php echo htmlspecialchars( $value1["event_id"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
+                          <td><?php echo htmlspecialchars( $value1["event_type_name"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
+                          <td><?php echo htmlspecialchars( $value1["event_name"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
+                          <td><?php echo formatDate($value1["event_date"]); ?></td>
+                          <td><?php echo htmlspecialchars( $value1["status_type_name"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
+                          <td width="30%" class="td-actions text-center">
+                            <a  href="/admin/events/<?php echo htmlspecialchars( $value1["event_id"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/eventguests" >
+                              <button type="button"  class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">people_outline</i> Convidados
+                              </button>
+                            </a>
+                          </td>
+                        </tr>
+                        <?php } ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+          <div class="row">
+            <div class="col-md-10">
+              <nav aria-label="...">
+                <ul class="pagination">
+                  <?php $counter1=-1;  if( isset($pages) && ( is_array($pages) || $pages instanceof Traversable ) && sizeof($pages) ) foreach( $pages as $key1 => $value1 ){ $counter1++; ?>
+                  <li class="page-item text-primary <?php echo htmlspecialchars( $value1["active"], ENT_COMPAT, 'UTF-8', FALSE ); ?> "><a class="page-link" href="<?php echo htmlspecialchars( $value1["href"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><?php echo htmlspecialchars( $value1["text"], ENT_COMPAT, 'UTF-8', FALSE ); ?></a>
+                  </li>
+                  <?php } ?>
+                </ul>
+              </nav>
+            </div>
+            <div class="col-md-2">
+              <a class="nav-link text-right" href="/admin">
+                <i class="material-icons" data-notify="icon">backspace</i> Voltar
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+

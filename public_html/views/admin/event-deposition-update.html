@@ -1,0 +1,113 @@
+{include="dashboard-menu"}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Alterar Depoimento</h4>
+                        <p class="card-category">Complete o Depoimento. Nesta alteração voce pode selecione uma imagem para o depoimento.</p>
+                    </div>
+                    <div class="card-body">
+                        <form class="form" action="/admin/events/{$event.event_id}/depositions/{$depositions.deposition_id}/update" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Nome do Evento</label>
+                                        <a type="text" class="form-control" >{$event.event_name}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Mostrar Depoimento</label>
+                                        <select type="text" class="form-control" id="deposition_show" name="deposition_show" required>
+                                            <option value="1" {if="'1' == $depositions.deposition_show"} selected {/if}  > Sim </option>
+                                            <option value="0" {if="'0' == $depositions.deposition_show"} selected {/if}  > Não </option>
+                                        </select>
+                                      
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Depoimento</label>
+                                        <div class="form-group">
+                                            <label class="bmd-bmd-label-floating">Coloque uma descrição do depoimento deste evento.</label>
+                                            <textarea class="form-control" rows="8" id="deposition-description" oninput="DuplicateDeposition()"
+                                                name="deposition_description" >{$depositions.deposition_description}</textarea>
+                                        </div>
+                                    </div>
+                                </div>  
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="btn btn-primary pull-right" for="file"> <i class="material-icons">insert_photo</i> Selecione a Foto</label>
+                                        <input type="file" class="form-control" id="file" name="file" >
+                                        <div class="box box-widget">
+                                                <div class="box-body ">
+                                                    <img class="img-responsive photo-avatar" id="image-deposition" src="{$depositions.deposition_urlphoto}" alt="Photo">
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <button type="submit" class="btn btn-primary pull-right">Alterar Depoimento</button>
+                        <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10"></div>
+                    <div class="col-md-2">
+                            <a class="nav-link text-right" href="/admin/events/{$event.event_id}/depositions">
+                              <i class="material-icons" data-notify="icon">backspace</i> Voltar
+                            </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-depositions">
+                        <a >
+                            <img class="img-responsive" id="image-deposition-avatar"  src="{$depositions.deposition_urlphoto}" />
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title" > {$event.event_name} </h4>
+                        <h5 class="card-description" id="deposition-description-avatar" >{$depositions.deposition_description}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    
+          
+    document.querySelector('#file').addEventListener('change', function(){
+    
+    var file = new FileReader();
+    
+        file.onload = function() {
+            
+            document.querySelector('#image-deposition').src = file.result;
+            document.querySelector('#image-deposition-avatar').src = file.result;
+        
+        }
+    
+    file.readAsDataURL(this.files[0]);
+    
+    });
+
+    function DuplicateDeposition() 
+    {
+        var x = document.getElementById("deposition-description").value;
+        document.getElementById("deposition-description-avatar").innerHTML = x;
+    }
+        
+
+</script>

@@ -1,0 +1,115 @@
+{include="dashboard-menu"}
+        <div class="content main-content" >
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-md-2">
+                      <a class="nav-link justify-content-end" href="/admin/events/<?php echo htmlspecialchars( $event['event_id'], ENT_COMPAT, 'UTF-8', FALSE ); ?>/eventguests/create">
+                          <i class="material-icons">person_add</i>
+                          <p>incluir Convidados</p>
+                      </a>        
+                  </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card ">
+                      <div class="card-header card-header-primary">
+                          <h4 class="card-title"><?php echo htmlspecialchars( $event['event_name'], ENT_COMPAT, 'UTF-8', FALSE ); ?></h4>
+                          <p class="card-category"><?php echo htmlspecialchars( $event['event_type_name'], ENT_COMPAT, 'UTF-8', FALSE ); ?></p>
+                      </div>
+                      <div class="card-body">
+                        <p><i class="material-icons">date_range</i>   Início : <?php echo formatDate($event['event_start']); ?></i></p>
+                        <p><i class="material-icons">event</i>   Evento : <?php echo formatDate($event['event_date']); ?></i></p>
+                        <p><i class="material-icons">date_range</i>   Término: <?php echo formatDate($event['event_finish']); ?></i></p>
+                        <p><i class="material-icons">flag</i>   Status : <?php echo htmlspecialchars( $event['status_type_name'], ENT_COMPAT, 'UTF-8', FALSE ); ?></i></p>
+                      </div>
+                      <div class="card-footer">
+                        <div class="stats">
+                          <i class="material-icons">access_time</i> Dados Online</i> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <div class="col-md-9">      
+                <div class="card" >
+                  <div class="card-header  card-header-primary card-header-tabs" >
+                    <div class="col-md-12">
+                        <h4 class="card-title ">Lista de Convidados do Evento</h4>
+                        <p class="card-category"> Convidados do Evento. Nesta lista voce pode enviar convite, alterar ou excluir convidado.
+                        </p>
+                    </div>
+                  </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-hover table_task">
+                      <thead class=" text-primary">
+                        <th hidden>Evento</th>
+                        <th>#</th>
+                        <th>Nome</th>
+                        <th>Tipo</th>
+                        <th>Grupo</th>
+                        <th>E-mail</th>                        
+                        <th>Confirmado</th>                        
+                        <Th class="text-center" >Ações</Th>
+                      </thead>
+                      <tbody>
+                        <?php $counter1=-1;  if( isset($eventguests) && ( is_array($eventguests) || $eventguests instanceof Traversable ) && sizeof($eventguests) ) foreach( $eventguests as $key1 => $value1 ){ $counter1++; ?>
+                          <tr  >
+                          <td hidden><?php echo htmlspecialchars( $value1["event_id"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
+                          <td width="1%" >#<?php echo htmlspecialchars( $value1["eventguest_seq"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
+                          <td width="25%" ><?php echo htmlspecialchars( $value1["eventguest_name"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
+                          <td width="10%" ><?php echo htmlspecialchars( $value1["guesttype_name"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
+                          <td width="15%" ><?php echo htmlspecialchars( $value1["guestgroup_name"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
+                          <td width="20%" ><?php echo htmlspecialchars( $value1["eventguest_email"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
+                          <td> 
+                            <?php if( '0' == $value1["eventguest_confirm"] ){ ?> Não <?php } ?>
+                            <?php if( '1' == $value1["eventguest_confirm"] ){ ?> Sim <?php } ?>
+                          </td>
+                          </td>
+                          <td width="30%" class="td-actions text-center">
+                            <a  href="/admin/events/<?php echo htmlspecialchars( $value1["event_id"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/eventguests/<?php echo htmlspecialchars( $value1["eventguest_id"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/convidar" >
+                              <button type="button" class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">mail</i> Convidar
+                              </button>
+                            </a>
+                            <a  href="/admin/events/<?php echo htmlspecialchars( $value1["event_id"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/eventguests/<?php echo htmlspecialchars( $value1["eventguest_id"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/update" >
+                              <button type="button" class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">edit</i> Editar
+                              </button>
+                            </a>
+                            <a  href="/admin/events/<?php echo htmlspecialchars( $value1["event_id"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/eventguests/<?php echo htmlspecialchars( $value1["eventguest_id"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/delete" onclick="return confirm('Deseja realmente excluir o Convidado?')" >
+                              <button type="button" class="btn btn-danger btn-link btn-sm">
+                                <i class="material-icons">close</i> Exluir
+                              </button>
+                            </a>
+                          </td>
+                        </tr>
+                        <?php } ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div> 
+                <div class="row">
+                  <div class="col-md-10">
+                    <nav aria-label="...">
+                      <ul class="pagination">
+                        <?php $counter1=-1;  if( isset($pages) && ( is_array($pages) || $pages instanceof Traversable ) && sizeof($pages) ) foreach( $pages as $key1 => $value1 ){ $counter1++; ?>
+                        <li class="page-item text-primary <?php echo htmlspecialchars( $value1["active"], ENT_COMPAT, 'UTF-8', FALSE ); ?> "><a class="page-link" href="<?php echo htmlspecialchars( $value1["href"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><?php echo htmlspecialchars( $value1["text"], ENT_COMPAT, 'UTF-8', FALSE ); ?></a>
+                        </li>
+                        <?php } ?>
+                      </ul>
+                    </nav>
+                  </div>
+                  <div class="col-md-2">
+                    <a class="nav-link text-right" href="/admin/eventguests">
+                      <i class="material-icons" data-notify="icon">backspace</i> Voltar
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+   

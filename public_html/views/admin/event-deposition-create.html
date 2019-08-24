@@ -1,0 +1,80 @@
+{include="dashboard-menu"}
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Criar Depoimento</h4>
+                        <p class="card-category">Complete o Depoimento. Para incluir a imagem entre em alterar do depoimento.</p>
+                    </div>
+                    <div class="card-body">
+                        <form class="form" action="/admin/events/{$event.event_id}/depositions/create" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Nome do Evento</label>
+                                        <a type="text" class="form-control" ><?php echo htmlspecialchars( $event['event_name'], ENT_COMPAT, 'UTF-8', FALSE ); ?></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Mostrar Depoimento</label>
+                                        <select type="text" class="form-control" id="deposition_show" name="deposition_show" required>
+                                            <option value="1"          > Sim </option>
+                                            <option value="0" selected > Não </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Depoimento</label>
+                                        <div class="form-group">
+                                            <label class="bmd-bmd-label-floating"> Coloque uma descrição do depoimento deste evento.</label>
+                                            <textarea class="form-control" rows="8" id="deposition-description" oninput="DuplicateDeposition()"
+                                                name="deposition_description" ></textarea>
+                                        </div>
+                                    </div>
+                                </div>  
+                            </div>
+                        <button type="submit" class="btn btn-primary pull-right">Criar Depoimento</button>
+                        <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10"></div>
+                    <div class="col-md-2">
+                            <a class="nav-link text-right" href="/admin/events/<?php echo htmlspecialchars( $event['event_id'], ENT_COMPAT, 'UTF-8', FALSE ); ?>/depositions">
+                              <i class="material-icons" data-notify="icon">backspace</i> Voltar
+                            </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-depositions">
+                        <a >
+                            <img class="img-responsive" id="image-deposition-avatar"  src="/assets/site/img/depositions/deposition_0.jpg" />
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title" > <?php echo htmlspecialchars( $event['event_name'], ENT_COMPAT, 'UTF-8', FALSE ); ?> </h4>
+                        <h5 class="card-description" id="deposition-description-avatar"></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>          
+    function DuplicateDeposition() 
+    {
+        var x = document.getElementById("deposition-description").value;
+        document.getElementById("deposition-description-avatar").innerHTML = x;
+    }
+</script>

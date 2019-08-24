@@ -591,7 +591,8 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
          do {
              
              $loop = false;
-//echo "loop = false <br>"; 
+
+             
              foreach ( $resultsSucc as &$itemPred ) {
  
                  $event_task = new EventTask();
@@ -599,9 +600,6 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
  
                  $predecessors = $event_task->gettask_predecessors();
                  $successors = $event_task->gettask_successors();
-
-//                 var_dump($successors);
-//                 echo "<br>";
 
                  $event_succ = new EventTask();
                  $event_succ->getModelEventTasks($event_id, $successors);

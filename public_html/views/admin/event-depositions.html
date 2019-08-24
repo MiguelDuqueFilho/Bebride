@@ -1,0 +1,104 @@
+{include="dashboard-menu"}
+        <div class="content main-content" >
+          <div class="container-fluid">
+              <div class="row">
+                  <div class="col-md-2">
+                      <a class="nav-link justify-content-end" href="/admin/events/{$event.event_id}/depositions/create">
+                          <i class="material-icons">assignment</i>
+                          <p>Criar Depoimentos</p>
+                      </a>        
+                  </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card ">
+                      <div class="card-header card-header-primary">
+                          <h4 class="card-title">{$event['event_name']}</h4>
+                          <p class="card-category">{$event['event_type_name']}</p>
+                      </div>
+                      <div class="card-body">
+                        <p><i class="material-icons">date_range</i>   Início : {$event.event_start}</i></p>
+                        <p><i class="material-icons">event</i>   Evento : {$event.event_date}</i></p>
+                        <p><i class="material-icons">date_range</i>   Término: {$event.event_finish}</i></p>
+                        <p><i class="material-icons">flag</i>   Status : {$event.status_type_name}</i></p>
+                      </div>
+                      <div class="card-footer">
+                        <div class="stats">
+                          <i class="material-icons">access_time</i> Dados Online</i> 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <div class="col-md-9">      
+                <div class="card" >
+                  <div class="card-header  card-header-primary card-header-tabs" >
+                    <div class="col-md-12">
+                        <h4 class="card-title ">Lista de Depoimentos do Evento</h4>
+                        <p class="card-category"> Depoimentos para este evento específico. classificado por numero de evento.
+                        </p>
+                    </div>
+                  </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-hover table_task">
+                      <thead class=" text-primary">
+                        <th hidden>Evento</th>
+                        <th>#</th>
+                        <th>Depoimento do Evento</th>
+                        <th>Mostra</th>
+                        <Th class="text-center" >Ações</Th>
+                      </thead>
+                      <tbody>
+                          {loop="$depositions"}
+                          <tr  >
+                          <td hidden>{$value.event_id}</td>
+                          <td width="1%" >#{$value.deposition_id}</td>
+                          <td width="80%">{$value.deposition_description}</td>
+                          <td> 
+                              {if="'0' == $value.deposition_show"} Não {/if} 
+                              {if="'1' == $value.deposition_show"} Sim {/if}
+                          </td>
+                          </td>
+                          <td width="20%" class="td-actions text-center">
+                            <a  href="/admin/events/{$value.event_id}/depositions/{$value.deposition_id}/update" >
+                              <button type="button" class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">edit</i> Editar
+                              </button>
+                            </a>
+                            <a  href="/admin/events/{$value.event_id}/depositions/{$value.deposition_id}/delete" onclick="return confirm('Deseja realmente excluir o Depoimento?')" >
+                              <button type="button" class="btn btn-danger btn-link btn-sm">
+                                <i class="material-icons">close</i> Exluir
+                              </button>
+                            </a>
+                          </td>
+                        </tr>
+                        {/loop}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div> 
+                <div class="row">
+                  <div class="col-md-10">
+                    <nav aria-label="...">
+                      <ul class="pagination">
+                          {loop="$pages"}
+                          <li class="page-item text-primary {$value.active} "><a class="page-link" href="{$value.href}">{$value.text}</a>
+                          </li>
+                          {/loop}
+                         </ul>
+                    </nav>
+                  </div>
+                  <div class="col-md-2">
+                    <a class="nav-link text-right" href="/admin/events">
+                      <i class="material-icons" data-notify="icon">backspace</i> Voltar
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+   

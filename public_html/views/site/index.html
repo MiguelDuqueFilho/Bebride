@@ -38,6 +38,54 @@
         </div>
       </div>
     </div>
+
+
+
+    <div class="section text-center">
+        <div class="row">
+            <div class="col-md-8 ml-auto mr-auto">
+              <h2 class="title">Depoimentos</h2>
+            </div>
+          </div>
+    
+    <!-- Top content -->
+    <div class="top-content">
+        <div class="container-fluid">
+            <div id="carousel-example" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner row w-100 mx-auto" role="listbox">
+                    <?php $counter1=-1;  if( isset($depositions) && ( is_array($depositions) || $depositions instanceof Traversable ) && sizeof($depositions) ) foreach( $depositions as $key1 => $value1 ){ $counter1++; ?>
+    
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 <?php if( '0' == $value1["rownumber"] ){ ?> active <?php } ?> ">
+                        <img src="<?php echo htmlspecialchars( $value1["deposition_urlphoto"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="img-fluid mx-auto d-block" alt="img<?php echo htmlspecialchars( $value1["rownumber"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+                        <div class="card-body">
+                            <h4 class="card-title" ><?php echo htmlspecialchars( $value1["event_name"], ENT_COMPAT, 'UTF-8', FALSE ); ?></h4>
+                            <h5 class="card-description" id="deposition-description-avatar" ><?php echo htmlspecialchars( $value1["deposition_description"], ENT_COMPAT, 'UTF-8', FALSE ); ?></h5>
+                        </div>        
+        
+                    </div>
+    
+                    <?php } ?>
+    
+                </div>
+                <a class="carousel-control-prev" href="#carousel-example" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carousel-example" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+
+
+
       <div class="section text-center">
         <h2 class="title">Aqui está nosso time</h2>
         <div class="team">

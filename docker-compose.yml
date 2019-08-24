@@ -27,7 +27,7 @@ services:
       - ${PROJECT_ROOT}/:/var/www/html/
     container_name: apache
   mysql:
-    image: mysql:${MYSQL_VERSION:-latest}
+    image: mysql:${MYSQL_VERSION}
     command: mysqld --default-authentication-plugin=mysql_native_password
     restart: always
     ports:

@@ -32,6 +32,11 @@
                           <td>{function="formatDate($value.event_date)"}</td>
                           <td>{$value.status_type_name}</td>
                           <td width="30%" class="td-actions text-center">
+                              <a  href="/admin/events/{$value.event_id}/depositions" >
+                                <button type="button"  class="btn btn-primary btn-link btn-sm">
+                                  <i class="material-icons">event_note</i> Depoimentos
+                                </button>
+                              </a>  
                               <a  href="/admin/events/{$value.event_id}/eventtasks" >
                                 <button type="button"  class="btn btn-primary btn-link btn-sm">
                                   <i class="material-icons">assignment</i> Tarefas
