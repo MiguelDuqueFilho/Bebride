@@ -8,9 +8,6 @@ use \BeBride\Model;
 class Deposition extends Model 
 {
 
-
-
-
     public function getDeposition($event_id, $deposition_id) 
     {
 
@@ -109,7 +106,6 @@ public static function getPageSearch($event_id, $search, $page = 1, $itensPerPag
     $start = ($page - 1) * $itensPerPage; 
 
     $sql = new Sql();
-    
 
     $results = $sql->select("SELECT sql_calc_found_rows *  
     FROM tb_depositions a
@@ -121,6 +117,7 @@ public static function getPageSearch($event_id, $search, $page = 1, $itensPerPag
         ':event_id'=>$event_id,
         ':search'=>'%'.$search.'%'
     ]);
+
     $resultsTotal = $sql->select("select found_rows() as nrtotal ");
 
     return [
@@ -149,19 +146,19 @@ public function checkPhoto()
     "img" . DIRECTORY_SEPARATOR . 
     "depositions" . DIRECTORY_SEPARATOR . 
     'deposition_' .
-    $this->getuser_id() . ".jpg";
+    $this->getdeposition_id() . ".jpg";
 
 
     if (file_exists($dist)) 
     {
-        $url = "/assets/site/img/depositions/deposition_" . $this->getuser_id() . ".jpg" ;
+        $url = "/assets/site/img/depositions/deposition_" . $this->getdeposition_id() . ".jpg" ;
     }
     else
     {
-        $url = "/assets/site/img/depositions/deposition__0.jpg" ;
+        $url = "/assets/site/img/depositions/deposition_0.jpg" ;
     }
 
-    return $this->setperson_urlphoto($url);
+    return $this->setdeposition_urlphoto($url);
 }
 
 
@@ -205,7 +202,7 @@ public function setPhoto($file)
             "img" . DIRECTORY_SEPARATOR . 
             "depositions" . DIRECTORY_SEPARATOR . 
             'deposition_' .
-            $this->getuser_id() . ".jpg";
+            $this->getdeposition_id() . ".jpg";
 
 
     imagejpeg($image, $dist);

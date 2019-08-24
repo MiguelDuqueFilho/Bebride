@@ -14,7 +14,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Nome do Evento</label>
-                                        <a type="text" class="form-control" ><?php echo htmlspecialchars( $event['event_name'], ENT_COMPAT, 'UTF-8', FALSE ); ?></a>
+                                        <a type="text" class="form-control" >{$event.event_name}</a>
                                     </div>
                                 </div>
                             </div>
@@ -49,7 +49,7 @@
                 <div class="row">
                     <div class="col-md-10"></div>
                     <div class="col-md-2">
-                            <a class="nav-link text-right" href="/admin/events/<?php echo htmlspecialchars( $event['event_id'], ENT_COMPAT, 'UTF-8', FALSE ); ?>/depositions">
+                            <a class="nav-link text-right" href="/admin/events/{$event.event_id}/depositions">
                               <i class="material-icons" data-notify="icon">backspace</i> Voltar
                             </a>
                     </div>
@@ -63,8 +63,8 @@
                         </a>
                     </div>
                     <div class="card-body">
-                        <h4 class="card-title" > <?php echo htmlspecialchars( $event['event_name'], ENT_COMPAT, 'UTF-8', FALSE ); ?> </h4>
-                        <h5 class="card-description" id="deposition-description-avatar"></h5>
+                        <h4 class="card-title" > {$event.event_name} </h4>
+                        <h5 class="card-description" id="deposition-description-avatar">{$depositions.deposition_description}</h5>
                     </div>
                 </div>
             </div>

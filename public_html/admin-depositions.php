@@ -47,6 +47,8 @@ $app->post('/admin/events/:event_id/depositions/create', function($event_id) {
 	
 	$deposition->setdeposition_id(0);
 
+	$deposition->checkPhoto();
+
 	$deposition->save();
 
 	header("Location: /admin/events/".$event_id."/depositions");
@@ -115,8 +117,8 @@ $app->get('/admin/events/:event_id/depositions/:deposition_id/delete', function(
 	$deposition = new Deposition();
 
 	$deposition->setevent_id($event_id);
-	$deposition->setdeposition_id($deposition_id);
 
+	$deposition->setdeposition_id($deposition_id);
 
 	$deposition->delete();
 
