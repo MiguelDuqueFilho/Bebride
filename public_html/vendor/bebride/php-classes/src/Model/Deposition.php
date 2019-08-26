@@ -37,7 +37,6 @@ class Deposition extends Model
     {
         $sql = new Sql();
 
-       
         $results = $sql->select("call sp_deposition_save(:deposition_id, :event_id, :deposition_description, :deposition_urlphoto, :deposition_show)", 
             [
                 ':deposition_id'=>(int) $this->getdeposition_id(),
@@ -46,7 +45,6 @@ class Deposition extends Model
                 ':deposition_urlphoto'=>$this->getdeposition_urlphoto(), 
                 ':deposition_show'=>$this->getdeposition_show()
         ]);
-
 
         if (count($results) > 0) 
         {
@@ -75,7 +73,7 @@ class Deposition extends Model
 
     }
     
-public static function getPage($event_id, $searchsection, $page = 1, $itensPerPage = 15)
+public static function getPage($event_id, $page = 1, $itensPerPage = 15)
 {
 
     $start = ($page - 1) * $itensPerPage; 
@@ -131,11 +129,6 @@ public static function calcPageMenu($page, $pagination, $search, $href = '/admin
 {
     return parent::calcPageMenu($page, $pagination, $search, $href);
 }
-
-   
-
-
-
 
 public function checkPhoto() 
 {
@@ -220,6 +213,5 @@ public function getValues()
 
     return $values;
 }
-
 
 }?>

@@ -18,6 +18,7 @@ require_once("admin-address.php");
 require_once("admin-events.php");
 require_once("admin-tasks.php");
 require_once("admin-depositions.php");
+require_once("admin-guests.php");
 
 $app->run();
 

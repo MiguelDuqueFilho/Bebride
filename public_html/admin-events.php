@@ -39,7 +39,7 @@ $app->get('/admin/events', function() {
 });
 
 
-$app->get('/admin/events/:event_id/delete', function($event_id) {
+$app->get('/admin/eventguests/:event_id/delete', function($event_id) {
 
 	User::verifyLogin(1);
 
@@ -139,6 +139,41 @@ $app->post('/admin/events/:event_id/update', function($event_id) {
 
 	header("Location: /admin/events");
 	exit;
+});
+
+
+$app->get('/admin/eventguests', function() {
+	
+	User::verifyLogin(1);	
+
+    $search = (isset($_GET['search'])) ? $_GET['search'] : "";
+
+    $page = (isset($_GET['page'])) ? (int)$_GET['page'] : 1 ;
+    
+    if ($search != "")
+    {
+        $pagination = Events::getPageSearch($search, $page);
+    }
+    else
+    {
+        $pagination = Events::getPage($page);
+	}
+
+	$href = '/admin/eventguests?';
+    
+    $pages = [];
+
+    $pages = Events::calcPageMenu($page, $pagination, $search, $href);
+    
+    $page = new PageAdmin();
+    
+    $page->setTpl("event-guest", array(
+        "notification"=>Events::getNotification(),
+        "events"=>$pagination['data'],
+        'search'=>$search,
+        'pages'=>$pages
+    ));
+
 });
 
 

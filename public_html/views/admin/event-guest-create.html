@@ -9,12 +9,12 @@
                         <p class="card-category">Incluir informações relativo ao Convidado. Quanto mais completo melhor a interação.</p>
                     </div>
                     <div class="card-body">
-                        <form class="form" action="/admin/events/<?php echo htmlspecialchars( $event['event_id'], ENT_COMPAT, 'UTF-8', FALSE ); ?>/eventguests/create" method="post" enctype="multipart/form-data">
+                        <form class="form" action="/admin/events/{$event.event_id}/eventguests/create" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Nome do Evento</label>
-                                        <a type="text" class="form-control" ><?php echo htmlspecialchars( $event['event_name'], ENT_COMPAT, 'UTF-8', FALSE ); ?></a>
+                                        <a type="text" class="form-control" >{$event.event_name}</a>
                                     </div>
                                 </div>
                             </div>
@@ -32,9 +32,9 @@
                                     <div class="form-group"> 
                                         <label class="bmd-label-floating">Tipo </label>      
                                         <select type="text" class="form-control" id="guesttype_id" name="guesttype_id" required>
-                                            <?php $counter1=-1;  if( isset($guesttype) && ( is_array($guesttype) || $guesttype instanceof Traversable ) && sizeof($guesttype) ) foreach( $guesttype as $key1 => $value1 ){ $counter1++; ?>
-                                                <option value="<?php echo htmlspecialchars( $value1["guesttype_id"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"  > <?php echo htmlspecialchars( $value1["guesttype_name"], ENT_COMPAT, 'UTF-8', FALSE ); ?> </option>
-                                            <?php } ?>
+                                            {loop="$guesttype"}
+                                                <option value="{$value.guesttype_id}"  > {$value.guesttype_name} </option>                                        
+                                            {/loop}
                                         </select>
                                     </div>
                                 </div>
@@ -42,9 +42,9 @@
                                     <div class="form-group"> 
                                         <label class="bmd-label-floating">Grupo </label>      
                                         <select type="text" class="form-control" id="guestgroup_id" name="guestgroup_id" required>
-                                            <?php $counter1=-1;  if( isset($guestgroup) && ( is_array($guestgroup) || $guestgroup instanceof Traversable ) && sizeof($guestgroup) ) foreach( $guestgroup as $key1 => $value1 ){ $counter1++; ?>
-                                                <option value="<?php echo htmlspecialchars( $value1["guestgroup_id"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"  > <?php echo htmlspecialchars( $value1["guestgroup_name"], ENT_COMPAT, 'UTF-8', FALSE ); ?> </option>
-                                            <?php } ?>
+                                            {loop="$guestgroup"}        
+                                                <option value="{$value.guestgroup_id}"  > {$value.guestgroup_name} </option>                                        
+                                            {/loop}
                                         </select>
                                     </div>
                                 </div>
@@ -73,7 +73,7 @@
                 <div class="row">
                     <div class="col-md-10"></div>
                     <div class="col-md-2">
-                            <a class="nav-link text-right" href="/admin/events/<?php echo htmlspecialchars( $event['event_id'], ENT_COMPAT, 'UTF-8', FALSE ); ?>/eventguests">
+                            <a class="nav-link text-right" href="/admin/events/{$event.event_id}/eventguests">
                               <i class="material-icons" data-notify="icon">backspace</i> Voltar
                             </a>
                     </div>
