@@ -1,0 +1,59 @@
+<div class="page-header" style="background-image: url('/assets/site/img/banner-01.jpg'); background-size: cover; background-position: top center;">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5 col-md-6 ml-auto mr-auto">
+          <div class="card card-forgot">
+            <form class="form" method="post" action="/invit/comfirm">
+              <div class="card-header card-header-primary text-center">
+                <h4 class="card-title">Confirmação de Presença</h4>
+                <h4 class="card-title">Evento : {$eventguest.event_name}</h4>
+                <div class="logo-image">
+                  <img src="/assets/site/img/logo-01-45x45.png"  class="img-raised rounded-circle img-fluid align-top">
+                </div>
+              </div>
+              <p class="description text-center"><strong>Olá {$eventguest.eventguest_name}, Confirme sua Presença.</strong></p>
+               <div class="card-body">
+                {include="notification"} 
+                <input type="hidden" name="code" value="{$code}">
+                <input type="hidden" name="event_id" value="{$event_id}">
+                <input type="hidden" name="eventguest_id" value="{$eventguest_id}">
+                <div class="tab-pane active" id="profile">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                    <input class="form-check-input" name="eventguest_confirm_sel" type="radio" value="2" checked  onclick="return ValidateInviteSelection();">
+                                    <span class="form-check-sign">
+                                        <span class="check"></span>
+                                    </span> Sim
+                                    </label>
+                                </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                        <input class="form-check-input" name="eventguest_confirm_sel" type="radio" value="3"  onclick="return ValidateInviteSelection();">
+                                        <span class="form-check-sign">
+                                            <span class="check"></span>
+                                        </span> Não
+                                        </label>
+                                    </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                    </table>              
+                </div>
+              <div class="footer text-center">
+                <button type="submit" class="btn btn-primary justify-content-center">Confirmar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

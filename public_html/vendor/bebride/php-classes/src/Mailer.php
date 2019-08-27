@@ -117,7 +117,7 @@ class Mailer {
             }
             else 
             {
-                Model::setNotification("Mensagem foi enviada.","success");
+                Model::setNotification("E-mail foi enviado.","success");
             }
             return $data;
         } catch (Exception $e) {

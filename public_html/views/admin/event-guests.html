@@ -48,7 +48,7 @@
                         <th>Tipo</th>
                         <th>Grupo</th>
                         <th>E-mail</th>                        
-                        <th>Confirmado</th>                        
+                        <th>Convite</th>                        
                         <Th class="text-center" >Ações</Th>
                       </thead>
                       <tbody>
@@ -56,13 +56,15 @@
                           <tr  >
                           <td hidden>{$value.event_id}</td>
                           <td width="1%" >#{$value.eventguest_seq}</td>
-                          <td width="25%" >{$value.eventguest_name}</td>
+                          <td width="20%" >{$value.eventguest_name}</td>
                           <td width="10%" >{$value.guesttype_name}</td>
                           <td width="15%" >{$value.guestgroup_name}</td>
                           <td width="20%" >{$value.eventguest_email}</td>
-                          <td> 
-                              {if="'0' == $value.eventguest_confirm"} Não {/if} 
-                              {if="'1' == $value.eventguest_confirm"} Sim {/if}
+                          <td width="10%" > 
+                              {if="'0' == $value.eventguest_confirm"} Não enviado {/if} 
+                              {if="'1' == $value.eventguest_confirm"} Enviado {/if}
+                              {if="'2' == $value.eventguest_confirm"} Confirmado {/if}
+                              {if="'3' == $value.eventguest_confirm"} Recusado {/if}
                           </td>
                           </td>
                           <td width="30%" class="td-actions text-center">

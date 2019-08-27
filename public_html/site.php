@@ -7,6 +7,7 @@ use \BeBride\Model;
 use \BeBride\Page;
 use \BeBride\Model\User;
 use \BeBride\Model\Events;
+use \BeBride\Model\EventGuest;
 
 // use \BeBride\Model\Product;
 // use \BeBride\Model\Category;
@@ -284,7 +285,49 @@ $app->post("/sendMail", function() {
 
 	header("location: /");
 	exit;
-})
+});
+
+
+$app->get("/invit/comfirm", function() {
+
+	Model::clearNotification();
+
+	$eventguestrecovery = EventGuest::validinvitDecrypt($_GET["code"]);
+
+	$page = new Page();
+
+	if ($eventguestrecovery === null) {
+		Model::setNotification("Não foi possivel confirmar a presença..",'error');
+		header("location: /");
+	}
+	else 
+	{	
+		$page->setTpl("invit-confirm", array(
+			"notification"=>Model::getNotification(),
+			"eventguest"=>$eventguestrecovery,
+			"code"=>$_GET["code"]
+		));
+	}
+	exit;
+
+});
+
+
+$app->post("/invit/comfirm", function() {
+
+	Model::clearNotification();
+
+	$eventguestrecovery = EventGuest::validinvitDecrypt($_POST["code"]);
+
+	$eventguest_confirm_sel = $_POST["eventguest_confirm_sel"];
+
+	EventGuest::setInvitConfirm( $eventguestrecovery["eventguest_id"], $eventguestrecovery["guestconfirm_id"], $eventguest_confirm_sel, $_SERVER["REMOTE_ADDR"]); 
+
+	header("location: /");
+	exit;
+
+});
+
 
 /* 
 

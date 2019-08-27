@@ -170,5 +170,14 @@ $app->get('/admin/events/:event_id/eventguests', function($event_id) {
 
 });
 
+$app->get('/admin/events/:event_id/eventguests/:eventguest_id/convidar', function($event_id, $eventguest_id) {
+
+	User::verifyLogin(1);
+
+	EventGuest::EventGuestInvite($event_id, $eventguest_id);
+
+	header("Location: /admin/events/".$event_id."/eventguests");
+	exit;
+});
 
 ?>

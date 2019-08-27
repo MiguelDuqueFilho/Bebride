@@ -4,9 +4,13 @@ namespace BeBride\Model;
 
 use \BeBride\DB\Sql;
 use \BeBride\Model;
+use \BeBride\Mailer;
 
 class EventGuest extends Model 
 {
+
+    const SECRET_USER = "BeBrideSecret_IG";
+    const SECRET_IV = '';
 
     public function getEventGuest($event_id, $eventguest_id) 
     {
@@ -155,5 +159,121 @@ public static function getGuestType() {
 
     return $results;
 }
+
+public static function EventGuestInvite($event_id, $eventguest_id) {
+
+
+    $sql = new Sql();
+
+
+    $results = $sql->select("call sp_guestconfirm_create(:event_id, :eventguest_id)", array(
+        ":event_id"=>$event_id,
+        ":eventguest_id"=>$eventguest_id 
+    ));
+
+
+    if (count($results) === 0) 
+    {
+        EventGuest::setNotification("Não foi criar o convite .",'error');
+    }
+    else
+    {
+        $dataRecovery = $results[0];
+
+        $openssl = openssl_encrypt(
+            $dataRecovery["guestconfirm_id"], 
+            "AES-128-ECB",
+            EventGuest::SECRET_USER,
+            0,
+            EventGuest::SECRET_IV
+        );
+
+        $code = base64_encode($openssl);
+
+        $link = "http://www.bebrideassessoria.com.br/invit/comfirm?code=$code";
+
+        $mailer = new Mailer($dataRecovery["eventguest_email"], $dataRecovery["eventguest_name"], "Confirme a presença do Evento " . $dataRecovery["event_name"],"invit",
+            array(
+                "name"=>$dataRecovery["eventguest_name"],
+                "link"=>$link
+            )
+        );
+
+        $mailer->send();
+
+        return $dataRecovery;
+            
+        };
+    }
+
+
+
+public static function validinvitDecrypt($code) {
+
+    $codeCrypt = base64_decode($code);
+
+    $guestconfirm_id = openssl_decrypt(
+        $codeCrypt, 
+        "AES-128-ECB",
+        EventGuest::SECRET_USER,
+        0,
+        EventGuest::SECRET_IV
+    );
+
+
+    $sql = new Sql();
+
+    $results = $sql->select("
+        select * from tb_guestconfirm a
+        inner join tb_events b  on a.event_id = b.event_id
+        inner join tb_eventguests c on a.event_id = b.event_id and a.eventguest_id = c.eventguest_id
+        where 	a.guestconfirm_id = :guestconfirm_id
+        and     a.guestconfirm_date is null 
+        ",
+        Array
+        (
+            ":guestconfirm_id"=>$guestconfirm_id
+        )
+    );
+
+    if (count($results) === 0) 
+    {    
+        EventGuest::setNotification("Não foi possivel confirmar a presença do evento.",'warning');
+        return null;             
+    }
+    else
+    {
+        return $results[0];
+    };
+} 
+
+public static function setInvitConfirm($eventguest_id, $guestconfirm_id, $eventguest_confirm, $remote_ip) 
+{
+
+    $sql = new Sql();
+
+
+    $results = $sql->select("call sp_invitconfirm_update(:eventguest_id, :guestconfirm_id, :eventguest_confirm, :remote_ip)", array(
+        ":eventguest_id"=>$eventguest_id,
+        ":guestconfirm_id"=>$guestconfirm_id,
+        ":eventguest_confirm"=>$eventguest_confirm,
+        ":remote_ip"=>$remote_ip 
+    ));
+
+
+    if (count($results) === 0) 
+    {
+        EventGuest::setNotification("Não foi possivel atualizar o confirmação do convite.",'error');
+        return null;
+    }
+    else
+    {
+        EventGuest::setNotification("Confirmação efetuada com sucesso.",'success');
+    }
+
+    return $results[0];
+
+}
+
 
 }?>
