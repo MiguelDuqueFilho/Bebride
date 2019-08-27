@@ -10,7 +10,14 @@
                 <div class="card" >
                   <div class="card-header  card-header-primary card-header-tabs" >
                     <h4 class="card-title ">Lista de Eventos</h4>
-                    <p class="card-category"> Todos os eventos da empresa.</p>
+                    <p class="card-category"> Todos os eventos da empresa.                    
+                      <strong> - Ações :  
+                        <i class="material-icons">event_note</i> Depoimentos  
+                        <i class="material-icons">assignment</i> Tarefas
+                        <i class="material-icons">edit</i> Editar
+                        <i class="material-icons">close</i> Excluir 
+                      </strong>
+                      </p>
                   </div>
                 <div class="card-body">
                   <div class="table-responsive">
@@ -31,25 +38,25 @@
                           <td>{$value.event_name}</td>
                           <td>{function="formatDate($value.event_date)"}</td>
                           <td>{$value.status_type_name}</td>
-                          <td width="30%" class="td-actions text-center">
+                          <td width="15%" class="td-actions text-center">
                               <a  href="/admin/events/{$value.event_id}/depositions" >
                                 <button type="button"  class="btn btn-primary btn-link btn-sm">
-                                  <i class="material-icons">event_note</i> Depoimentos
+                                  <i class="material-icons">event_note</i>
                                 </button>
                               </a>  
                               <a  href="/admin/events/{$value.event_id}/eventtasks" >
                                 <button type="button"  class="btn btn-primary btn-link btn-sm">
-                                  <i class="material-icons">assignment</i> Tarefas
+                                  <i class="material-icons">assignment</i>
                                 </button>
                               </a>
                               <a  href="/admin/events/{$value.event_id}/update" > 
                               <button type="button"  class="btn btn-primary btn-link btn-sm"> 
-                                <i class="material-icons">edit</i> Editar
+                                <i class="material-icons">edit</i>
                               </button>
                             </a>
                             <a  href="/admin/events/{$value.event_id}/delete" onclick="return confirm('Deseja realmente excluir o Evento?')" >
                               <button type="button"  class="btn btn-danger btn-link btn-sm"> 
-                                <i class="material-icons">close</i> Excluir
+                                <i class="material-icons">close</i> 
                               </button>
                             </a>
                           </td>

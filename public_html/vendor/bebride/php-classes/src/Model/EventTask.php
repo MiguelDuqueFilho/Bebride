@@ -157,7 +157,7 @@ public static function getPage($event_id, $searchsection, $page = 1, $itensPerPa
             INNER JOIN tb_statustask b on b.status_task_id = a.task_status_id
             INNER JOIN tb_section_task c on c.section_task_id = a.task_section_id
             WHERE a.event_id = :event_id
-            ORDER BY a.event_id, a.task_id
+            ORDER BY a.task_start, a.task_finish 
             LIMIT $start , $itensPerPage;
             ", [
                 ':event_id'=>$event_id
@@ -171,7 +171,7 @@ public static function getPage($event_id, $searchsection, $page = 1, $itensPerPa
             INNER JOIN tb_section_task c on c.section_task_id = a.task_section_id
             WHERE a.event_id = :event_id 
             AND a.task_section_id = :searchsection
-            ORDER BY a.event_id, a.task_id  
+            ORDER BY a.task_start, a.task_finish 
             LIMIT $start , $itensPerPage;
             ", [
                 ':event_id'=>$event_id,
@@ -205,7 +205,7 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
         AND ( a.task_name LIKE :search 
         OR b.task_status_name LIKE :search 
         OR a.task_responsible LIKE :search ) 
-        ORDER BY a.event_id, a.task_id 
+        ORDER BY a.task_start, a.task_finish 
         LIMIT $start , $itensPerPage;
         ", [
             ':event_id'=>$event_id,
@@ -223,7 +223,7 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
         OR b.task_status_name LIKE :search 
         OR a.task_responsible LIKE :search )
         AND a.task_section_id = :searchsection  
-        ORDER BY a.event_id, a.task_id
+        ORDER BY a.task_start, a.task_finish 
         LIMIT $start , $itensPerPage;
         ", [
             ':event_id'=>$event_id,

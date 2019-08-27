@@ -9,6 +9,12 @@
                               <div class="col-md-9">
                               <h4 class="card-title">Importar Tarefas para o Evento: <strong> {$event['event_name']} </strong></h4>
                               <p class="card-category">Importar tarefas modelo para um evento expecífico. pode também filtrar por seção.</p>
+                              <p class="card-category">
+                                  <strong> Ações :  
+                                      <i class="material-icons">input</i> incluir tarefa modelo no evento
+                                      <i class="material-icons">remove_circle_outline</i> retirar tarefa modelo do evento 
+                                  </strong>
+                              </p>
                               </div>
                               <div class="col-md-3">
                                 <form id="form" name="form"  class="navbar-form"  action="/admin/events/{$event['event_id']}/eventtasks/import" method="get">
@@ -57,7 +63,7 @@
                                                   <td width="10%" class="td-actions text-center">
                                                     <a  href="/admin/events/{$event['event_id']}/eventtasks/import/{$value.modeltask_id}" >
                                                       <button type="button" rel="tooltip" title="Importar Tarefa" class="btn btn-primary btn-link btn-sm">
-                                                        <i class="material-icons">arrow_forward</i>
+                                                        <i class="material-icons">input</i>
                                                       </button>
                                                     </a>
                                                   </td>
@@ -96,7 +102,7 @@
                                               <td width="5%" class="td-actions text-center">
                                                   <a  href="/admin/events/{$event['event_id']}/eventtasks/{$value.task_id}/import/delete" >
                                                     <button type="button" rel="tooltip" title="Retirar Tarefa" class="btn btn-primary btn-link btn-sm">
-                                                      <i class="material-icons">close</i>
+                                                      <i class="material-icons">remove_circle_outline</i>
                                                     </button>
                                                   </a>
                                                 </td>

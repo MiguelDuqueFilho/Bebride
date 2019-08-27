@@ -45,6 +45,8 @@ class Mailer {
         //Create a new PHPMailer instance
         $this->mail = new \PHPMailer;
 
+        $this->mail->CharSet = 'utf-8';
+
         //Tell PHPMailer to use SMTP
         $this->mail->isSMTP();
 
@@ -87,6 +89,8 @@ class Mailer {
         //Set who the message is to be sent to
         $this->mail->addAddress($toAddress, $toName);
 
+        $this->mail->isHTML(true);
+        
         //Set the subject line
         $this->mail->Subject = $subject;
 
@@ -120,7 +124,8 @@ class Mailer {
                 Model::setNotification("E-mail foi enviado.","success");
             }
             return $data;
-        } catch (Exception $e) {
+        } catch (Exception $e) 
+        {
             Model::setNotification("Não foi possivel enviar o Email. - Erro: " . $e->getMessage(),"error");
         }
     }

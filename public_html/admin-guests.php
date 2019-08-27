@@ -176,6 +176,18 @@ $app->get('/admin/events/:event_id/eventguests/:eventguest_id/convidar', functio
 
 	EventGuest::EventGuestInvite($event_id, $eventguest_id);
 
+
+	header("Location: /admin/events/".$event_id."/eventguests");
+	exit;
+});
+
+
+$app->get("/admin/events/:event_id/eventguests/:eventguest_id/confirm/:eventguest_confirm", function($event_id, $eventguest_id, $eventguest_confirm) {
+
+	User::verifyLogin(1);
+
+	EventGuest::setInvitConfirm( $eventguest_id, '0', $eventguest_confirm, $_SERVER["REMOTE_ADDR"]); 
+
 	header("Location: /admin/events/".$event_id."/eventguests");
 	exit;
 });

@@ -29,7 +29,12 @@
                   <div class="card-header  card-header-primary card-header-tabs" >
                     <div class="col-md-12">
                         <h4 class="card-title ">Lista de Tarefas</h4>
-                        <p class="card-category"> Tarefas Modelo por Seção.</p>
+                        <p class="card-category"> Tarefas Modelo por Seção.
+                            <strong> - Ações :  
+                                <i class="material-icons">edit</i> Editar
+                                <i class="material-icons">close</i> Excluir 
+                            </strong>
+                        </p>
                     </div>
                   </div>
                 <div class="card-body">
@@ -57,16 +62,16 @@
                           <td width="2%">{$value.modeltask_successors}</td>
                           <td width="3%" class="text-center">{$value.modeltask_showboard}</td>
                           <td width="3%" class="text-center">{$value.modeltask_showcustomer}</td>
-                          <td width="20%" class="td-actions text-center">
+                          <td width="10%" class="td-actions text-center">
                             <a  href="/admin/modeltasks/{$value.modeltask_id}/update" >
                               <button type="button" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i> Editar
+                                <i class="material-icons">edit</i>
                               </button>
                             </a>
                             {if="$value.section_task_id != '1'"}
                             <a  href="/admin/modeltasks/{$value.modeltask_id}/delete" onclick="return confirm('Deseja realmente excluir a tarefa?')" >
                               <button type="button" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i> Excluir
+                                <i class="material-icons">close</i>
                               </button>
                             </a>
                             {/if}

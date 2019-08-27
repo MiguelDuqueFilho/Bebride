@@ -34,7 +34,11 @@
                   <div class="card-header  card-header-primary card-header-tabs" >
                     <div class="col-md-12">
                         <h4 class="card-title ">Lista de Depoimentos do Evento</h4>
-                        <p class="card-category"> Depoimentos para este evento específico. classificado por numero de evento.
+                        <p class="card-category"> Depoimentos para este evento específico.
+                          <strong> - Ações :  
+                              <i class="material-icons">edit</i> Editar
+                              <i class="material-icons">close</i> Excluir 
+                          </strong>
                         </p>
                     </div>
                   </div>
@@ -54,20 +58,20 @@
                           <td hidden>{$value.event_id}</td>
                           <td width="1%" >#{$value.deposition_id}</td>
                           <td width="80%">{$value.deposition_description}</td>
-                          <td> 
+                          <td width="4%"> 
                               {if="'0' == $value.deposition_show"} Não {/if} 
                               {if="'1' == $value.deposition_show"} Sim {/if}
                           </td>
                           </td>
-                          <td width="20%" class="td-actions text-center">
+                          <td width="15%" class="td-actions text-center">
                             <a  href="/admin/events/{$value.event_id}/depositions/{$value.deposition_id}/update" >
                               <button type="button" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i> Editar
+                                <i class="material-icons">edit</i>
                               </button>
                             </a>
                             <a  href="/admin/events/{$value.event_id}/depositions/{$value.deposition_id}/delete" onclick="return confirm('Deseja realmente excluir o Depoimento?')" >
                               <button type="button" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i> Exluir
+                                <i class="material-icons">close</i>
                               </button>
                             </a>
                           </td>

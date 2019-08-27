@@ -34,7 +34,14 @@
                   <div class="card-header  card-header-primary card-header-tabs" >
                     <div class="col-md-12">
                         <h4 class="card-title ">Lista de Convidados do Evento</h4>
-                        <p class="card-category"> Convidados do Evento. Nesta lista voce pode enviar convite, alterar ou excluir convidado.
+                        <p class="card-category"> Convidados do Evento. 
+                          <strong> Ações :  
+                          <i class="material-icons">mail</i> convidar  
+                          <i class="material-icons">sentiment_very_satisfied</i> Confirmar
+                          <i class="material-icons">sentiment_very_dissatisfied</i> Recusar
+                          <i class="material-icons">edit</i> Editar
+                          <i class="material-icons">close</i> Excluir 
+                        </strong>
                         </p>
                     </div>
                   </div>
@@ -67,20 +74,36 @@
                               {if="'3' == $value.eventguest_confirm"} Recusado {/if}
                           </td>
                           </td>
-                          <td width="30%" class="td-actions text-center">
-                            <a  href="/admin/events/{$value.event_id}/eventguests/{$value.eventguest_id}/convidar" >
+                          <td width="15%" class="td-actions text-center"> 
+                            {if="'0' == $value.eventguest_confirm"}
+                            <a href="/admin/events/{$value.event_id}/eventguests/{$value.eventguest_id}/convidar" >
                               <button type="button" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">mail</i> Convidar
+                                <i class="material-icons">mail</i>
                               </button>
                             </a>
+                            {/if}
+                            {if="'2' != $value.eventguest_confirm"}
+                            <a href="/admin/events/{$value.event_id}/eventguests/{$value.eventguest_id}/confirm/2" >
+                              <button type="button" class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">sentiment_very_satisfied</i>
+                              </button>
+                            </a>
+                            {/if}
+                            {if="'3' != $value.eventguest_confirm"}
+                            <a href="/admin/events/{$value.event_id}/eventguests/{$value.eventguest_id}/confirm/3" >
+                              <button type="button" class="btn btn-primary btn-link btn-sm">
+                                <i class="material-icons">sentiment_very_dissatisfied</i>
+                              </button>
+                            </a>
+                            {/if}
                             <a  href="/admin/events/{$value.event_id}/eventguests/{$value.eventguest_id}/update">
                               <button type="button" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i> Editar
+                                <i class="material-icons">edit</i>
                               </button>
                             </a>
                             <a  href="/admin/events/{$value.event_id}/eventguests/{$value.eventguest_id}/delete" onclick="return confirm('Deseja realmente excluir o Convidado?')" >
                               <button type="button" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i> Exluir
+                                <i class="material-icons">close</i>
                               </button>
                             </a>
                           </td>

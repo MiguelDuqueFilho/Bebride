@@ -18,9 +18,10 @@ class EventGuest extends Model
         $sql = new Sql();
         
         $results = $sql->select("SELECT * 
-        FROM tb_eventguests 
-        WHERE event_id = :event_id AND eventguest_id = :eventguest_id;
-        ", [
+            FROM tb_eventguests a
+            inner join tb_events b  on a.event_id = b.event_id
+            WHERE a.event_id = :event_id AND a.eventguest_id = :eventguest_id  
+            ", [
             ':event_id'=>$event_id,
             ':eventguest_id'=>$eventguest_id
             ]);
@@ -34,9 +35,39 @@ class EventGuest extends Model
             EventGuest::setNotification("Erro na função getEventGuest(:event_id, :eventguest_id) ","error");
         }
 
+}
+
+    public static function getEventGuestConfirm($guestconfirm_id) 
+    {
+
+        $sql = new Sql();
+        
+        $results = $sql->select("
+            select * from tb_guestconfirm a
+            inner join tb_events b  on a.event_id = b.event_id
+            inner join tb_eventguests c on a.event_id = b.event_id and a.eventguest_id = c.eventguest_id
+            where 	a.guestconfirm_id = :guestconfirm_id
+            and     a.guestconfirm_date is null 
+            ",
+            Array
+            (
+                ":guestconfirm_id"=>$guestconfirm_id
+            )
+        );
+
+        if (count($results) > 0) 
+        {
+            return $results[0];
+        }
+        else 
+        {
+            EventGuest::setNotification("Erro na função getEventGuestConfirm(:guestconfirm_id) ","error");
+            return null;
+        }
+
     }
 
-
+ 
     public function save()
     {
         $sql = new Sql();
@@ -65,6 +96,17 @@ class EventGuest extends Model
     public function delete() {
 
         $sql = new Sql();
+
+        try 
+        {
+            $sql->query("DELETE FROM tb_guestconfirm WHERE event_id = :event_id AND eventguest_id = :eventguest_id;", array(
+                ":event_id"=>$this->getevent_id(),
+                ":eventguest_id"=>$this->geteventguest_id()
+            ));
+    
+        } catch (\PDOException $e) {
+            Events::setNotification("Função delete tb_guestconfirm Erro:".$e->getMessage(),"error");
+        }
 
         try 
         {
@@ -192,9 +234,15 @@ public static function EventGuestInvite($event_id, $eventguest_id) {
 
         $link = "http://www.bebrideassessoria.com.br/invit/comfirm?code=$code";
 
-        $mailer = new Mailer($dataRecovery["eventguest_email"], $dataRecovery["eventguest_name"], "Confirme a presença do Evento " . $dataRecovery["event_name"],"invit",
+        $email = $dataRecovery["eventguest_email"];        
+        $name = $dataRecovery["eventguest_name"];
+        $subj = "Confirme a presença do Evento : ";        
+        $event = $dataRecovery["event_name"];
+
+        $mailer = new Mailer($email, $name, $subj . $event,"invit",
             array(
-                "name"=>$dataRecovery["eventguest_name"],
+                "event"=>$event,
+                "name"=>$name,
                 "link"=>$link
             )
         );
@@ -205,8 +253,6 @@ public static function EventGuestInvite($event_id, $eventguest_id) {
             
         };
     }
-
-
 
 public static function validinvitDecrypt($code) {
 
@@ -220,31 +266,15 @@ public static function validinvitDecrypt($code) {
         EventGuest::SECRET_IV
     );
 
+    $results = EventGuest::getEventGuestConfirm($guestconfirm_id);
 
-    $sql = new Sql();
-
-    $results = $sql->select("
-        select * from tb_guestconfirm a
-        inner join tb_events b  on a.event_id = b.event_id
-        inner join tb_eventguests c on a.event_id = b.event_id and a.eventguest_id = c.eventguest_id
-        where 	a.guestconfirm_id = :guestconfirm_id
-        and     a.guestconfirm_date is null 
-        ",
-        Array
-        (
-            ":guestconfirm_id"=>$guestconfirm_id
-        )
-    );
-
-    if (count($results) === 0) 
+    if ($results === null) 
     {    
-        EventGuest::setNotification("Não foi possivel confirmar a presença do evento.",'warning');
-        return null;             
+        EventGuest::setNotification("Não foi possivel confirmar a presença do evento.",'warning');           
     }
-    else
-    {
-        return $results[0];
-    };
+ 
+    return $results;
+
 } 
 
 public static function setInvitConfirm($eventguest_id, $guestconfirm_id, $eventguest_confirm, $remote_ip) 
@@ -252,14 +282,12 @@ public static function setInvitConfirm($eventguest_id, $guestconfirm_id, $eventg
 
     $sql = new Sql();
 
-
     $results = $sql->select("call sp_invitconfirm_update(:eventguest_id, :guestconfirm_id, :eventguest_confirm, :remote_ip)", array(
         ":eventguest_id"=>$eventguest_id,
         ":guestconfirm_id"=>$guestconfirm_id,
         ":eventguest_confirm"=>$eventguest_confirm,
         ":remote_ip"=>$remote_ip 
     ));
-
 
     if (count($results) === 0) 
     {
@@ -272,8 +300,6 @@ public static function setInvitConfirm($eventguest_id, $guestconfirm_id, $eventg
     }
 
     return $results[0];
-
 }
-
 
 }?>
