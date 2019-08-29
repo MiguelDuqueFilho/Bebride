@@ -5985,7 +5985,7 @@ button.close {
   position: relative;
   display: none;
   align-items: center;
-  width: 100%;
+  width: 33%;
   transition: transform 0.6s ease;
   backface-visibility: hidden;
   perspective: 1000px;

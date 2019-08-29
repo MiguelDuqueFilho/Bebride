@@ -1,206 +1,200 @@
 <div class="page-header" data-parallax="true" style="background-image: url('/assets/site/img/banner-01.jpg');">
   <div class="container">
-      {include="notification"} 
-      <div class="row">
-        <div class="col-md-8 ml-auto mr-auto">
-          <div class="brand">
-            <h1>BeBride</h1>
-            <h3>Venha conversar com a gente.</h3>
-          </div>
+    {include="notification"}
+    <div class="row">
+      <div class="col-md-8 ml-auto mr-auto">
+        <div class="brand">
+          <h1>BeBride</h1>
+          <h3>Venha conversar com a gente.</h3>
         </div>
       </div>
     </div>
   </div>
-  <div class="main main-raised">
-    <div class="container">
-      <div class="section text-center">
-        <div class="row">
-          <div class="col-md-8 ml-auto mr-auto">
-            <h2 class="title">Nós cuidamos de tudo pra você</h2>
-            <h4 class="description">Cada dia da organização do seu casamento deve <i>ser celebrados</i>.</h4>
-          </div>
+</div>
+<div class="main main-raised">
+  <div class="container">
+    <div class="section text-center">
+      <div class="row">
+        <div class="col-md-8 ml-auto mr-auto">
+          <h2 class="title">Nós cuidamos de tudo pra você</h2>
+          <h4 class="description">Cada dia da organização do seu casamento deve <i>ser celebrados</i>.</h4>
         </div>
-        <div class="features">
-          <div class="row">
-            {loop="$eventstype"}
-            <div class="col-md-3">
-              <div class="info">
-                <div class="icon icon-primary ">
-                  <i href="#" class="material-icons">{$value.event_type_icon}</i>
-                </div>
-                <h4 class="info-title">{$value.event_type_name}</h4>
-                <p>{$value.event_descriptions}</p>
+      </div>
+      <div class="features">
+        <div class="row">
+          {loop="$eventstype"}
+          <div class="col-md-3">
+            <div class="info">
+              <div class="icon icon-primary ">
+                <i href="#" class="material-icons">{$value.event_type_icon}</i>
               </div>
-              <a href="/event/type/{$value.event_type_id}">Saiba Mais</a> </p>
+              <h4 class="info-title">{$value.event_type_name}</h4>
+              <p>{$value.event_descriptions}</p>
             </div>
-            {/loop}
+            <a href="/event/type/{$value.event_type_id}">Saiba Mais</a> </p>
           </div>
+          {/loop}
         </div>
       </div>
     </div>
+  </div>
+  <div class="section text-center">
+    <div class="row">
+      <div class="col-md-8 ml-auto mr-auto">
+        <h2 class="title">Depoimentos</h2>
+      </div>
+    </div>
+
+<!-- Top content -->
+<div class="top-content">
+  <div class="container-fluid">
+      <div id="carousel-example" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner row w-100 mx-auto" role="listbox">
+              {loop="$depositions"}
+              <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 {if="'yes' == $value.active"} active {/if}">
+                <div class="col-md-12">
+                  <div class="card mb-2">
+                    <img class="card-img-top"
+                      src="{$value.deposition_urlphoto}"
+                      alt="Card image cap">
+                    <div class="card-body">
+                      <h4 class="card-title">{$value.event_name}</h4>
+                      <p class="card-text">{$value.deposition_description}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/loop}
+          </div>
+          <a class="carousel-control-prev" href="#carousel-example" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carousel-example" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+          </a>
+      </div>
+  </div>
+</div>
 
 
 
     <div class="section text-center">
+      <h2 class="title">Aqui está nosso time</h2>
+      <div class="team">
         <div class="row">
-            <div class="col-md-8 ml-auto mr-auto">
-              <h2 class="title">Depoimentos</h2>
+          <div class="col-md-4">
+            <div class="team-player">
+              <div class="card card-plain">
+                <div class="col-md-6 ml-auto mr-auto">
+                  <img src="/assets/site/img/faces/avatar_bruna.jpg" alt="Thumbnail Image"
+                    class="img-raised rounded-circle img-fluid">
+                </div>
+                <h4 class="card-title">Bruna Duque
+                  <br>
+                  <small class="card-description text-muted">Publicitária</small>
+                </h4>
+                <div class="card-body">
+                  <p class="card-description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eveniet aliquid
+                    eligendi corporis illo facere hic, eius, fugiat quas, corrupti voluptate deleniti laborum natus eum
+                    suscipit eos ut dolorum quidem quod?
+                    <a href="#">links</a> </p>
+                </div>
+                <div class="card-footer justify-content-center">
+                  <a href="#" class="btn btn-link btn-just-icon"><i class="fa fa-instagram"></i></a>
+                  <a href="#" class="btn btn-link btn-just-icon"><i class="fa fa-facebook-square"></i></a>
+                </div>
+              </div>
             </div>
           </div>
-    
-    <!-- Top content -->
-    <div class="top-content">
-        <div class="container-fluid">
-            <div id="carousel-example" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner row w-100 mx-auto" role="listbox">
-                    <?php $counter1=-1;  if( isset($depositions) && ( is_array($depositions) || $depositions instanceof Traversable ) && sizeof($depositions) ) foreach( $depositions as $key1 => $value1 ){ $counter1++; ?>
-    
-                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 <?php if( '0' == $value1["rownumber"] ){ ?> active <?php } ?> ">
-                        <img src="<?php echo htmlspecialchars( $value1["deposition_urlphoto"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="img-fluid mx-auto d-block" alt="img<?php echo htmlspecialchars( $value1["rownumber"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
-                        <div class="card-body">
-                            <h4 class="card-title" ><?php echo htmlspecialchars( $value1["event_name"], ENT_COMPAT, 'UTF-8', FALSE ); ?></h4>
-                            <h5 class="card-description" id="deposition-description-avatar" ><?php echo htmlspecialchars( $value1["deposition_description"], ENT_COMPAT, 'UTF-8', FALSE ); ?></h5>
-                        </div>        
-        
-                    </div>
-    
-                    <?php } ?>
-    
+          <div class="col-md-4">
+            <div class="team-player">
+              <div class="card card-plain">
+                <div class="col-md-6 ml-auto mr-auto">
+                  <img src="/assets/site/img/faces/avatar_face1.jpg" alt="Thumbnail Image"
+                    class="img-raised rounded-circle img-fluid">
                 </div>
-                <a class="carousel-control-prev" href="#carousel-example" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carousel-example" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-        </div>
-    </div>
-    
-    
-    
-    
-    
-
-
-
-      <div class="section text-center">
-        <h2 class="title">Aqui está nosso time</h2>
-        <div class="team">
-          <div class="row">
-            <div class="col-md-4">
-              <div class="team-player">
-                <div class="card card-plain">
-                  <div class="col-md-6 ml-auto mr-auto">
-                    <img src="/assets/site/img/faces/avatar_bruna.jpg" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
-                  </div>
-                  <h4 class="card-title">Bruna Duque
-                    <br>
-                    <small class="card-description text-muted">Publicitária</small>
-                  </h4>
-                  <div class="card-body">
-                    <p class="card-description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eveniet aliquid eligendi corporis illo facere hic, eius, fugiat quas, corrupti voluptate deleniti laborum natus eum suscipit eos ut dolorum quidem quod?
-                      <a href="#">links</a> </p>
-                  </div>
-                  <div class="card-footer justify-content-center">
-                    <a href="#" class="btn btn-link btn-just-icon"><i class="fa fa-instagram"></i></a>
-                    <a href="#" class="btn btn-link btn-just-icon"><i class="fa fa-facebook-square"></i></a>
-                  </div>
+                <h4 class="card-title">xxxx xxxxx
+                  <br>
+                  <small class="card-description text-muted">Assessora</small>
+                </h4>
+                <div class="card-body">
+                  <p class="card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti, iste
+                    facilis? Dicta vero fugiat quo! Reiciendis aspernatur obcaecati atque sequi ullam, beatae dolorum
+                    non corporis aliquam illo fugit sunt voluptatum!
+                    <a href="#">links</a> Abaixo.</p>
+                </div>
+                <div class="card-footer justify-content-center">
+                  <a href="#pablo" class="btn btn-link btn-just-icon"><i class="fa fa-instagram"></i></a>
+                  <a href="#pablo" class="btn btn-link btn-just-icon"><i class="fa fa-facebook-square"></i></a>
                 </div>
               </div>
             </div>
-            <div class="col-md-4">
-              <div class="team-player">
-                <div class="card card-plain">
-                  <div class="col-md-6 ml-auto mr-auto">
-                    <img src="/assets/site/img/faces/avatar_face1.jpg" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
-                  </div>
-                  <h4 class="card-title">xxxx xxxxx
-                    <br>
-                    <small class="card-description text-muted">Assessora</small>
-                  </h4>
-                  <div class="card-body">
-                    <p class="card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti, iste facilis? Dicta vero fugiat quo! Reiciendis aspernatur obcaecati atque sequi ullam, beatae dolorum non corporis aliquam illo fugit sunt voluptatum!
-                      <a href="#">links</a> Abaixo.</p>
-                  </div>
-                  <div class="card-footer justify-content-center">
-                    <a href="#pablo" class="btn btn-link btn-just-icon"><i class="fa fa-instagram"></i></a>
-                    <a href="#pablo" class="btn btn-link btn-just-icon"><i class="fa fa-facebook-square"></i></a>
-                  </div>
+          </div>
+          <div class="col-md-4">
+            <div class="team-player">
+              <div class="card card-plain">
+                <div class="col-md-6 ml-auto mr-auto">
+                  <img src="/assets/site/img/faces/avatar_face2.jpg" alt="Thumbnail Image"
+                    class="img-raised rounded-circle img-fluid">
                 </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="team-player">
-                <div class="card card-plain">
-                  <div class="col-md-6 ml-auto mr-auto">
-                    <img src="/assets/site/img/faces/avatar_face2.jpg" alt="Thumbnail Image" class="img-raised rounded-circle img-fluid">
-                  </div>
-                  <h4 class="card-title">yyyy
-                    <br>
-                    <small class="card-description text-muted">Financeiro</small>
-                  </h4>
-                  <div class="card-body">
-                    <p class="card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos velit eum at deleniti amet! Consequuntur eius sint labore sunt. Repudiandae mollitia libero dolorum sint, corporis beatae id obcaecati eveniet optio.
-                      <a href="#">links</a> Abaixo.</p>
-                  </div>
-                  <div class="card-footer justify-content-center">
-                    <a href="#pablo" class="btn btn-link btn-just-icon"><i class="fa fa-instagram"></i></a>
-                    <a href="#pablo" class="btn btn-link btn-just-icon"><i class="fa fa-facebook-square"></i></a>
-                  </div>
+                <h4 class="card-title">yyyy
+                  <br>
+                  <small class="card-description text-muted">Financeiro</small>
+                </h4>
+                <div class="card-body">
+                  <p class="card-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos velit eum at
+                    deleniti amet! Consequuntur eius sint labore sunt. Repudiandae mollitia libero dolorum sint,
+                    corporis beatae id obcaecati eveniet optio.
+                    <a href="#">links</a> Abaixo.</p>
+                </div>
+                <div class="card-footer justify-content-center">
+                  <a href="#pablo" class="btn btn-link btn-just-icon"><i class="fa fa-instagram"></i></a>
+                  <a href="#pablo" class="btn btn-link btn-just-icon"><i class="fa fa-facebook-square"></i></a>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- <div class="section text-center page-header" data-parallax="true" style="background-image: url('/assets/site/img/banner-01.jpg');">
-        <h2 class="title">Depoimentos</h2>
-        <div class="row">
-            <div class="col-md-12 ml-auto mr-auto">
-              <div class="brand">
-                <h1>xxxxxxx</h1>
-                <h3>dhfhfh ffffhf.</h3>
+    </div>
+    <div class="section section-contacts">
+      <div class="row">
+        <div class="col-md-6 ml-auto mr-auto">
+          <h2 class="text-center title">Dúvidas ou Sugestões</h2>
+          <h4 class="text-center description">Escreva algumas linhas sobre Dúvidas ou Sugestões e entre em contato. Nós
+            responderemos a você em algumas horas.</h4>
+          <form class="contact-form" action="/sendMail" method="POST">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Seu Nome</label>
+                  <input type="text" name="client_name" class="form-control">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Seu E-mail</label>
+                  <input type="email" name="client_email" class="form-control">
+                </div>
               </div>
             </div>
-          </div>
-      </div> -->
-      <div class="section section-contacts">
-        <div class="row">
-          <div class="col-md-6 ml-auto mr-auto">
-            <h2 class="text-center title">Dúvidas ou Sugestões</h2>
-            <h4 class="text-center description">Escreva algumas linhas sobre Dúvidas ou Sugestões e entre em contato. Nós responderemos a você em algumas horas.</h4>
-            <form class="contact-form" action="/sendMail" method="POST" >
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="bmd-label-floating">Seu Nome</label>
-                    <input type="text" name="client_name" class="form-control">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="bmd-label-floating">Seu E-mail</label>
-                    <input type="email"  name="client_email" class="form-control">
-                  </div>
-                </div>
+            <div class="form-group">
+              <label for="exampleMessage" class="bmd-label-floating">Sua mensagem</label>
+              <textarea class="form-control" rows="4" id="message_email" name="message_email"></textarea>
+            </div>
+            <div class="row">
+              <div class="col-md-4 ml-auto mr-auto text-center">
+                <button class="btn btn-primary btn-raised">
+                  Enviar mensagem
+                </button>
               </div>
-              <div class="form-group">
-                <label for="exampleMessage" class="bmd-label-floating">Sua mensagem</label>
-                <textarea class="form-control" rows="4" id="message_email" name="message_email"></textarea>
-              </div>
-              <div class="row">
-                <div class="col-md-4 ml-auto mr-auto text-center">
-                  <button class="btn btn-primary btn-raised">
-                    Enviar mensagem
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
+</div>
+

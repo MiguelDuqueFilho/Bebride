@@ -8,6 +8,7 @@ use \BeBride\Page;
 use \BeBride\Model\User;
 use \BeBride\Model\Events;
 use \BeBride\Model\EventGuest;
+use \BeBride\Model\Deposition;
 
 // use \BeBride\Model\Product;
 // use \BeBride\Model\Category;
@@ -26,7 +27,8 @@ $app->get('/', function() {
 
 	$page->setTpl("index",[
 		"notification"=>Model::getNotification(),
-		'eventstype'=>Events::getEventsType()
+		"eventstype"=>Events::getEventsType(),
+		"depositions"=>Deposition::getDepositionShow()
 	]);
 
 

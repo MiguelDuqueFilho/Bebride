@@ -32,6 +32,25 @@ class Deposition extends Model
 
     }
 
+    public static function getDepositionShow() 
+    {
+
+        $sql = new Sql();
+        
+        $results = $sql->select("SELECT * , 'no' as active 
+        FROM tb_depositions a
+        INNER JOIN tb_events b ON a.event_id = b.event_id
+        WHERE deposition_show = '1'
+        LIMIT 8;
+        ");
+
+        $results[0]['active'] =  'yes';
+         return $results;
+
+ 
+    }
+
+
 
     public function save()
     {
