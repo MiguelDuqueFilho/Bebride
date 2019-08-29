@@ -152,7 +152,7 @@ public static function calcPageMenu($page, $pagination, $search, $href = '/admin
 public function checkPhoto() 
 {
     $dist = 
-    $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 
+    $_SERVER['DOCUMENT_ROOT'] .  
     "assets" . DIRECTORY_SEPARATOR . 
     "site" . DIRECTORY_SEPARATOR . 
     "img" . DIRECTORY_SEPARATOR . 
@@ -169,6 +169,7 @@ public function checkPhoto()
     {
         $url = "/assets/site/img/depositions/deposition_0.jpg" ;
     }
+
 
     return $this->setdeposition_urlphoto($url);
 }
@@ -208,7 +209,7 @@ public function setPhoto($file)
     }
 
     $dist = 
-            $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 
+            $_SERVER['DOCUMENT_ROOT']  . 
             "assets" . DIRECTORY_SEPARATOR . 
             "site" . DIRECTORY_SEPARATOR . 
             "img" . DIRECTORY_SEPARATOR . 
