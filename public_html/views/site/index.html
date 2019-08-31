@@ -40,36 +40,37 @@
   </div>
   <div class="section text-center">
     <div class="row">
-      <div class="col-md-8 ml-auto mr-auto">
+      <div class="col-md-8 mb-4 ml-auto mr-auto">
         <h2 class="title">Depoimentos</h2>
       </div>
     </div>
 
+
 <!-- Top content -->
 <div class="top-content">
-  <div class="container-fluid">
-      <div id="carousel-example" class="carousel slide" data-ride="carousel">
+  <div class="container-fluid" >
+      <div id="carousel-depositions" class="carousel slide " data-ride="carousel">
           <div class="carousel-inner row w-100 mx-auto" role="listbox">
               {loop="$depositions"}
               <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 {if="'yes' == $value.active"} active {/if}">
                 <div class="col-md-12">
                   <div class="card mb-2">
-                    <img class="card-img-top card-depositions"
+                    <img class="card-img-top " 
                       src="{$value.deposition_urlphoto}" alt="Card image cap">
                     <div class="card-body">
-                      <h4 class="card-title">{$value.event_name}</h4>
-                      <p class="card-text">{$value.deposition_description}</p>
+                      <h4 class="card-title ">{$value.event_name}</h4>
+                      <p class="card-text ">{$value.deposition_description}</p>
                     </div>
                   </div>
                 </div>
               </div>
               {/loop}
           </div>
-          <a class="carousel-control-prev" href="#carousel-example" role="button" data-slide="prev">
+          <a class="carousel-control-prev" href="#carousel-depositions" role="button" data-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="sr-only">Previous</span>
           </a>
-          <a class="carousel-control-next" href="#carousel-example" role="button" data-slide="next">
+          <a class="carousel-control-next" href="#carousel-depositions" role="button" data-slide="next">
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="sr-only">Next</span>
           </a>

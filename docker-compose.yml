@@ -5,6 +5,7 @@ services:
       context: './php/'
       args:
        PHP_VERSION: ${PHP_VERSION}
+    restart: always
     networks:
       - backend
     volumes:
@@ -18,6 +19,7 @@ services:
     depends_on:
       - php
       - mysql
+    restart: always
     networks:
       - frontend
       - backend
