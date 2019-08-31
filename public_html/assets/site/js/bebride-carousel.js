@@ -15,12 +15,10 @@ $('#carousel-depositions').on('slide.bs.carousel', function (e) {
   if (window.innerWidth <= 576)
   {
     element.classList.remove("slide");
-    console.log('class remove style: ' + element);
   }
   else
   {
     element.classList.add("slide");
-    console.log('class add style: ' + element);
   }
 
 
