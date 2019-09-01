@@ -2,6 +2,16 @@
 use \BeBride\Model\User;
 use \BeBride\Model\Cart;
 
+
+function bannerNum() 
+{  
+    // style="background-image: url('/assets/site/img/banner-inicial-1.png');"
+    // $imgrdm = "style=" . "''" .  "background-image: url(" . "'" . "/assets/site/img/banner-inicial-" . rand(1,4) . ".png" . "');" . "''"  ;
+    $imgrdm = "/assets/site/img/banner-inicial-" . rand(1,4) . ".png";
+
+    return $imgrdm;
+}
+
 function formatPrice($vlprice) 
 {
     if (!$vlprice > 0) $vlprice = 0;
