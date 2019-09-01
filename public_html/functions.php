@@ -7,7 +7,7 @@ function bannerNum()
 {  
     // style="background-image: url('/assets/site/img/banner-inicial-1.png');"
     // $imgrdm = "style=" . "''" .  "background-image: url(" . "'" . "/assets/site/img/banner-inicial-" . rand(1,4) . ".png" . "');" . "''"  ;
-    $imgrdm = "/assets/site/img/banner-inicial-" . rand(1,4) . ".png";
+    $imgrdm = "/assets/site/img/banner-inicial-" . rand(1,3) . ".png";
 
     return $imgrdm;
 }
