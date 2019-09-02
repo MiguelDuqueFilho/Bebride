@@ -31,7 +31,7 @@ class Page {
 
         $this->setValues($this->options["data"]);
 
-        if ($this->options["header"] === true) $this->tpl->draw("header");
+
     }
 
     private function setValues($data = array()) {
@@ -45,6 +45,7 @@ class Page {
 
         $this->setValues($data);
 
+        if ($this->options["header"] === true) $this->tpl->draw("header");
 
         return $this->tpl->draw($name, $returnHTML);
     }

@@ -10,16 +10,6 @@ use \BeBride\Model\Events;
 use \BeBride\Model\EventGuest;
 use \BeBride\Model\Deposition;
 
-// use \BeBride\Model\Product;
-// use \BeBride\Model\Category;
-// use \BeBride\Model\Cart;
-// use \BeBride\Model\Address; 
-// use \Rain\Tpl\Exception;
-// use \BeBride\Model\Order;
-// use \BeBride\Model\OrderStatus;
-
-
-
 
 $app->get('/', function() {
 
@@ -41,6 +31,7 @@ $app->get('/register', function() {
 
 	$page->setTpl("register", [
 		"notification"=>Model::getNotification(),
+		"eventstype"=>Events::getEventsType(),
 		'registerValues'=>(isset($_SESSION['registerValues'])) ? $_SESSION['registerValues'] : ['person_firstname'=>'', 'person_lastname'=>'','person_email'=>'', 'person_phone'=>'']
 	]);
 
@@ -142,6 +133,7 @@ $app->get('/login', function() {
 
 	$page->setTpl("login",[
 		"notification"=>Model::getNotification(),
+		"eventstype"=>Events::getEventsType(),
 		'loginValues'=>(isset($_SESSION['loginValues'])) ? $_SESSION['loginValues'] : ['person_email'=>'']
 	]);
 
@@ -197,7 +189,8 @@ $app->get("/forgot/sent", function() {
 	$page = new Page();
 
 	$page->setTpl("forgot-sent",[
-		"notification"=>Model::getNotification()
+		"notification"=>Model::getNotification(),
+		"eventstype"=>Events::getEventsType()
 	]);
 
 });
@@ -215,13 +208,15 @@ $app->get("/forgot/reset", function() {
 	if ($user === null) {
 		User::setNotification("Não foi possivel recuperar a senha.",'error');
 		$page->setTpl("forgot-reset-success", array(
-			"notification"=>Model::getNotification()
+			"notification"=>Model::getNotification(),
+			"eventstype"=>Events::getEventsType()
 		));
 	}
 	else 
 	{	
 		$page->setTpl("forgot-reset", array(
 			"notification"=>Model::getNotification(),
+			"eventstype"=>Events::getEventsType(),
 			"name"=>$user["person_firstname"],
 			"code"=>$_GET["code"]
 		));
@@ -258,7 +253,8 @@ $app->post("/forgot/reset", function() {
 	$page = new Page();
 	
 	$page->setTpl("forgot-reset-success",[
-		"notification"=>Model::getNotification()
+		"notification"=>Model::getNotification(),
+		"eventstype"=>Events::getEventsType()
 	]);
 });
 
@@ -266,7 +262,10 @@ $app->get("/forgot", function() {
 
 	$page = new Page();
 
-	$page->setTpl("forgot");
+	$page->setTpl("forgot",[
+		"notification"=>Model::getNotification(),
+		"eventstype"=>Events::getEventsType()
+	]);
 });
 
 
@@ -306,6 +305,7 @@ $app->get("/invit/comfirm", function() {
 	{	
 		$page->setTpl("invit-confirm", array(
 			"notification"=>Model::getNotification(),
+			"eventstype"=>Events::getEventsType(),
 			"eventguest"=>$eventguestrecovery,
 			"code"=>$_GET["code"]
 		));
