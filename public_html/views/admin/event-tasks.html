@@ -82,26 +82,42 @@
                         <th>Duração</th>
                         <th>Inicio</th>
                         <th>Fim</th>
+                        <th>-25%</th>
                         <th>% Tarefa</th>
+                        <th>+25%</th>
                         <Th class="text-center" >Ações</Th>
                       </thead>
                       <tbody>
                         {loop="$eventtasks"}
                           <tr  >
                           <td hidden>{$value.event_id}</td>
-                          <td width="5%" >#{$value.modeltask_id}</td>
-                          <td width="5%" >#{$value.task_id}</td>
+                          <td width="1%" >#{$value.modeltask_id}</td>
+                          <td width="1%" >#{$value.task_id}</td>
                           <td width="35%" data-toggle="tooltip" title="{$value.section_task_name}" >{$value.task_name}</td>
-                          <td width="5%"  title="{$value.status_task_name}" class="text-center" ><img class="img-raised rounded-circle img-fluid " name="image_status" 
+                          <td width="1%"  title="{$value.status_task_name}" class="text-center" ><img class="img-raised rounded-circle img-fluid " name="image_status" 
                             src="/assets/admin/img/image-status-{$value.status_task_color}.jpg"></td>
                           <td width="5%">{$value.task_duration} dia(s)</td>
                           <td width="5%">{function="formatDate($value.task_start)"}</td>
                           <td width="5%">{function="formatDate($value.task_finish)"}</td>
+                          <td width="1%" class="td-actions text-center">
+                              <a href="/admin/events/{$value.event_id}/eventtasks/{$value.task_id}/subtractpercent">
+                                  <button type="button" class="btn btn-primary btn-link">
+                                    <i class="material-icons">remove_circle</i>
+                                  </button>
+                              </a>
+                            </td>      
                           <td width="20%" >
-                          <div class="progress">
-                                <div class="progress-bar bg-info" role="progressbar" style="width: {$value.task_completed}%" aria-valuenow="{$value.task_completed}" aria-valuemin="0" aria-valuemax="100">{$value.task_completed}%</div>
+                            <div class="progress">
+                              <div class="progress-bar bg-info" role="progressbar" style="width: {$value.task_completed}%" aria-valuenow="{$value.task_completed}" aria-valuemin="0" aria-valuemax="100">{$value.task_completed}%</div>
                             </div>
                           </td>
+                          <td width="1%" class="td-actions text-center">
+                              <a href="/admin/events/{$value.event_id}/eventtasks/{$value.task_id}/addpercent" >
+                                <button type="button" class="btn btn-primary btn-link btn-sm">
+                                  <i class="material-icons">add_circle</i>
+                                </button>
+                              </a>
+                          </td>  
                           <td width="10%" class="td-actions text-center">
                             <a  href="/admin/events/{$value.event_id}/eventtasks/{$value.task_id}/update" >
                               <button type="button" class="btn btn-primary btn-link btn-sm">

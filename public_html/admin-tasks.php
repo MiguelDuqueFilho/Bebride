@@ -181,7 +181,6 @@ $app->post('/admin/events/:event_id/eventtasks/:eventtask_id/update', function($
 });    
 
 
-
 $app->get('/admin/events/:event_id/eventtasks/:task_id/delete', function($event_id,$task_id) {
 
 	User::verifyLogin(1);
@@ -191,12 +190,56 @@ $app->get('/admin/events/:event_id/eventtasks/:task_id/delete', function($event_
 	$event_task->setevent_id($event_id);
 	$event_task->settask_id($task_id);
 
-
 	$event_task->delete();
 
 	$event_task->setNotification("Tarefa excluida com sucesso.",'success');
 
-	header("Location: /admin/modeltasks");
+	header("Location: /admin/events/".$event_id."/eventtasks");
+	exit;
+});
+
+
+$app->get('/admin/events/:event_id/eventtasks/:task_id/addpercent', function($event_id,$task_id) {
+
+	User::verifyLogin(1);
+
+	$event_task = new EventTask();
+
+	$event_task->getEventTasks( $event_id, $task_id);
+
+	$task_completed =  (int) $event_task->gettask_completed();
+
+	$task_completed = $task_completed + 25;
+
+	if ($task_completed > 100 ) $task_completed = 100;
+
+	$event_task->settask_completed($task_completed);
+
+	$event_task->save();
+
+	header("Location: /admin/events/".$event_id."/eventtasks");
+	exit;
+});
+
+$app->get('/admin/events/:event_id/eventtasks/:task_id/subtractpercent', function($event_id,$task_id) {
+
+	User::verifyLogin(1);
+
+	$event_task = new EventTask();
+
+	$event_task->getEventTasks( $event_id, $task_id);
+
+	$task_completed =  (int) $event_task->gettask_completed();
+
+	$task_completed = $task_completed - 25;
+
+	if ($task_completed < 0 ) $task_completed = 0;
+
+	$event_task->settask_completed($task_completed);
+
+	$event_task->save();
+
+	header("Location: /admin/events/".$event_id."/eventtasks");
 	exit;
 });
 
