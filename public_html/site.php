@@ -331,6 +331,54 @@ $app->post("/invit/comfirm", function() {
 });
 
 
+
+$app->get("/eventtype/complete", function() {
+
+	$page = new Page();
+
+	$page->setTpl("event-type-complete",[
+		"notification"=>Model::getNotification(),
+		"eventstype"=>Events::getEventsType()
+	]);
+
+});
+
+
+$app->get("/eventtype/last", function() {
+
+	$page = new Page();
+
+	$page->setTpl("event-type-last",[
+		"notification"=>Model::getNotification(),
+		"eventstype"=>Events::getEventsType()
+	]);
+
+});
+
+
+$app->get("/eventtype/requests", function() {
+
+	$page = new Page();
+
+	$page->setTpl("event-type-requests",[
+		"notification"=>Model::getNotification(),
+		"eventstype"=>Events::getEventsType()
+	]);
+
+});
+
+
+$app->get("/eventtype/consulting", function() {
+
+	$page = new Page();
+
+	$page->setTpl("event-type-consulting",[
+		"notification"=>Model::getNotification(),
+		"eventstype"=>Events::getEventsType()
+	]);
+
+});
+
 /* 
 
 

@@ -72,43 +72,11 @@ width: 100%;
   padding: 0;
   margin-top: -8px;
 }  
-  
-  
-  .container
-  {
-    margin-bottom: 50px;
-  }
-  body
-  {
-    color: #E54A41;
-  }
-  p
-  {
-    font-family: 'Open Sans', sans-serif;
-    color: #333;
-    margin-bottom: 2em;
-  }
-  h2
-  {
-    margin: 2em 0 1em;
-  }
-  
-  .logo
-  {
-    margin: 20px auto;
-    height: 100px;  
-    
-    @media only screen and (min-width : 768px) {  
-      margin: 28px;
-      float: left;
-    }
-  }
-  
-  .title
-  {
-    padding: 28px;
-    display: table-cell;
-    position: relative;
-    vertical-align: middle;
-    text-align: center;
-  }
+   
+.title
+{
+  padding: 28px;
+  display: block;
+  position: relative;
+  text-align: center;
+}
