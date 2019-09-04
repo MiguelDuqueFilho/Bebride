@@ -577,7 +577,7 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
         return true;
     }
 
-   public function calcTaskSuccessors($event_id) 
+   public static function calcTaskSuccessors($event_id) 
    {         
          $sql = new Sql();
          
@@ -619,8 +619,16 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
                  {
                      $startDate = $event_succ->gettask_start();
  
-                     $startCalc = subtrair_dias_uteis($startDate, $event_task->gettask_duration());
-                     $finishCalc = subtrair_dias_uteis($startDate, 1);
+                     if ($event_task->gettask_duration() > 0)
+                    {
+                        $startCalc = subtrair_dias_uteis($startDate, $event_task->gettask_duration());
+                        $finishCalc = subtrair_dias_uteis($startDate, 1);
+                    }
+                    else
+                    {
+                        $startCalc = $startDate;
+                        $finishCalc = $startDate;   
+                    }
 
                      if ($predecessors == '0')
                      {
@@ -643,6 +651,63 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
  
          return true;
      }
-}
 
-?>
+
+     
+   public static function calcTaskStatus($event_id) 
+   {         
+         $sql = new Sql();
+         
+         $resultsStatus = $sql->select("SELECT * 
+             FROM tb_eventtasks 
+             WHERE event_id = :event_id 
+             AND ( task_section_id != '1' AND modeltask_id != '0')
+             order by task_start 
+         ", [
+             ':event_id'=>$event_id
+         ]);
+ 
+ 
+         if (count($resultsStatus) == 0)  
+         {
+             return false;
+         }
+
+         $currentDate = date('Y-m-d');
+ 
+        foreach ( $resultsStatus as &$itemstatus ) 
+        {
+            $event_task = new EventTask();
+            $event_task->setValues($itemstatus);
+
+            $startDate = convertdate($event_task->gettask_start());
+            $finishDate = convertdate($event_task->gettask_finish());
+            $taskComplete = $event_task->gettask_completed();
+                
+            if ($taskComplete >= 100) 
+            {
+                $event_task->settask_status_id('2'); // status Em dia 
+                $event_task->save();
+                continue;
+            }
+            if ($startDate > $currentDate)
+            {
+                $event_task->settask_status_id('1'); // status inicial
+                $event_task->save();
+                continue;
+            }
+            
+            if ($finishDate < $currentDate)
+            {
+                $event_task->settask_status_id('4'); // status Atrasada
+                $event_task->save();
+                continue;
+            }
+            $event_task->settask_status_id('3'); // status Alerta
+            $event_task->save();
+        }
+ 
+         return true;
+    }
+
+}?>

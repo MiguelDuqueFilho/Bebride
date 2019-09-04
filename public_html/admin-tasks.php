@@ -556,6 +556,12 @@ $app->get('/admin/events/:event_id/eventtasks/processdate', function($event_id) 
 
 	EventTask::calcTaskSuccessors($event_id);
 	
+	EventTask::calcTaskStatus($event_id);
+
+	$event_task = new EventTask();
+	$event_task->setNotification("Processamento de datas realizado com sucesso.",'success');
+
+
 	header("Location: /admin/events/".$event_id."/eventtasks");
  	exit;
 });
