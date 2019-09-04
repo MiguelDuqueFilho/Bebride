@@ -42,7 +42,7 @@ $(document).ready(function() {
 
   materialKit.checkScrollForTransparentNavbar();
 
-  if (window_width >= 768) {
+  if (window_width >= 320) {
     big_image = $('.page-header[data-parallax="true"]');
     if (big_image.length != 0) {
       $(window).on('scroll', materialKit.checkScrollForParallax);

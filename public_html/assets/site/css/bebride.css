@@ -2,11 +2,6 @@
 
 /* altura do header */
 .index-page .page-header {
-    height: 70vh;
-}
-
-/* altura do header do login*/
-.index-page .page-header {
     height: 90vh;
 }
 
