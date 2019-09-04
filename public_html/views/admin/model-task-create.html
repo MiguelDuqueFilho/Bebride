@@ -12,13 +12,13 @@
                         <form class="form" action="/admin/modeltasks/create" method="post">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group"> 
-                                        <label class="bmd-label-floating"> Seção da tarefa</label>      
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating"> Tipo da tarefa</label>
                                         <select type="text" class="form-control" id="modeltask_section_id" name="modeltask_section_id" required>
                                             {loop="$sessiontask"}
-                                                {if="$value.section_task_id != '1'"}
-                                                    <option value="{$value.section_task_id}"  > {$value.section_task_name} </option>
-                                                {/if}
+                                            {if="$value.section_task_id != '1'"}
+                                            <option value="{$value.section_task_id}"> {$value.event_type_name} - {$value.section_task_name} </option>
+                                            {/if}
                                             {/loop}
                                         </select>
                                     </div>
@@ -40,7 +40,7 @@
                                     <div class="form-group">
                                         <label class="bmd-label-floating"> Duração dia(s)</label>
                                         <input type="number" class="form-control" id="modeltask_duration" name="modeltask_duration"
-                                        min="1" max="365"    required> 
+                                        min="0" max="365"    required> 
                                     </div>
                                 </div>
                                 <div class="col-md-3">

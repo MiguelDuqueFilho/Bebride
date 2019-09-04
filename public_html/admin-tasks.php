@@ -356,11 +356,7 @@ $app->post('/admin/modeltasks/create', function() {
 
 	$modeltask->setValues($_POST);
 
-	if ($modeltask->setmodeltask_calculatetask(false)) 
-	{
-
-	}
-	$modeltask->setmodeltask_calculatetask(false);
+	$modeltask->setmodeltask_calculatetask(0);
 
 	$modeltask->save();
 
@@ -398,8 +394,9 @@ $app->post('/admin/modeltasks/:modeltask_id/update', function($modeltask_id) {
 
 	$event_task->setValues($_POST);
 
-
 	$event_task->setmodeltask_id($modeltask_id);
+
+	$event_task->setmodeltask_calculatetask(0);
 
 	$event_task->save();
 

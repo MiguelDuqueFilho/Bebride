@@ -19,6 +19,7 @@ class ModelTask extends Model
         $results = $sql->select("SELECT *  
         FROM tb_modeltasks a 
         INNER JOIN tb_section_task b on b.section_task_id = a.modeltask_section_id
+        LEFT JOIN tb_eventstype c  on b.event_type_id = c.event_type_id
         WHERE a.modeltask_id = :modeltask_id
         ", [
             ':modeltask_id'=>$modeltask_id
@@ -39,7 +40,6 @@ class ModelTask extends Model
     public function save()
     {
         $sql = new Sql();
- 
        
         $results = $sql->select("call sp_modeltasks_save(
             :modeltask_id,
@@ -52,7 +52,7 @@ class ModelTask extends Model
             :modeltask_showboard,
             :modeltask_showcustomer,
             :modeltask_calculatetask
-            ", 
+            )", 
             [
             ':modeltask_id'=>(int) $this->getmodeltask_id(),
             ':modeltask_section_id'=>(int) $this->getmodeltask_section_id(),
@@ -99,7 +99,8 @@ public static function getPage( $searchsection, $page = 1, $itensPerPage = 15)
         $results = $sql->select("SELECT sql_calc_found_rows *  
             FROM tb_modeltasks a 
             INNER JOIN tb_section_task b on b.section_task_id = a.modeltask_section_id
-            ORDER BY a.modeltask_id
+            LEFT JOIN tb_eventstype c  on b.event_type_id = c.event_type_id
+            ORDER BY c.event_type_id, b.section_task_id, a.modeltask_id
             LIMIT $start , $itensPerPage;");
     }
     else 
@@ -107,8 +108,9 @@ public static function getPage( $searchsection, $page = 1, $itensPerPage = 15)
         $results = $sql->select("SELECT sql_calc_found_rows *  
             FROM tb_modeltasks a 
             INNER JOIN tb_section_task b on b.section_task_id = a.modeltask_section_id
+            LEFT JOIN tb_eventstype c  on b.event_type_id = c.event_type_id
             WHERE a.modeltask_section_id = :searchsection
-            ORDER BY a.modeltask_id  
+            ORDER BY c.event_type_id, b.section_task_id, a.modeltask_id
             LIMIT $start , $itensPerPage;
             ", [
                 ':searchsection'=>$searchsection
@@ -136,10 +138,12 @@ public static function getPageSearch($search, $searchsection, $page = 1, $itensP
     {
 
         $results = $sql->select("SELECT sql_calc_found_rows *  
-        FROM tb_modeltasks a  
+        FROM tb_modeltasks a 
         INNER JOIN tb_section_task b on b.section_task_id = a.modeltask_section_id
+        LEFT JOIN tb_eventstype c  on b.event_type_id = c.event_type_id
         WHERE ( a.modeltask_name LIKE :search 
         OR a.modeltask_responsible LIKE :search 
+        OR c.event_type_name LIKE :search 
         OR b.section_task_name LIKE :search )
         ORDER BY a.modeltask_id 
         LIMIT $start , $itensPerPage;
@@ -152,10 +156,12 @@ public static function getPageSearch($search, $searchsection, $page = 1, $itensP
     {
         $results = $sql->select("SELECT sql_calc_found_rows *  
         FROM tb_modeltasks a 
-        INNER JOIN tb_section_task b on b.section_task_id = a.task_section_id
+        INNER JOIN tb_section_task b on b.section_task_id = a.modeltask_section_id
+        LEFT JOIN tb_eventstype c  on b.event_type_id = c.event_type_id
         WHERE a.modeltask_section_id = :searchsection 
         AND ( a.modeltask_name LIKE :search 
         OR a.task_responsible LIKE :search
+        OR c.event_type_name LIKE :search 
         OR b.section_task_name LIKE :search  )
         ORDER BY a.modeltask_id
         LIMIT $start , $itensPerPage;

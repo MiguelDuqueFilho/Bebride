@@ -70,8 +70,9 @@ class EventTask extends Model
         $sql = new Sql();
 
         $results = $sql->select("SELECT * 
-            FROM tb_section_task 
-            ORDER BY  section_task_id");
+        FROM tb_section_task a
+        LEFT JOIN tb_eventstype b  on a.event_type_id = b.event_type_id
+        order by b.event_type_id , a.section_task_id");
 
        return $results;
     }
@@ -508,7 +509,7 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
         $resultsPred = $sql->select("SELECT * 
             FROM tb_eventtasks 
             WHERE event_id = :event_id 
-            AND ( task_section_id != '1' AND modeltask_id != '0' AND task_calculatetask != '1')
+            AND ( task_section_id != '1' AND modeltask_id != '0' AND task_calculatetask != '0')
             order by task_predecessors
         ", [
             ':event_id'=>$event_id
@@ -546,8 +547,18 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
                 {
                     $finishDate = $event_pred->gettask_finish();
 
-                    $event_task->settask_start(somar_dias_uteis($finishDate, 1));
-                    $event_task->settask_finish(somar_dias_uteis($finishDate, $event_task->gettask_duration()));
+                    if ($event_task->gettask_duration() > 0)
+                    {
+                        $event_task->settask_start(somar_dias_uteis($finishDate, 1));
+                        $event_task->settask_finish(somar_dias_uteis($finishDate, $event_task->gettask_duration()));
+                    }
+                    else
+                    {
+                        $event_task->settask_start($finishDate);
+                        $event_task->settask_finish($finishDate);
+                    }
+
+
 
                     $event_task->settask_calculatetask('1');
 
@@ -562,7 +573,7 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
  
         } while ($loop == true);
 
-        EventTask::setNotification("Recalculada: ".$icalc." tarefas predecessoras.","info");
+
         return true;
     }
 
@@ -630,7 +641,6 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
 
          } while ($loop == true);
  
-         EventTask::setNotification("Recalculada: ".$icalc." tarefas sucessoras.","info");
          return true;
      }
 }
