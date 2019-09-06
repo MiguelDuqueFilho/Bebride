@@ -145,3 +145,19 @@ select#searchsection.form-control.text-white.import_sel:not([size]):not([multipl
   max-height: 300px;
 }
 
+.notification-bebride {
+  position: absolute;
+  top: -1px;
+  border: 1px solid #FFF;
+  right: -8px;
+  font-size: 9px;
+  background: #9b5eac;
+  color: #FFFFFF;
+  min-width: 20px;
+  padding: 0px 5px;
+  height: 20px;
+  border-radius: 10px;
+  text-align: center;
+  line-height: 19px;
+  display: block;
+}

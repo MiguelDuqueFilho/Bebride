@@ -133,6 +133,7 @@ public static function getPage($event_id, $page = 1, $itensPerPage = 15)
             inner join tb_events b on b.event_id = a.event_id
             inner join tb_guestgroup c on c.guestgroup_id = a.guestgroup_id
             inner join tb_guesttype d on d.guesttype_id = a.guesttype_id
+            inner join tb_guest_status_confirm e on e.guest_tatus_confirm_id = a.eventguest_confirm_id
     WHERE a.event_id = :event_id 
     ORDER BY a.event_id, a.eventguest_seq
     LIMIT $start , $itensPerPage;
@@ -161,6 +162,7 @@ public static function getPageSearch($event_id, $search, $page = 1, $itensPerPag
             inner join tb_events b on b.event_id = a.event_id
             inner join tb_guestgroup c on c.guestgroup_id = a.guestgroup_id
             inner join tb_guesttype d on d.guesttype_id = a.guesttype_id
+            inner join tb_guest_status_confirm e on e.guest_tatus_confirm_id = a.eventguest_confirm_id
     WHERE a.event_id = :event_id 
     AND ( a.eventguest_name LIKE :search or a.eventguest_email LIKE :search or a.eventguest_special_care LIKE :search or c.guestgroup_name LIKE :search or  d.guesttype_name LIKE :search  ) 
     ORDER BY a.event_id, a.eventguest_seq 
@@ -277,15 +279,15 @@ public static function validinvitDecrypt($code) {
 
 } 
 
-public static function setInvitConfirm($eventguest_id, $guestconfirm_id, $eventguest_confirm, $remote_ip) 
+public static function setInvitConfirm($eventguest_id, $guestconfirm_id, $eventguest_confirm_id, $remote_ip) 
 {
 
     $sql = new Sql();
 
-    $results = $sql->select("call sp_invitconfirm_update(:eventguest_id, :guestconfirm_id, :eventguest_confirm, :remote_ip)", array(
+    $results = $sql->select("call sp_invitconfirm_update(:eventguest_id, :guestconfirm_id, :eventguest_confirm_id, :remote_ip)", array(
         ":eventguest_id"=>$eventguest_id,
         ":guestconfirm_id"=>$guestconfirm_id,
-        ":eventguest_confirm"=>$eventguest_confirm,
+        ":eventguest_confirm_id"=>$eventguest_confirm_id,
         ":remote_ip"=>$remote_ip 
     ));
 

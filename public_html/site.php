@@ -21,7 +21,6 @@ $app->get('/', function() {
 		"depositions"=>Deposition::getDepositionShow()
 	]);
 
-
 });
 
 
@@ -379,9 +378,9 @@ $app->get("/eventtype/consulting", function() {
 
 });
 
+
+
 /* 
-
-
 $app->get("/categories/:idcategory", function($idcategory) {
 
 	$page = (isset($_GET['page'])) ? (int)$_GET['page'] : 1;

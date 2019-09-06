@@ -67,29 +67,23 @@
                           <td width="10%" >{$value.guesttype_name}</td>
                           <td width="15%" >{$value.guestgroup_name}</td>
                           <td width="20%" >{$value.eventguest_email}</td>
-                          <td width="10%" > 
-                              {if="'0' == $value.eventguest_confirm"} Não enviado {/if} 
-                              {if="'1' == $value.eventguest_confirm"} Enviado {/if}
-                              {if="'2' == $value.eventguest_confirm"} Confirmado {/if}
-                              {if="'3' == $value.eventguest_confirm"} Recusado {/if}
-                          </td>
-                          </td>
-                          <td width="15%" class="td-actions text-center"> 
-                            {if="'0' == $value.eventguest_confirm"}
+                          <td width="10%" >{$value.guest_status_confirm_name}</td>
+                          <td width="20%" class="td-actions text-center"> 
+                            {if="'0' == $value.eventguest_confirm_id"}
                             <a href="/admin/events/{$value.event_id}/eventguests/{$value.eventguest_id}/convidar" >
                               <button type="button" class="btn btn-primary btn-link btn-sm">
                                 <i class="material-icons">mail</i>
                               </button>
                             </a>
                             {/if}
-                            {if="'2' != $value.eventguest_confirm"}
+                            {if="'2' != $value.eventguest_confirm_id"}
                             <a href="/admin/events/{$value.event_id}/eventguests/{$value.eventguest_id}/confirm/2" >
                               <button type="button" class="btn btn-primary btn-link btn-sm">
                                 <i class="material-icons">sentiment_very_satisfied</i>
                               </button>
                             </a>
                             {/if}
-                            {if="'3' != $value.eventguest_confirm"}
+                            {if="'3' != $value.eventguest_confirm_id"}
                             <a href="/admin/events/{$value.event_id}/eventguests/{$value.eventguest_id}/confirm/3" >
                               <button type="button" class="btn btn-primary btn-link btn-sm">
                                 <i class="material-icons">sentiment_very_dissatisfied</i>

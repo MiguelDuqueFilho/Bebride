@@ -53,6 +53,12 @@ class Events extends Model
             FROM tb_events a 
             INNER JOIN tb_eventstype b on b.event_type_id = a.event_type_id
             INNER JOIN tb_statustype c on c.status_type_id = a.status_type_id
+            LEFT JOIN
+				(SELECT event_id as eventid ,count(event_id)  as totalguests  FROM tb_eventguests  group by eventid) AS d ON d.eventid = a.event_id
+            LEFT JOIN
+                (SELECT event_id as eventid ,count(event_id)  as totaldepositions  FROM tb_depositions  group by eventid) AS e ON e.eventid = a.event_id
+            LEFT JOIN
+                (SELECT event_id as eventid ,count(event_id)  as totaltasks  FROM tb_eventtasks  group by eventid) AS f ON f.eventid = a.event_id            
             WHERE a.event_id = :event_id", array(
             ":event_id"=>$event_id
         ));
@@ -139,6 +145,12 @@ class Events extends Model
             FROM tb_events a 
             INNER JOIN tb_eventstype b on b.event_type_id = a.event_type_id
             INNER JOIN tb_statustype c on c.status_type_id = a.status_type_id
+            LEFT JOIN
+                (SELECT event_id as eventid ,count(event_id)  as totalguests  FROM tb_eventguests  group by eventid) AS d ON d.eventid = a.event_id
+            LEFT JOIN
+                (SELECT event_id as eventid ,count(event_id)  as totaldepositions  FROM tb_depositions  group by eventid) AS e ON e.eventid = a.event_id
+            LEFT JOIN
+                (SELECT event_id as eventid ,count(event_id)  as totaltasks  FROM tb_eventtasks  group by eventid) AS f ON f.eventid = a.event_id            
             ORDER BY a.status_type_id
             LIMIT $start , $itensPerPage;
             ");
@@ -164,6 +176,12 @@ class Events extends Model
             FROM tb_events a 
             INNER JOIN tb_eventstype b on b.event_type_id = a.event_type_id
             INNER JOIN tb_statustype c on c.status_type_id = a.status_type_id
+            LEFT JOIN
+                (SELECT event_id as eventid ,count(event_id)  as totalguests  FROM tb_eventguests  group by eventid) AS d ON d.eventid = a.event_id
+            LEFT JOIN
+                (SELECT event_id as eventid ,count(event_id)  as totaldepositions  FROM tb_depositions  group by eventid) AS e ON e.eventid = a.event_id
+            LEFT JOIN
+                (SELECT event_id as eventid ,count(event_id)  as totaltasks  FROM tb_eventtasks  group by eventid) AS f ON f.eventid = a.event_id            
             WHERE a.event_name LIKE :search OR a.event_description LIKE :search OR b.event_type_name LIKE :search OR  c.status_type_name LIKE :search 
             ORDER BY a.status_type_id
             LIMIT $start , $itensPerPage;

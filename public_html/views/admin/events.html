@@ -42,11 +42,17 @@
                               <a  href="/admin/events/{$value.event_id}/depositions" >
                                 <button type="button"  class="btn btn-primary btn-link btn-sm">
                                   <i class="material-icons">event_note</i>
+                                  {if="$value.totaldepositions != null"}
+                                  <span class="notification-bebride"><strong>{$value.totaldepositions}</strong></span>
+                                  {/if}  
                                 </button>
                               </a>  
                               <a  href="/admin/events/{$value.event_id}/eventtasks" >
                                 <button type="button"  class="btn btn-primary btn-link btn-sm">
                                   <i class="material-icons">assignment</i>
+                                  {if="$value.totaltasks != null"}
+                                  <span class="notification-bebride"><strong>{$value.totaltasks}</strong></span>
+                                  {/if}  
                                 </button>
                               </a>
                               <a  href="/admin/events/{$value.event_id}/update" > 

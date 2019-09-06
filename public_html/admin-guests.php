@@ -182,11 +182,11 @@ $app->get('/admin/events/:event_id/eventguests/:eventguest_id/convidar', functio
 });
 
 
-$app->get("/admin/events/:event_id/eventguests/:eventguest_id/confirm/:eventguest_confirm", function($event_id, $eventguest_id, $eventguest_confirm) {
+$app->get("/admin/events/:event_id/eventguests/:eventguest_id/confirm/:eventguest_confirm_id", function($event_id, $eventguest_id, $eventguest_confirm_id) {
 
 	User::verifyLogin(1);
 
-	EventGuest::setInvitConfirm( $eventguest_id, '0', $eventguest_confirm, $_SERVER["REMOTE_ADDR"]); 
+	EventGuest::setInvitConfirm( $eventguest_id, '0', $eventguest_confirm_id, $_SERVER["REMOTE_ADDR"]); 
 
 	header("Location: /admin/events/".$event_id."/eventguests");
 	exit;
