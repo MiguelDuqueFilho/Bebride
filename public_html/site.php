@@ -9,7 +9,7 @@ use \BeBride\Model\User;
 use \BeBride\Model\Events;
 use \BeBride\Model\EventGuest;
 use \BeBride\Model\Deposition;
-
+use BeBride\Model\EventTask;
 
 $app->get('/', function() {
 

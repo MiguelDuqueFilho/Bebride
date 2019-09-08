@@ -759,8 +759,6 @@ function debounce(func, wait, immediate) {
 };
 
 
-
-
 // chamada para a pagina dashboard
 $(document).ready(function() {
   md.initDashboardPageCharts();

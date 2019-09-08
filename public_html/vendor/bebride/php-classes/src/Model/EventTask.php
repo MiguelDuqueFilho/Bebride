@@ -8,9 +8,6 @@ use \BeBride\Model;
 class EventTask extends Model 
 {
 
-
-
-
     public function getEventTasks($event_id, $task_id) 
     {
 
@@ -709,5 +706,80 @@ public static function getPageSearch($event_id, $search, $searchsection, $page =
  
          return true;
     }
+
+
+
+    public static function getQtdTaskStatusBySection($event_id = NULL) 
+    {
+    
+        $sql = new Sql();
+    
+        if ($event_id == NULL) 
+        {
+            $results = $sql->select("SELECT  
+ 		    IFNULL(status_task_name, 'TOTAL') AS status_task_name,
+            IFNULL(section_task_name, 'TOTAL') AS section_task_name,
+ 		    count(section_task_name)  AS qtd_section_task     
+             FROM tb_eventtasks a 
+             INNER JOIN tb_statustask b on b.status_task_id = a.task_status_id
+             INNER JOIN tb_section_task c on c.section_task_id = a.task_section_id
+             INNER JOIN tb_events d on a.event_id = d.event_id
+             WHERE d.status_type_id < 6 
+             group by status_task_name, section_task_name  WITH ROLLUP;            
+             ");
+    
+        }
+        else
+        {
+            $results = $sql->select("SELECT  
+ 		    IFNULL(status_task_name, 'TOTAL') AS status_task_name,
+            IFNULL(section_task_name, 'TOTAL') AS section_task_name,
+ 		    count(section_task_name) AS qtd_section_task     
+             FROM tb_eventtasks a 
+             INNER JOIN tb_statustask b on b.status_task_id = a.task_status_id
+             INNER JOIN tb_section_task c on c.section_task_id = a.task_section_id
+             INNER JOIN tb_events d on a.event_id = d.event_id
+             WHERE d.status_type_id < 6 AND a.event_id = :event_id
+             group by status_task_name, section_task_name  WITH ROLLUP;
+            ", array(
+                ":event_id"=>$event_id
+            ));
+    
+        }
+
+        $resultsqtd = [];
+        $flag = 0;
+
+        if (count($results) > 0) 
+        {
+            foreach ($results as $itens )  
+            {
+                $status_task_name =  $itens['status_task_name'];
+                $section_task_name =  $itens['section_task_name'];
+                $qtd_section_task =  $itens['qtd_section_task'];
+                
+                if ($flag == 0) 
+                {
+                    $arraytmp = array( $status_task_name => array ($section_task_name  => $qtd_section_task, "active"));
+                }
+                else
+                {
+                    $arraytmp = array( $status_task_name => array ($section_task_name  => $qtd_section_task));
+                }
+                $flag = 1;
+                $resultsqtd = array_merge_recursive($resultsqtd, $arraytmp);
+            }
+
+
+            return $resultsqtd;
+
+        }
+        else 
+        {
+            EventGuest::setNotification("Erro na função getQtdTaskStatusBySection() ","error");
+            return null;
+        }
+    }
+    
 
 }?>

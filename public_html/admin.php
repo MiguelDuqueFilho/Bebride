@@ -3,6 +3,7 @@
 use \BeBride\PageAdmin;
 use \BeBride\Model;
 use \BeBride\Model\User;
+use \BeBride\Model\EventTask;
 
 
 $app->get('/admin', function() {
@@ -14,6 +15,7 @@ $app->get('/admin', function() {
 	$page = new PageAdmin();
 	
 	$page->setTpl("index",[
+		"qtdtaskstatusbysection"=>EventTask::getQtdTaskStatusBySection(),
 		"notification"=>Model::getNotification(),
 		'search'=>$search
 	]);

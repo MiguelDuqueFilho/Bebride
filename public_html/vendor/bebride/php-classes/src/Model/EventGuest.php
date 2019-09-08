@@ -304,4 +304,8 @@ public static function setInvitConfirm($eventguest_id, $guestconfirm_id, $eventg
     return $results[0];
 }
 
+}
+
+
+
 }?>
