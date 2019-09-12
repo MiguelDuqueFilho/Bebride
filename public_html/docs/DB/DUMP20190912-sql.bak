@@ -1,0 +1,1736 @@
+-- MySQL dump 10.13  Distrib 8.0.16, for macos10.14 (x86_64)
+--
+-- Host: 127.0.0.1    Database: db_bebride
+-- ------------------------------------------------------
+-- Server version	8.0.17
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+ SET NAMES utf8 ;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `tb_addresses`
+--
+
+DROP TABLE IF EXISTS `tb_addresses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_addresses` (
+  `address_id` int(11) NOT NULL AUTO_INCREMENT,
+  `person_id` int(11) NOT NULL,
+  `street_address` varchar(128) NOT NULL,
+  `street_number` varchar(16) NOT NULL,
+  `street_complement` varchar(45) DEFAULT NULL,
+  `district_name` varchar(45) NOT NULL,
+  `city_name` varchar(45) NOT NULL,
+  `state_name` varchar(45) NOT NULL,
+  `country_name` varchar(45) NOT NULL,
+  `zipcode_number` char(8) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`address_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_addresses`
+--
+
+LOCK TABLES `tb_addresses` WRITE;
+/*!40000 ALTER TABLE `tb_addresses` DISABLE KEYS */;
+INSERT INTO `tb_addresses` VALUES (11,43,'Rua Antônio Sebastião','164','casa','Vila São Geraldo','São Paulo','SP','Brasil','3609050','2019-07-04 20:12:23','2019-07-05 02:04:16'),(12,45,'Rua Antônio Sebastião','164','Casa','Penha','São Paulo','São Paulo','Brasil','3609050','2019-07-04 20:21:47','2019-07-04 20:21:47'),(13,46,'Rua Antonio Sebastião','164','Casa','Penha','São Paulo','São Paulo','Brasil','3609050','2019-07-04 22:08:39','2019-07-04 23:50:47');
+/*!40000 ALTER TABLE `tb_addresses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_carts`
+--
+
+DROP TABLE IF EXISTS `tb_carts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_carts` (
+  `idcart` int(11) NOT NULL AUTO_INCREMENT,
+  `dessessionid` varchar(64) NOT NULL,
+  `iduser` int(11) DEFAULT NULL,
+  `deszipcode` char(8) DEFAULT NULL,
+  `vlfreight` decimal(10,2) DEFAULT NULL,
+  `nrdays` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idcart`),
+  KEY `FK_carts_users_idx` (`iduser`),
+  CONSTRAINT `fk_carts_users` FOREIGN KEY (`iduser`) REFERENCES `tb_users` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_carts`
+--
+
+LOCK TABLES `tb_carts` WRITE;
+/*!40000 ALTER TABLE `tb_carts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_carts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_cartsproducts`
+--
+
+DROP TABLE IF EXISTS `tb_cartsproducts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_cartsproducts` (
+  `idcartproduct` int(11) NOT NULL AUTO_INCREMENT,
+  `idcart` int(11) NOT NULL,
+  `idproduct` int(11) NOT NULL,
+  `dtremoved` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idcartproduct`),
+  KEY `FK_cartsproducts_carts_idx` (`idcart`),
+  KEY `FK_cartsproducts_products_idx` (`idproduct`),
+  CONSTRAINT `fk_cartsproducts_carts` FOREIGN KEY (`idcart`) REFERENCES `tb_carts` (`idcart`),
+  CONSTRAINT `fk_cartsproducts_products` FOREIGN KEY (`idproduct`) REFERENCES `tb_products` (`idproduct`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_cartsproducts`
+--
+
+LOCK TABLES `tb_cartsproducts` WRITE;
+/*!40000 ALTER TABLE `tb_cartsproducts` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_cartsproducts` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_categories`
+--
+
+DROP TABLE IF EXISTS `tb_categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_categories` (
+  `idcategory` int(11) NOT NULL AUTO_INCREMENT,
+  `descategory` varchar(32) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idcategory`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_categories`
+--
+
+LOCK TABLES `tb_categories` WRITE;
+/*!40000 ALTER TABLE `tb_categories` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_depositions`
+--
+
+DROP TABLE IF EXISTS `tb_depositions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_depositions` (
+  `deposition_id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_id` int(11) NOT NULL,
+  `deposition_description` text NOT NULL,
+  `deposition_urlphoto` varchar(128) DEFAULT NULL,
+  `deposition_show` tinyint(4) NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`deposition_id`),
+  KEY `fk_depositions_events_idx` (`event_id`),
+  CONSTRAINT `fk_depositions_events` FOREIGN KEY (`event_id`) REFERENCES `tb_events` (`event_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_depositions`
+--
+
+LOCK TABLES `tb_depositions` WRITE;
+/*!40000 ALTER TABLE `tb_depositions` DISABLE KEYS */;
+INSERT INTO `tb_depositions` VALUES (1,1,'ABOBRINHA','/assets/site/img/depositions/deposition_1.jpg',1,'2019-08-06 15:14:02','2019-08-30 22:22:12'),(4,1,'teste1 teste 2 teste 3','/assets/site/img/depositions/deposition_4.jpg',1,'2019-08-08 18:18:30','2019-08-30 22:22:20'),(5,6,'teste do depoimento novo','/assets/site/img/depositions/deposition_5.jpg',1,'2019-08-10 01:09:27','2019-08-10 01:11:23'),(6,6,'teste teste teste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste testeteste teste','/assets/site/img/depositions/deposition_6.jpg',1,'2019-08-10 02:01:09','2019-08-10 02:01:38'),(7,6,'depoimento depoimento depoimento depoimento depoimento depoimento depoimento depoimento depoimento depoimento depoimento depoimento depoimento depoimento depoimento depoimento depoimento ','/assets/site/img/depositions/deposition_7.jpg',1,'2019-08-10 02:07:51','2019-08-10 02:08:17'),(8,12,'sdsdsd sd sd ssd sdssd ddsd sds dsdsdsdsd sds ds sd sds ','/assets/site/img/depositions/deposition_8.jpg',1,'2019-08-10 02:15:25','2019-08-10 02:15:39'),(10,1,'teste teste','/assets/site/img/depositions/deposition_10.jpg',1,'2019-08-24 23:06:44','2019-08-30 22:22:31'),(11,1,'teste novo Miguel','/assets/site/img/depositions/deposition_11.jpg',1,'2019-08-30 19:55:52','2019-08-30 22:22:39');
+/*!40000 ALTER TABLE `tb_depositions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_eventguests`
+--
+
+DROP TABLE IF EXISTS `tb_eventguests`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_eventguests` (
+  `eventguest_id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_id` int(11) NOT NULL,
+  `eventguest_seq` int(11) DEFAULT '0',
+  `guesttype_id` tinyint(4) NOT NULL DEFAULT '0',
+  `guestgroup_id` int(11) NOT NULL,
+  `eventguest_name` varchar(128) DEFAULT NULL,
+  `eventguest_email` varchar(128) DEFAULT NULL,
+  `eventguest_special_care` varchar(128) DEFAULT NULL,
+  `eventguest_confirm_id` tinyint(4) DEFAULT '0',
+  `eventguest_confirm_date` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`eventguest_id`),
+  KEY `fk_eventguest_event_idx` (`event_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_eventguests`
+--
+
+LOCK TABLES `tb_eventguests` WRITE;
+/*!40000 ALTER TABLE `tb_eventguests` DISABLE KEYS */;
+INSERT INTO `tb_eventguests` VALUES (2,1,4,2,1,'Miguel Duque Filho','miguel.duque@globo.com','teste de cuidados especiais',0,NULL,'2019-08-15 22:50:46','2019-08-15 22:50:46'),(3,1,5,2,1,'Miguel Duque Filho','miguel.duque@globo.com','teste de cuidados especiais',0,NULL,'2019-08-15 22:51:53','2019-08-15 22:51:53'),(4,1,6,2,1,'Miguel Duque Filho','miguel.duque@globo.com','teste de cuidados especiais',0,NULL,'2019-08-15 22:57:13','2019-08-15 22:57:13'),(13,1,7,3,3,'teste update','test@teste.com','xxxxx2222',0,NULL,'2019-08-16 00:22:12','2019-08-16 00:22:12'),(14,1,8,3,0,'teste','test@teste','xxxxx',0,NULL,'2019-08-16 00:29:31','2019-08-16 00:29:31'),(15,1,9,3,1,'Miguel Duque Filho','miguel.duque@globo.com','teste de cuidados especiais',0,NULL,'2019-08-16 00:31:06','2019-08-16 00:31:06'),(17,1,10,3,2,'wilma','wilma@duque','teste',0,NULL,'2019-08-16 00:32:04','2019-08-16 00:32:04'),(18,1,1,1,1,'Nome Sobrenome','miguel.duque@globo.com','especial',2,'2019-09-06 14:55:12','2019-08-16 02:44:43','2019-09-06 14:55:12'),(19,1,2,1,1,'xxx','miguel.duque@globo.com','especial',3,'2019-08-27 21:21:00','2019-08-16 02:45:18','2019-08-27 21:21:00'),(20,1,3,1,1,'Waldemar da Silva','miguel.duque@globo.com','especial',2,'2019-08-27 21:35:51','2019-08-16 02:45:20','2019-08-31 19:51:42'),(22,2,1,1,1,'xxx','xxx@xxx','especial',0,NULL,'2019-08-16 02:47:36','2019-08-16 02:47:36'),(23,1,11,1,0,'Miguel Duque Filho','miguel.duque@globo.com','cuidados especiais',1,'2019-08-27 21:20:57','2019-08-26 16:16:36','2019-09-06 14:55:24');
+/*!40000 ALTER TABLE `tb_eventguests` ENABLE KEYS */;
+UNLOCK TABLES;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `tg_guest` BEFORE INSERT ON `tb_eventguests` FOR EACH ROW SET NEW.eventguest_seq = (
+    SELECT COALESCE(MAX(eventguest_seq), 0) + 1 
+      FROM tb_eventguests 
+      WHERE event_id = NEW.event_id
+  ) */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ;
+
+--
+-- Table structure for table `tb_eventpersons`
+--
+
+DROP TABLE IF EXISTS `tb_eventpersons`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_eventpersons` (
+  `event_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`event_id`,`person_id`),
+  KEY `fk_eventperson_persons_idx` (`person_id`),
+  CONSTRAINT `fk_eventpersons_events` FOREIGN KEY (`event_id`) REFERENCES `tb_events` (`event_id`),
+  CONSTRAINT `fk_eventpersons_persons` FOREIGN KEY (`person_id`) REFERENCES `tb_persons` (`person_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_eventpersons`
+--
+
+LOCK TABLES `tb_eventpersons` WRITE;
+/*!40000 ALTER TABLE `tb_eventpersons` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_eventpersons` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_events`
+--
+
+DROP TABLE IF EXISTS `tb_events`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_events` (
+  `event_id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_type_id` int(11) NOT NULL,
+  `event_name` varchar(64) NOT NULL,
+  `event_description` text,
+  `event_start` date DEFAULT NULL,
+  `event_date` date DEFAULT NULL,
+  `event_finish` date DEFAULT NULL,
+  `status_type_id` int(11) NOT NULL,
+  `address_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`event_id`),
+  KEY `fk_events_eventstype_idx` (`event_type_id`),
+  KEY `fk_events_status_type_idx` (`status_type_id`),
+  CONSTRAINT `fk_events_eventstype` FOREIGN KEY (`event_type_id`) REFERENCES `tb_eventstype` (`event_type_id`),
+  CONSTRAINT `fk_events_status_type` FOREIGN KEY (`status_type_id`) REFERENCES `tb_statustype` (`status_type_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_events`
+--
+
+LOCK TABLES `tb_events` WRITE;
+/*!40000 ALTER TABLE `tb_events` DISABLE KEYS */;
+INSERT INTO `tb_events` VALUES (1,4,'Casamento de Fulana e Ciclano','descrição completa','2019-08-01','2019-11-30','2019-12-18',2,NULL,'2019-07-06 20:27:38','2019-08-01 18:03:02'),(2,3,'evento novo','descrição novo evento','1970-01-01','2019-09-04','1970-01-01',3,NULL,'2019-07-07 17:59:04','2019-08-16 00:15:38'),(3,2,'evento novo 2','descrição nova 2',NULL,'2019-07-09',NULL,5,NULL,'2019-07-07 18:00:01','2019-07-07 18:08:10'),(4,1,'evento novo 3','descrição evento 3',NULL,'2019-07-25',NULL,6,NULL,'2019-07-07 18:00:28','2019-07-07 18:08:18'),(5,1,'novo evento 4','descrição 4','2019-07-04','2019-07-18','2019-07-26',5,NULL,'2019-07-07 18:01:04','2019-07-11 18:31:08'),(6,1,'novo evento 5','descrição novo 5','2019-06-02','2019-07-17','2019-09-06',6,NULL,'2019-07-07 18:01:32','2019-09-06 13:02:24'),(7,1,'novo evento 6','descrição evento 6',NULL,'2019-07-12',NULL,1,NULL,'2019-07-07 18:01:55','2019-07-07 18:01:55'),(8,1,'novo evento 8','descrição evento 8',NULL,'2019-07-18',NULL,1,NULL,'2019-07-07 18:02:29','2019-07-07 18:02:29'),(10,1,'novo evento 10','descrição evento 10',NULL,'2019-12-25',NULL,1,NULL,'2019-07-07 18:03:35','2019-07-07 18:03:35'),(11,1,'Evento novo 11','descrição evento 11 novo',NULL,'2019-10-15',NULL,4,NULL,'2019-07-07 18:04:11','2019-07-07 18:08:02'),(12,1,'teste de evento para cronograma','descrição do projeto ','2019-07-01','2019-01-14','2019-07-31',1,NULL,'2019-07-11 18:00:25','2019-07-11 18:07:25'),(14,3,'Evento para criar as tarefas principais como marco','Teste de  criar as tarefas principais como marco automaticamente','2019-07-11','2019-07-23','2019-07-31',1,NULL,'2019-07-12 00:08:49','2019-07-12 00:08:49');
+/*!40000 ALTER TABLE `tb_events` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_eventstype`
+--
+
+DROP TABLE IF EXISTS `tb_eventstype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_eventstype` (
+  `event_type_id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_type_name` varchar(45) NOT NULL,
+  `event_type_resumo` varchar(128) DEFAULT NULL,
+  `event_type_descriptions` text NOT NULL,
+  `event_type_icon` varchar(45) NOT NULL,
+  `event_type_show` tinyint(4) NOT NULL DEFAULT '1',
+  `event_type_url` varchar(128) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`event_type_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_eventstype`
+--
+
+LOCK TABLES `tb_eventstype` WRITE;
+/*!40000 ALTER TABLE `tb_eventstype` DISABLE KEYS */;
+INSERT INTO `tb_eventstype` VALUES (1,'Assessoria Completa','Nossa  Assessoria Completa  resumo \r ','Nossa Assessoria Completa é um serviço desenvolvido desde o início dos preparativos. Após a primeira reunião com os noivos, elaboramos um briefing para atendermos à todas necessidades, organizamos os custos, definimos um cronograma, indicamos os fornecedores (auxiliando em todas as etapas: visitação, fechamento de contrato e, também, assumindo a comunicação com os mesmos) e montamos a festa, garantindo que tudo saia perfeito no grande dia. Para que o evento ocorra com segurança e profissionalismo, contaremos com uma equipe de 4 pessoas, desde o primeiro horário até o final, para acompanhamento da montagem, festa e desmontagem.','today',1,'/eventtype/complete','2019-07-06 15:15:22','2019-07-06 15:15:22'),(2,'Assessoria Final','Assessoria Final resumo','O serviço de assessoria final começa a 60 dias (2 meses) antes do evento. É a fase em que os noivos, com todos os fornecedores já contratados, passam a responsabilidade para nós, que assumimos a cobrança de prazos, organização das entregas, conferir e desmontagem do evento. Para que o evento ocorra com segurança e profissionalismo, contamos com uma equipe de 4 pessoas, desde o primeiro horário até o final, para acompanhamento da montagem, festa e desmontagem.','calendar_today',1,'/eventtype/last','2019-07-06 15:15:22','2019-07-06 15:15:22'),(3,'Assessoria Pedido de Casamento','Pedido de Casamento Resumo','Nossa Assessoria para Pedido de Casamento consiste em ouvir e executar sonhos. Trazemos para o plano tangível a ideia, a tornando única e personalizada para momento do casal, tudo isso com o mais absoluto sigilo, para surpreender e encantar. Para garantir que o dia idealizado ocorra perfeitamente e com profissionalismo, esse serviço conta com 2 assessoras, acompanhando a montagem e execução.','select_all',1,'/eventtype/requests','2019-07-06 15:15:22','2019-07-06 15:15:22'),(4,'Consultoria','Consultoria Resumo ','Nossa Consultoria é o serviço ideal para o casal que deseja planejar e organizar seu próprio casamento. A Be Bride, após uma reunião com os noivos, desenvolve um material exclusivo, ministrado em uma consultoria de 3 horas, ensinando o casal passo a passo o que deve ser feito até o Grande Dia. Esse serviço pode ou não ser associado à Assessoria do Dia em que contaremos com uma equipe de até 4 pessoas, no dia do evento, garantindo que tudo saia perfeito nos mais mínimos detalhes.','thumb_up',1,'/eventtype/consulting','2019-07-06 15:15:22','2019-07-06 15:15:22');
+/*!40000 ALTER TABLE `tb_eventstype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_eventtasks`
+--
+
+DROP TABLE IF EXISTS `tb_eventtasks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_eventtasks` (
+  `task_id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_id` int(11) NOT NULL,
+  `modeltask_id` int(11) DEFAULT '0',
+  `task_section_id` int(11) NOT NULL,
+  `task_name` varchar(128) NOT NULL,
+  `task_status_id` tinyint(4) DEFAULT NULL,
+  `task_duration` int(11) DEFAULT '0',
+  `task_predecessors` int(11) DEFAULT '0',
+  `task_successors` int(11) DEFAULT '0',
+  `task_start` date DEFAULT NULL,
+  `task_finish` date DEFAULT NULL,
+  `task_completed` int(11) DEFAULT '0',
+  `task_responsible` varchar(64) DEFAULT NULL,
+  `task_showboard` tinyint(4) DEFAULT '0',
+  `task_showcustomer` tinyint(4) DEFAULT '0',
+  `task_calculatetask` tinyint(4) DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`task_id`,`event_id`),
+  KEY `fk_eventtask_events_idx` (`event_id`),
+  CONSTRAINT `fk_eventtask_events` FOREIGN KEY (`event_id`) REFERENCES `tb_events` (`event_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_eventtasks`
+--
+
+LOCK TABLES `tb_eventtasks` WRITE;
+/*!40000 ALTER TABLE `tb_eventtasks` DISABLE KEYS */;
+INSERT INTO `tb_eventtasks` VALUES (36,7,24,2,'tarefa de casamento',1,3,0,0,'1970-01-01','1970-01-01',0,'Bebride',1,0,0,'2019-07-11 22:26:31','2019-07-11 22:26:31'),(38,6,25,3,'tarefa de dia da noiva',4,1,0,0,'1970-01-01','1970-01-01',25,'Bebride',1,0,0,'2019-07-11 22:32:21','2019-08-07 14:01:30'),(39,6,26,4,'tarefa de Parceiros',4,3,0,0,'1970-01-01','1970-01-01',0,'BeBride Assessoria',1,0,0,'2019-07-11 22:32:23','2019-08-07 14:01:30'),(40,14,1,1,'Marco inicial do Projeto',1,1,0,2,'2019-07-11','2019-07-11',0,'BeBride Assessoria',0,1,0,'2019-07-12 00:08:49','2019-07-12 00:08:49'),(41,14,2,1,'Data do Evento',1,1,1,3,'2019-07-23','2019-07-23',0,'BeBride Assessoria',0,1,0,'2019-07-12 00:08:50','2019-07-12 00:08:50'),(42,14,3,1,'Data de Término do Projeto',1,1,2,0,'2019-07-31','2019-07-31',0,'BeBride Assessoria',0,1,0,'2019-07-12 00:08:50','2019-07-12 00:08:50'),(43,14,24,2,'tarefa com predecessora no inicio do projeto',1,4,1,0,'2019-07-12','2019-07-17',0,'Bebride Assessoria',1,0,1,'2019-07-12 12:49:40','2019-07-13 00:30:05'),(44,14,25,3,'tarefa de dia da noiva predecessora ',1,10,24,0,'2019-07-18','2019-07-31',0,'BeBride Assessoria',1,0,1,'2019-07-12 12:49:44','2019-07-13 00:30:05'),(45,14,26,4,'tarefa de Parceiros',1,5,25,0,'2019-08-01','2019-08-07',0,'BeBride Assessoria',1,0,1,'2019-07-12 12:49:47','2019-07-13 00:30:05'),(46,14,30,3,'tarefa predecessora na 26',1,4,26,2,'2019-08-08','2019-08-13',0,'BeBride Assessoria',1,0,1,'2019-07-12 12:49:48','2019-07-13 00:38:58'),(47,14,31,2,'tarefa sucessora',1,6,0,25,'2019-07-12','2019-07-19',0,'BeBride Assessoria',1,0,1,'2019-07-12 12:49:50','2019-07-13 00:30:04'),(48,14,32,2,'sucessora no final do projeto',1,2,0,3,'2019-07-12','2019-07-15',0,'BeBride Assessoria',1,0,1,'2019-07-12 12:49:51','2019-07-13 00:30:05'),(49,14,33,2,'tarefa sucessora em outra sucessora',1,3,0,32,'2019-07-12','2019-07-16',0,'BeBride Assessoria',1,0,1,'2019-07-12 12:49:52','2019-07-13 00:30:05'),(50,14,0,3,'Tarefa colocada fora do modelo',1,8,2,0,'2019-07-29','2019-07-29',0,'BeBride Assessoria',1,0,0,'2019-07-12 13:42:17','2019-07-12 13:43:03'),(62,1,1,1,'Marco inicial do Projeto',2,1,0,2,'2019-06-01','2019-08-01',100,'BeBride Assessoria',0,0,3,'2019-08-01 18:07:48','2019-08-02 13:38:42'),(64,1,3,1,'Data de Término do Projeto',1,1,2,0,'2019-12-31','2019-12-31',0,'BeBride Assessoria',0,0,1,'2019-08-01 18:07:54','2019-09-03 22:16:04'),(65,1,31,2,'tarefa sucessora',4,6,0,25,'2019-07-31','2019-08-07',50,'BeBride Assessoria',1,0,1,'2019-08-01 18:17:07','2019-09-04 04:27:00'),(66,1,32,2,'sucessora no final do projeto',2,2,0,3,'2019-12-27','2019-12-30',100,'BeBride Assessoria',1,0,1,'2019-08-01 18:17:09','2019-09-04 04:27:00'),(67,1,33,2,'tarefa sucessora em outra sucessora',1,3,0,32,'2019-12-24','2019-12-26',0,'BeBride Assessoria',1,0,1,'2019-08-01 18:17:12','2019-09-04 04:27:00'),(69,1,26,4,'tarefa de Parceiros',4,5,25,0,'2019-08-22','2019-08-28',25,'BeBride Assessoria',1,0,1,'2019-08-01 18:17:16','2019-09-04 04:27:00'),(70,1,25,3,'tarefa de dia da noiva predecessora ',4,10,24,0,'2019-08-08','2019-08-21',0,'BeBride Assessoria',1,0,1,'2019-08-01 18:17:17','2019-09-04 04:27:00'),(71,1,24,2,'tarefa com predecessora no inicio do projeto',4,4,1,0,'2019-08-02','2019-08-07',0,'Bebride Assessoria',1,0,1,'2019-08-01 18:17:18','2019-09-04 04:27:00'),(73,1,2,1,'Data do Evento',1,1,1,3,'2019-11-30','2019-11-30',75,'BeBride Assessoria',0,0,1,'2019-08-27 22:48:14','2019-09-03 22:16:42'),(74,1,30,3,'tarefa predecessora na 26',3,6,26,2,'2019-08-29','2019-09-05',30,'BeBride Assessoria',1,0,1,'2019-09-03 22:22:30','2019-09-04 04:27:00'),(75,1,34,2,'teste com zero',2,0,2,0,'2019-11-30','2019-11-30',100,'BeBride Assessoria',1,0,1,'2019-09-04 01:56:13','2019-09-04 04:27:00');
+/*!40000 ALTER TABLE `tb_eventtasks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_guest_status_confirm`
+--
+
+DROP TABLE IF EXISTS `tb_guest_status_confirm`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_guest_status_confirm` (
+  `guest_tatus_confirm_id` int(11) NOT NULL AUTO_INCREMENT,
+  `guest_status_confirm_name` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`guest_tatus_confirm_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_guest_status_confirm`
+--
+
+LOCK TABLES `tb_guest_status_confirm` WRITE;
+/*!40000 ALTER TABLE `tb_guest_status_confirm` DISABLE KEYS */;
+INSERT INTO `tb_guest_status_confirm` VALUES (0,'Não enviado'),(1,'Enviado'),(2,'Confirmado'),(3,'Recusado');
+/*!40000 ALTER TABLE `tb_guest_status_confirm` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_guestconfirm`
+--
+
+DROP TABLE IF EXISTS `tb_guestconfirm`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_guestconfirm` (
+  `guestconfirm_id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_id` int(11) NOT NULL,
+  `eventguest_id` int(11) NOT NULL,
+  `remote_ip` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `guestconfirm_date` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`guestconfirm_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_guestconfirm`
+--
+
+LOCK TABLES `tb_guestconfirm` WRITE;
+/*!40000 ALTER TABLE `tb_guestconfirm` DISABLE KEYS */;
+INSERT INTO `tb_guestconfirm` VALUES (14,1,23,NULL,NULL,'2019-08-26 22:33:37','2019-08-26 22:33:37'),(15,1,23,'172.18.0.1','2019-08-27 04:03:46','2019-08-26 22:49:20','2019-08-27 04:03:46'),(16,1,18,NULL,NULL,'2019-08-27 12:27:48','2019-08-27 12:27:48'),(17,1,18,NULL,NULL,'2019-08-27 12:39:48','2019-08-27 12:39:48'),(33,1,23,NULL,NULL,'2019-09-06 14:55:24','2019-09-06 14:55:24');
+/*!40000 ALTER TABLE `tb_guestconfirm` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_guestgroup`
+--
+
+DROP TABLE IF EXISTS `tb_guestgroup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_guestgroup` (
+  `guestgroup_id` int(11) NOT NULL,
+  `guestgroup_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`guestgroup_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_guestgroup`
+--
+
+LOCK TABLES `tb_guestgroup` WRITE;
+/*!40000 ALTER TABLE `tb_guestgroup` DISABLE KEYS */;
+INSERT INTO `tb_guestgroup` VALUES (0,'Sem Grupo'),(1,'Família do Noivo'),(2,'Família da Noiva'),(3,'Madrinhas'),(4,'Padrinhos'),(5,'Noivo'),(6,'Noiva');
+/*!40000 ALTER TABLE `tb_guestgroup` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_guesttype`
+--
+
+DROP TABLE IF EXISTS `tb_guesttype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_guesttype` (
+  `guesttype_id` int(11) NOT NULL AUTO_INCREMENT,
+  `guesttype_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`guesttype_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_guesttype`
+--
+
+LOCK TABLES `tb_guesttype` WRITE;
+/*!40000 ALTER TABLE `tb_guesttype` DISABLE KEYS */;
+INSERT INTO `tb_guesttype` VALUES (1,'Adulto'),(2,'Criança'),(3,'Joven');
+/*!40000 ALTER TABLE `tb_guesttype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_modeltasks`
+--
+
+DROP TABLE IF EXISTS `tb_modeltasks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_modeltasks` (
+  `modeltask_id` int(11) NOT NULL AUTO_INCREMENT,
+  `modeltask_section_id` int(11) NOT NULL,
+  `modeltask_name` varchar(128) NOT NULL,
+  `modeltask_duration` int(11) NOT NULL,
+  `modeltask_predecessors` int(11) DEFAULT '0',
+  `modeltask_successors` int(11) DEFAULT '0',
+  `modeltask_responsible` varchar(64) DEFAULT NULL,
+  `modeltask_showboard` tinyint(4) DEFAULT '1',
+  `modeltask_showcustomer` tinyint(4) DEFAULT '1',
+  `modeltask_calculatetask` tinyint(4) DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`modeltask_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_modeltasks`
+--
+
+LOCK TABLES `tb_modeltasks` WRITE;
+/*!40000 ALTER TABLE `tb_modeltasks` DISABLE KEYS */;
+INSERT INTO `tb_modeltasks` VALUES (1,1,'Marco inicial do Projeto',1,0,2,'BeBride Assessoria',0,0,1,'2019-07-11 23:37:45','2019-07-11 23:37:45'),(2,1,'Data do Evento',1,1,3,'BeBride Assessoria',0,0,1,'2019-07-11 23:38:17','2019-07-11 23:38:17'),(3,1,'Data de Término do Projeto',1,2,0,'BeBride Assessoria',0,0,1,'2019-07-11 23:38:46','2019-07-11 23:38:46'),(24,2,'tarefa com predecessora no inicio do projeto',4,1,0,'Bebride Assessoria',1,0,0,'2019-07-11 15:43:17','2019-07-12 12:49:20'),(25,3,'tarefa de dia da noiva predecessora ',10,24,0,'BeBride Assessoria',1,0,0,'2019-07-11 15:43:45','2019-07-12 12:32:09'),(26,4,'tarefa de Parceiros',5,25,0,'BeBride Assessoria',1,0,0,'2019-07-11 15:45:47','2019-07-12 12:32:51'),(30,3,'tarefa predecessora na 26',4,26,2,'BeBride Assessoria',1,0,0,'2019-07-12 12:33:47','2019-07-12 12:39:28'),(31,2,'tarefa xxx',6,0,25,'BeBride',1,0,0,'2019-07-12 12:36:05','2019-09-04 01:48:26'),(32,2,'sucessora no final do projeto',2,0,3,'BeBride Assessoria',1,0,0,'2019-07-12 12:46:31','2019-09-04 01:51:19'),(33,2,'tarefa sucessora em outra sucessora',3,0,32,'BeBride Assessoria',1,0,0,'2019-07-12 12:47:17','2019-07-12 12:47:29'),(34,2,'teste com zero',0,2,0,'BeBride Assessoria',1,0,0,'2019-09-04 01:54:30','2019-09-04 01:55:30');
+/*!40000 ALTER TABLE `tb_modeltasks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_orders`
+--
+
+DROP TABLE IF EXISTS `tb_orders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_orders` (
+  `idorder` int(11) NOT NULL AUTO_INCREMENT,
+  `idcart` int(11) NOT NULL,
+  `iduser` int(11) NOT NULL,
+  `idstatus` int(11) NOT NULL,
+  `idaddress` int(11) NOT NULL,
+  `vltotal` decimal(10,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idorder`),
+  KEY `FK_orders_users_idx` (`iduser`),
+  KEY `fk_orders_ordersstatus_idx` (`idstatus`),
+  KEY `fk_orders_carts_idx` (`idcart`),
+  KEY `fk_orders_addresses_idx` (`idaddress`),
+  CONSTRAINT `fk_orders_addresses` FOREIGN KEY (`idaddress`) REFERENCES `tb_addresses` (`address_id`),
+  CONSTRAINT `fk_orders_carts` FOREIGN KEY (`idcart`) REFERENCES `tb_carts` (`idcart`),
+  CONSTRAINT `fk_orders_ordersstatus` FOREIGN KEY (`idstatus`) REFERENCES `tb_ordersstatus` (`idstatus`),
+  CONSTRAINT `fk_orders_users` FOREIGN KEY (`iduser`) REFERENCES `tb_users` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_orders`
+--
+
+LOCK TABLES `tb_orders` WRITE;
+/*!40000 ALTER TABLE `tb_orders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_ordersstatus`
+--
+
+DROP TABLE IF EXISTS `tb_ordersstatus`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_ordersstatus` (
+  `idstatus` int(11) NOT NULL AUTO_INCREMENT,
+  `desstatus` varchar(32) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idstatus`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_ordersstatus`
+--
+
+LOCK TABLES `tb_ordersstatus` WRITE;
+/*!40000 ALTER TABLE `tb_ordersstatus` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_ordersstatus` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_partners`
+--
+
+DROP TABLE IF EXISTS `tb_partners`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_partners` (
+  `id_partner` int(11) NOT NULL AUTO_INCREMENT,
+  `company_name` varchar(64) DEFAULT NULL,
+  `partner_description` varchar(64) NOT NULL,
+  `partner_email` varchar(128) NOT NULL,
+  `partner_phone` bigint(20) DEFAULT NULL,
+  `partner_whatsapp` varchar(256) DEFAULT NULL,
+  `partner_facebook` varchar(256) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_partner`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_partners`
+--
+
+LOCK TABLES `tb_partners` WRITE;
+/*!40000 ALTER TABLE `tb_partners` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_partners` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_persons`
+--
+
+DROP TABLE IF EXISTS `tb_persons`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_persons` (
+  `person_id` int(11) NOT NULL AUTO_INCREMENT,
+  `company_name` varchar(64) DEFAULT NULL,
+  `person_jobrole` varchar(45) DEFAULT NULL,
+  `person_firstname` varchar(40) DEFAULT NULL,
+  `person_lastname` varchar(88) DEFAULT NULL,
+  `person_email` varchar(128) NOT NULL,
+  `person_phone` bigint(20) DEFAULT NULL,
+  `person_whatsapp` bigint(20) DEFAULT NULL,
+  `person_facebook` varchar(45) DEFAULT NULL,
+  `person_instagram` varchar(45) DEFAULT NULL,
+  `person_about` text,
+  `person_urlphoto` varchar(128) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`person_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_persons`
+--
+
+LOCK TABLES `tb_persons` WRITE;
+/*!40000 ALTER TABLE `tb_persons` DISABLE KEYS */;
+INSERT INTO `tb_persons` VALUES (43,'BeBride Assessoria','Aponsentado','Miguel','Duque Filho','miguel.duque@globo.com',11999040108,11999040108,'miguel.duquefilho','@2','aaaaaa  ddd   ddd ddd dddd Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptate temporibus consequatur sapiente! Consequatur quod maiores dolore optio ex labore, cum quam? Quasi, sed! Laudantium, culpa! Ipsum aspernatur sapiente animi tempora.','/assets/site/img/faces/avatar_30.jpg','2019-06-30 19:43:57','2019-07-04 21:59:36'),(45,'aaaaaaaaa','Publicitário','Caio','Duque','caio.duque@globo.com',11964875245,0,'','','asdasdasdasd\r\nasasajasjiajsiajsiajsiajsiajsi iasjiausiaus iausiausiaus iausiaus iaus iaiausiausiausia iausiausaiusiaus iausiausiausiausiaus iausiausiaus iausiaussiausiau iaus iasisu iausa\r\nsdasdasdasdsaasvdmav cbc g ccs cgs xsx gsx  bssvgvsx zxhbxz\\xshjcb svc ','/assets/site/img/faces/avatar_32.jpg','2019-07-03 20:35:37','2019-07-05 03:20:05'),(46,'BeBride Assessoria','Publicitária','Bruna','Duque','bruna.duque@globo.com',11997825245,11997825245,'','','teste de informação para o usuário digitado na interface','/assets/site/img/faces/avatar_33.jpg','2019-07-04 22:02:24','2019-07-07 01:15:35'),(47,'empresa1','cargo 1','MIguel 1','Duque 1','teste@teste.com',111111,222222,'facebook','instagram','teste teste teste test',NULL,'2019-07-07 22:38:27','2019-07-07 22:38:27'),(48,'empresa1','cargo 1','MIguel 1','Duque 1','teste@teste.com',111111,222222,'facebook','instagram','teste teste teste test',NULL,'2019-07-07 22:40:47','2019-07-07 22:40:47'),(51,'Empresa 1','Administrador','Duque','Miguel','duaque.miguel@globo.com',11111111111,222222222,'facebook','instagram','observação teste ',NULL,'2019-07-07 23:11:14','2019-07-07 23:11:14'),(52,'teste 2','teste 3','teste 4','teste 5','teste6@teste7',3333333,4444444,'facebook 8 ','instagram 9','descrição 10','/assets/site/img/faces/avatar_.jpg','2019-07-07 23:15:22','2019-07-07 23:15:22'),(53,'ttttsss','tttt','tttt','tttt','tttt@tttt',1111,2222,'2222','222','22222','/assets/site/img/faces/avatar_38.jpg','2019-07-07 23:22:11','2019-07-07 23:39:08'),(54,'test','test','4444','ttttt','ttttt@ggg',0,2222,'sksks','ekdkd','dkdkd',NULL,'2019-07-07 23:22:44','2019-07-07 23:22:44'),(55,'outro','outro','potro','outro','outro@com',77777,88888,'9999','000000','121212121212121',NULL,'2019-07-07 23:40:12','2019-07-07 23:40:12'),(56,'','','reg1','lastre 2','teste@teste.com.br',118888888,0,'','','','','2019-07-07 23:42:48','2019-07-07 23:42:48');
+/*!40000 ALTER TABLE `tb_persons` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_products`
+--
+
+DROP TABLE IF EXISTS `tb_products`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_products` (
+  `idproduct` int(11) NOT NULL AUTO_INCREMENT,
+  `desproduct` varchar(64) NOT NULL,
+  `vlprice` decimal(10,2) NOT NULL,
+  `vlwidth` decimal(10,2) NOT NULL,
+  `vlheight` decimal(10,2) NOT NULL,
+  `vllength` decimal(10,2) NOT NULL,
+  `vlweight` decimal(10,2) NOT NULL,
+  `desurl` varchar(128) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idproduct`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_products`
+--
+
+LOCK TABLES `tb_products` WRITE;
+/*!40000 ALTER TABLE `tb_products` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_products` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_productscategories`
+--
+
+DROP TABLE IF EXISTS `tb_productscategories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_productscategories` (
+  `idcategory` int(11) NOT NULL,
+  `idproduct` int(11) NOT NULL,
+  PRIMARY KEY (`idcategory`,`idproduct`),
+  KEY `fk_productscategories_products_idx` (`idproduct`),
+  CONSTRAINT `fk_productscategories_categories` FOREIGN KEY (`idcategory`) REFERENCES `tb_categories` (`idcategory`),
+  CONSTRAINT `fk_productscategories_products` FOREIGN KEY (`idproduct`) REFERENCES `tb_products` (`idproduct`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_productscategories`
+--
+
+LOCK TABLES `tb_productscategories` WRITE;
+/*!40000 ALTER TABLE `tb_productscategories` DISABLE KEYS */;
+INSERT INTO `tb_productscategories` VALUES (3,29),(5,29),(3,30),(5,30),(2,32),(3,32),(2,33),(3,33),(3,34),(5,34);
+/*!40000 ALTER TABLE `tb_productscategories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_section_task`
+--
+
+DROP TABLE IF EXISTS `tb_section_task`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_section_task` (
+  `section_task_id` int(11) NOT NULL AUTO_INCREMENT,
+  `event_type_id` int(11) DEFAULT NULL,
+  `section_task_name` varchar(45) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`section_task_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_section_task`
+--
+
+LOCK TABLES `tb_section_task` WRITE;
+/*!40000 ALTER TABLE `tb_section_task` DISABLE KEYS */;
+INSERT INTO `tb_section_task` VALUES (1,0,'Tarefas do Sistema','2019-07-08 19:22:10','2019-07-08 19:22:10'),(2,1,'Pré Evento','2019-07-08 19:22:10','2019-07-08 19:22:10'),(3,1,'Dia da Noiva','2019-07-08 19:22:10','2019-07-08 19:22:10'),(4,1,'Dia dos Parceiros','2019-07-08 19:22:10','2019-07-08 19:22:10'),(5,1,'Dia do Evento','2019-07-11 22:46:09','2019-07-11 22:46:09'),(6,1,'Durante o Evento','2019-09-03 23:32:55','2019-09-03 23:32:55'),(7,1,'Pós Evento','2019-09-03 23:32:55','2019-09-03 23:32:55');
+/*!40000 ALTER TABLE `tb_section_task` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_statustask`
+--
+
+DROP TABLE IF EXISTS `tb_statustask`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_statustask` (
+  `status_task_id` int(11) NOT NULL,
+  `status_task_name` varchar(45) NOT NULL,
+  `status_task_color` varchar(16) NOT NULL,
+  PRIMARY KEY (`status_task_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_statustask`
+--
+
+LOCK TABLES `tb_statustask` WRITE;
+/*!40000 ALTER TABLE `tb_statustask` DISABLE KEYS */;
+INSERT INTO `tb_statustask` VALUES (1,'Inicial','info'),(2,'Em dia','success'),(3,'Alerta','warning'),(4,'Atrasada','danger');
+/*!40000 ALTER TABLE `tb_statustask` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_statustype`
+--
+
+DROP TABLE IF EXISTS `tb_statustype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_statustype` (
+  `status_type_id` int(11) NOT NULL AUTO_INCREMENT,
+  `status_type_name` varchar(45) NOT NULL,
+  PRIMARY KEY (`status_type_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_statustype`
+--
+
+LOCK TABLES `tb_statustype` WRITE;
+/*!40000 ALTER TABLE `tb_statustype` DISABLE KEYS */;
+INSERT INTO `tb_statustype` VALUES (1,'Inicial'),(2,'Aguardando Contrato'),(3,'Contratado'),(4,'Em Andamento'),(5,'Pendência'),(6,'Concluído'),(7,'Cancelada');
+/*!40000 ALTER TABLE `tb_statustype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_users`
+--
+
+DROP TABLE IF EXISTS `tb_users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_users` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `person_id` int(11) NOT NULL,
+  `login_name` varchar(128) NOT NULL,
+  `password_hash` varchar(256) NOT NULL,
+  `user_type_id` tinyint(4) NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`),
+  KEY `FK_users_persons_idx` (`person_id`),
+  KEY `fk_users_userstype_idx` (`user_type_id`),
+  CONSTRAINT `fk_users_userstype` FOREIGN KEY (`user_type_id`) REFERENCES `tb_userstype` (`user_type_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_users`
+--
+
+LOCK TABLES `tb_users` WRITE;
+/*!40000 ALTER TABLE `tb_users` DISABLE KEYS */;
+INSERT INTO `tb_users` VALUES (30,43,'miguel.duque@globo.com','$2y$12$ImtpAMv9iRXuUU1qLYDydeBn2RDfbDnkKdvoZHIY9BTsTaIkEsY3u',1,'2019-06-30 19:43:57','2019-07-04 21:59:36'),(32,45,'caio.duque@globo.com','$2y$12$601F9WVczdK8J52Je9jvg.CWx3j8G5qCMRwSkvOgkhoR0fWC7ZPM2',2,'2019-07-03 20:35:37','2019-07-05 03:20:05'),(33,46,'bruna.duque@globo.com','$2y$12$GsKNLD7kFxrG/foly/fS8eDbiyzyTdo4.BtsWMRERzihxv8Ozvlrq',1,'2019-07-04 22:02:24','2019-07-07 01:15:35'),(36,51,'duaque.miguel@globo.com','$2y$12$4Vie9ffvmOfvsJDXfNJLEusRqejkiATg62LViyYhhaz8mXoV4StIW',3,'2019-07-07 23:11:14','2019-07-07 23:11:14'),(37,52,'teste6@teste7','$2y$12$v86Zliyx3zcxtOEDEQlCMuq.rDarS9HI9LihEwsLgxq0l/uJVgjMi',2,'2019-07-07 23:15:22','2019-07-07 23:15:22'),(38,53,'tttt@tttt','$2y$12$lqCdSYzxgPvGcYBfhzXp.OIcL5frBzBmDacFWfPw6wQZPQ1zZk9Ja',1,'2019-07-07 23:22:11','2019-07-07 23:39:09'),(39,54,'ttttt@ggg','$2y$12$wXTcjJoI8mWtu33OlIoTdeNHbqhrbUFA2MY6fL4LHRMD9P9refS5W',1,'2019-07-07 23:22:44','2019-07-07 23:22:44'),(40,55,'outro@com','$2y$12$Ugxi.hh.a8IEYw8KRt3pVuSEMJg5VYShLHAIwIrrucPIcZzuGn1hG',0,'2019-07-07 23:40:12','2019-07-07 23:40:12'),(41,56,'teste@teste.com.br','$2y$12$M7YlrcSdIKNWBbiGxJ9Dcu.zDUDEDW.w2JBe.bb47WlaBoRH2TMH6',2,'2019-07-07 23:42:48','2019-07-07 23:42:48');
+/*!40000 ALTER TABLE `tb_users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_userslogs`
+--
+
+DROP TABLE IF EXISTS `tb_userslogs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_userslogs` (
+  `idlog` int(11) NOT NULL AUTO_INCREMENT,
+  `iduser` int(11) NOT NULL,
+  `deslog` varchar(128) NOT NULL,
+  `desip` varchar(45) NOT NULL,
+  `desuseragent` varchar(128) NOT NULL,
+  `dessessionid` varchar(64) NOT NULL,
+  `desurl` varchar(128) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`idlog`),
+  KEY `fk_userslogs_users_idx` (`iduser`),
+  CONSTRAINT `fk_userslogs_users` FOREIGN KEY (`iduser`) REFERENCES `tb_users` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_userslogs`
+--
+
+LOCK TABLES `tb_userslogs` WRITE;
+/*!40000 ALTER TABLE `tb_userslogs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_userslogs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_userspasswordsrecoveries`
+--
+
+DROP TABLE IF EXISTS `tb_userspasswordsrecoveries`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_userspasswordsrecoveries` (
+  `recovery_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `remote_ip` varchar(45) NOT NULL,
+  `recovery_date` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`recovery_id`),
+  KEY `fk_userspasswordsrecoveries_users_idx` (`user_id`),
+  CONSTRAINT `fk_userspasswordsrecoveries_users` FOREIGN KEY (`user_id`) REFERENCES `tb_users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_userspasswordsrecoveries`
+--
+
+LOCK TABLES `tb_userspasswordsrecoveries` WRITE;
+/*!40000 ALTER TABLE `tb_userspasswordsrecoveries` DISABLE KEYS */;
+INSERT INTO `tb_userspasswordsrecoveries` VALUES (1,30,'127.0.0.1',NULL,'2019-07-02 01:43:20','2019-07-02 01:43:20'),(2,30,'127.0.0.1',NULL,'2019-07-02 01:44:35','2019-07-02 01:44:35'),(3,30,'127.0.0.1',NULL,'2019-07-02 01:46:10','2019-07-02 01:46:10'),(4,30,'127.0.0.1','2019-07-02 00:22:26','2019-07-02 02:59:08','2019-07-02 02:59:08'),(5,30,'127.0.0.1','2019-07-02 01:03:48','2019-07-02 04:02:59','2019-07-02 04:02:59'),(6,30,'127.0.0.1','2019-07-02 11:48:46','2019-07-02 14:48:08','2019-07-02 14:48:08'),(7,30,'127.0.0.1',NULL,'2019-07-05 20:22:36','2019-07-05 20:22:36');
+/*!40000 ALTER TABLE `tb_userspasswordsrecoveries` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tb_userstype`
+--
+
+DROP TABLE IF EXISTS `tb_userstype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `tb_userstype` (
+  `user_type_id` tinyint(4) NOT NULL,
+  `user_type_name` varchar(16) NOT NULL,
+  PRIMARY KEY (`user_type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_userstype`
+--
+
+LOCK TABLES `tb_userstype` WRITE;
+/*!40000 ALTER TABLE `tb_userstype` DISABLE KEYS */;
+INSERT INTO `tb_userstype` VALUES (0,'Visitante'),(1,'Administrador'),(2,'Cliente'),(3,'Parceiro');
+/*!40000 ALTER TABLE `tb_userstype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping events for database 'db_bebride'
+--
+
+--
+-- Dumping routines for database 'db_bebride'
+--
+/*!50003 DROP PROCEDURE IF EXISTS `sp_addresses_save` */;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_addresses_save`(
+paddress_id int(11), 
+pperson_id int(11),
+pstreet_address varchar(128),
+pstreet_number varchar(16),
+pstreet_complement varchar(45),
+pdistrict_name varchar(45),
+pcity_name varchar(45),
+pstate_name varchar(45),
+pcountry_name varchar(45),
+pzipcode_number char(8)
+
+)
+BEGIN
+
+	IF paddress_id > 0 THEN
+		
+		UPDATE tb_addresses
+        SET
+            street_address = pstreet_address,
+            street_number = pstreet_number,
+            street_complement = pstreet_complement,
+			district_name = pdistrict_name,
+            city_name = pcity_name,
+            state_name = pstate_name,
+            country_name = pcountry_name,
+            zipcode_number = pzipcode_number,
+            updated_at = now()
+
+		WHERE address_id = paddress_id;
+        
+    ELSE
+		
+		INSERT INTO tb_addresses (person_id, street_address, street_number, street_complement, district_name, city_name, state_name, country_name, zipcode_number)
+        VALUES(pperson_id, pstreet_address, pstreet_number, pstreet_complement, pdistrict_name, pcity_name, pstate_name, pcountry_name, pzipcode_number);
+        
+        SET paddress_id = LAST_INSERT_ID();
+        
+    END IF;
+    
+    SELECT * FROM tb_addresses WHERE address_id = paddress_id;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_carts_save` */;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_carts_save`(
+pidcart INT,
+pdessessionid VARCHAR(64),
+piduser INT,
+pdeszipcode CHAR(8),
+pvlfreight DECIMAL(10,2),
+pnrdays INT
+)
+BEGIN
+ 
+    IF pidcart > 0 THEN
+        
+        UPDATE tb_carts
+        SET
+            dessessionid = pdessessionid,
+            iduser = piduser,
+            deszipcode = pdeszipcode,
+            vlfreight = pvlfreight,
+            nrdays = pnrdays
+        WHERE idcart = pidcart;
+        
+    ELSE
+        
+        INSERT INTO tb_carts (dessessionid, iduser, deszipcode, vlfreight, nrdays)
+        VALUES(pdessessionid, piduser, pdeszipcode, pvlfreight, pnrdays);
+        
+        SET pidcart = LAST_INSERT_ID();
+        
+    END IF;
+    
+    SELECT * FROM tb_carts WHERE idcart = pidcart;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_categories_save` */;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_categories_save`(
+pidcategory INT,
+pdescategory VARCHAR(64)
+)
+BEGIN
+	
+	IF pidcategory > 0 THEN
+		
+		UPDATE tb_categories
+        SET descategory = pdescategory
+        WHERE idcategory = pidcategory;
+        
+    ELSE
+		
+		INSERT INTO tb_categories (descategory) VALUES(pdescategory);
+        
+        SET pidcategory = LAST_INSERT_ID();
+        
+    END IF;
+    
+    SELECT * FROM tb_categories WHERE idcategory = pidcategory;
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_deposition_save` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_deposition_save`(
+pdeposition_id int,
+pevent_id int,
+pdeposition_description text,
+pdeposition_urlphoto varchar(128), 
+pdeposition_show tinyint
+
+)
+BEGIN
+
+	IF pdeposition_id > 0 THEN
+		
+		UPDATE tb_depositions 
+		SET  
+		deposition_description = pdeposition_description,
+		deposition_urlphoto = pdeposition_urlphoto, 
+		deposition_show = pdeposition_show,
+		updated_at = now()
+		WHERE event_id = pevent_id AND deposition_id = pdeposition_id;
+
+	ELSE
+    
+		INSERT INTO tb_depositions (
+			event_id,  deposition_description, deposition_urlphoto, deposition_show)        
+			VALUES(pevent_id,  pdeposition_description, pdeposition_urlphoto, pdeposition_show);
+
+			SET pdeposition_id = LAST_INSERT_ID();
+	END IF;
+    
+	SELECT * FROM tb_depositions WHERE event_id = pevent_id AND deposition_id = pdeposition_id;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_eventguest_save` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_eventguest_save`(
+peventguest_id int, 
+pevent_id int, 
+pguestgroup_id int, 
+peventguest_name varchar(128), 
+pguesttype_id int, 
+peventguest_email varchar(128), 
+peventguest_special_care varchar(128)
+)
+BEGIN
+
+	IF peventguest_id > 0 THEN
+		
+		UPDATE tb_eventguests 
+		SET  
+		guestgroup_id = pguestgroup_id, 
+		eventguest_name = peventguest_name, 
+		guesttype_id = pguesttype_id, 
+		eventguest_email = peventguest_email, 
+		eventguest_special_care = peventguest_special_care,
+		updated_at = now()
+		WHERE event_id = pevent_id AND eventguest_id = peventguest_id;
+
+ELSE
+    
+		INSERT INTO tb_eventguests (
+			event_id , guestgroup_id , eventguest_name , guesttype_id, eventguest_email, eventguest_special_care)        
+			VALUES(pevent_id , pguestgroup_id , peventguest_name , pguesttype_id, peventguest_email, peventguest_special_care);
+
+			SET peventguest_id = LAST_INSERT_ID();
+END IF;
+    
+	SELECT * 
+    FROM tb_eventguests a 
+            inner join tb_events b on b.event_id = a.event_id
+            inner join tb_guestgroup c on c.guestgroup_id = a.guestgroup_id
+            inner join tb_guesttype d on d.guesttype_id = a.guesttype_id
+    WHERE a.event_id = pevent_id AND a.eventguest_id = peventguest_id
+	ORDER BY a.event_id, a.eventguest_seq;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_events_save` */;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_events_save`(
+pevent_id int(11), 
+pevent_type_id int(11),
+pevent_name varchar(64),
+pevent_description text,
+pevent_start date, 
+pevent_date date,
+pevent_finish date, 
+pstatus_type_id int(11),
+paddress_id int(11)
+
+)
+BEGIN
+
+	IF pevent_id > 0 THEN
+		
+		UPDATE tb_events
+        SET
+            event_type_id = pevent_type_id,
+            event_name = pevent_name,
+            event_description = pevent_description,
+			event_start = pevent_start,			
+            event_date = pevent_date,			
+            event_finish = pevent_finish,
+            status_type_id = pstatus_type_id,
+            address_id = paddress_id,
+            updated_at = now()
+            
+		WHERE event_id = pevent_id ;
+        
+    ELSE
+		
+		INSERT INTO tb_events (event_id, event_type_id, event_name, event_description, event_start, event_date, event_finish, status_type_id, address_id)
+        VALUES(pevent_id, pevent_type_id, pevent_name, pevent_description, pevent_start, pevent_date, pevent_finish,  pstatus_type_id, paddress_id);
+        
+        SET pevent_id = LAST_INSERT_ID();
+        
+    END IF;
+    
+    SELECT * FROM tb_events WHERE event_id = pevent_id;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_eventtask_save` */;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_eventtask_save`(
+pevent_id int,
+ptask_id int,
+pmodeltask_id int,
+ptask_section_id int, 
+ptask_name varchar(128), 
+ptask_status_id tinyint, 
+ptask_duration int, 
+ptask_predecessors int, 
+ptask_successors int,
+ptask_start date, 
+ptask_finish date, 
+ptask_completed int, 
+ptask_responsible varchar(64), 
+ptask_showboard tinyint, 
+ptask_showcustomer tinyint,
+ptask_calculatetask tinyint
+)
+BEGIN
+
+	IF ptask_id > 0 THEN
+		
+		UPDATE tb_eventtasks 
+		SET  
+        task_section_id = ptask_section_id,
+        task_name = ptask_name,
+        modeltask_id = pmodeltask_id,
+        task_status_id =  ptask_status_id,
+        task_duration = ptask_duration,
+        task_predecessors = ptask_predecessors,
+        task_successors = ptask_successors,
+		task_start = ptask_start,
+        task_finish = ptask_finish,
+        task_completed = ptask_completed,
+        task_responsible = ptask_responsible,
+        task_calculatetask = ptask_calculatetask,
+		updated_at = now()
+		WHERE event_id = pevent_id AND task_id = ptask_id;
+
+ELSE
+    
+		INSERT INTO tb_eventtasks (
+			event_id, modeltask_id, task_section_id, task_name, task_status_id, task_duration, task_predecessors, task_successors,
+			task_start, task_finish, task_completed, task_responsible, 
+			task_showboard, task_showcustomer, task_calculatetask)        
+			VALUES(pevent_id, pmodeltask_id, ptask_section_id, ptask_name, ptask_status_id, ptask_duration, ptask_predecessors, ptask_successors, 
+			ptask_start, ptask_finish, ptask_completed, ptask_responsible, 
+			ptask_showboard, ptask_showcustomer, ptask_calculatetask);
+
+			SET ptask_id = LAST_INSERT_ID();
+END IF;
+    
+	SELECT * FROM tb_eventtasks WHERE event_id = pevent_id AND task_id = ptask_id;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_guestconfirm_create` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_guestconfirm_create`(
+pevent_id INT,
+peventguest_id INT
+)
+BEGIN
+	
+	INSERT INTO tb_guestconfirm (event_id, eventguest_id)
+    VALUES(pevent_id, peventguest_id);
+    
+	UPDATE tb_eventguests    
+    SET 
+		eventguest_confirm_id = '1',
+        updated_at = now()
+	WHERE eventguest_id = peventguest_id;
+    
+    SELECT * 
+    FROM tb_guestconfirm a
+    inner join tb_events b  on a.event_id = b.event_id
+	inner join tb_eventguests c on a.event_id = c.event_id and a.eventguest_id = c.eventguest_id
+    inner join tb_guest_status_confirm d on d.guest_tatus_confirm_id = c.eventguest_confirm_id
+    WHERE guestconfirm_id = LAST_INSERT_ID();
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_invitconfirm_update` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`%` PROCEDURE `sp_invitconfirm_update`(
+peventguest_id INT, 
+pguestconfirm_id INT, 
+peventguest_confirm_id INT,
+premote_ip VARCHAR(45)
+)
+BEGIN
+	IF pguestconfirm_id > 0 THEN
+    
+		UPDATE tb_guestconfirm    
+		SET 
+			remote_ip = premote_ip,
+			guestconfirm_date = now(),
+			updated_at = now() 
+		WHERE guestconfirm_id = pguestconfirm_id;
+    
+    END IF;
+    
+	UPDATE tb_eventguests    
+    SET 
+		eventguest_confirm_id = peventguest_confirm_id,
+		eventguest_confirm_date = now(),
+        updated_at = now()
+	WHERE eventguest_id = peventguest_id;
+    
+	IF pguestconfirm_id > 0 THEN
+		SELECT * 
+		FROM tb_guestconfirm a
+		inner join tb_events b  on a.event_id = b.event_id
+		inner join tb_eventguests c on a.event_id = c.event_id and a.eventguest_id = c.eventguest_id
+        inner join tb_guest_status_confirm d on d.guest_tatus_confirm_id = c.eventguest_confirm_id
+		WHERE guestconfirm_id = pguestconfirm_id;
+	ELSE
+		SELECT * 
+		FROM tb_eventguests a 
+		inner join tb_events b  on a.event_id = b.event_id
+		WHERE a.eventguest_id = peventguest_id; 
+	END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_modeltasks_save` */;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_modeltasks_save`(
+pmodeltask_id int(11),
+pmodeltask_section_id int(11), 
+pmodeltask_name varchar(128), 
+pmodeltask_duration int, 
+pmodeltask_predecessors int,
+pmodeltask_successors int,
+pmodeltask_responsible varchar(64), 
+pmodeltask_showboard tinyint,
+pmodeltask_showcustomer tinyint,
+pmodeltask_calculatetask tinyint
+
+)
+BEGIN
+
+	IF pmodeltask_id > 0 THEN
+		
+		UPDATE tb_modeltasks
+        SET
+			modeltask_section_id = pmodeltask_section_id, 
+			modeltask_name = pmodeltask_name, 
+			modeltask_duration = pmodeltask_duration, 
+			modeltask_predecessors = pmodeltask_predecessors,
+			modeltask_successors = pmodeltask_successors,
+			modeltask_responsible = pmodeltask_responsible, 
+			modeltask_showboard = pmodeltask_showboard,
+			modeltask_showcustomer = pmodeltask_showcustomer,
+            modeltask_calculatetask = pmodeltask_calculatetask,
+            updated_at = now()
+		WHERE modeltask_id = pmodeltask_id ;
+        
+    ELSE
+		
+		INSERT INTO tb_modeltasks (modeltask_section_id, modeltask_name, modeltask_duration, 
+			modeltask_predecessors, modeltask_successors, modeltask_responsible, 
+			modeltask_showboard, modeltask_showcustomer, modeltask_calculatetask)
+        VALUES(pmodeltask_section_id,pmodeltask_name, pmodeltask_duration, 
+			pmodeltask_predecessors,pmodeltask_successors,pmodeltask_responsible, 
+			pmodeltask_showboard,pmodeltask_showcustomer, pmodeltask_calculatetask);
+        
+        SET pmodeltask_id = LAST_INSERT_ID();
+        
+    END IF;
+    
+    SELECT * FROM tb_modeltasks WHERE modeltask_id = pmodeltask_id;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_orders_save` */;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_orders_save`(
+pidorder INT,
+pidcart int(11),
+piduser int(11),
+pidstatus int(11),
+pidaddress int(11),
+pvltotal decimal(10,2)
+)
+BEGIN
+	
+	IF pidorder > 0 THEN
+		
+		UPDATE tb_orders
+        SET
+			idcart = pidcart,
+            iduser = piduser,
+            idstatus = pidstatus,
+            idaddress = pidaddress,
+            vltotal = pvltotal
+		WHERE idorder = pidorder;
+        
+    ELSE
+    
+		INSERT INTO tb_orders (idcart, iduser, idstatus, idaddress, vltotal)
+        VALUES(pidcart, piduser, pidstatus, pidaddress, pvltotal);
+		
+		SET pidorder = LAST_INSERT_ID();
+        
+    END IF;
+    
+    SELECT * 
+    FROM tb_orders a
+    INNER JOIN tb_ordersstatus b USING(idstatus)
+    INNER JOIN tb_carts c USING(idcart)
+    INNER JOIN tb_users d ON d.iduser = a.iduser
+    INNER JOIN tb_addresses e USING(idaddress)
+    WHERE idorder = pidorder;
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_products_save` */;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_products_save`(
+pidproduct int(11),
+pdesproduct varchar(64),
+pvlprice decimal(10,2),
+pvlwidth decimal(10,2),
+pvlheight decimal(10,2),
+pvllength decimal(10,2),
+pvlweight decimal(10,2),
+pdesurl varchar(128)
+)
+BEGIN
+	
+	IF pidproduct > 0 THEN
+		
+		UPDATE tb_products
+        SET 
+			desproduct = pdesproduct,
+            vlprice = pvlprice,
+            vlwidth = pvlwidth,
+            vlheight = pvlheight,
+            vllength = pvllength,
+            vlweight = pvlweight,
+            desurl = pdesurl
+        WHERE idproduct = pidproduct;
+        
+    ELSE
+		
+		INSERT INTO tb_products (desproduct, vlprice, vlwidth, vlheight, vllength, vlweight, desurl) 
+        VALUES(pdesproduct, pvlprice, pvlwidth, pvlheight, pvllength, pvlweight, pdesurl);
+        
+        SET pidproduct = LAST_INSERT_ID();
+        
+    END IF;
+    
+    SELECT * FROM tb_products WHERE idproduct = pidproduct;
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_userspasswordsrecoveries_create` */;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_userspasswordsrecoveries_create`(
+puser_id INT,
+premote_ip VARCHAR(45)
+)
+BEGIN
+	
+	INSERT INTO tb_userspasswordsrecoveries (user_id, remote_ip)
+    VALUES(puser_id, premote_ip);
+    
+    SELECT * FROM tb_userspasswordsrecoveries
+    WHERE recovery_id = LAST_INSERT_ID();
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_usersupdate_save` */;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_usersupdate_save`(
+puser_id INT,
+pperson_firstname VARCHAR(40), 
+pperson_lastname varchar(88),
+plogin_name VARCHAR(64), 
+pperson_email VARCHAR(128), 
+pperson_phone BIGINT, 
+pperson_whatsapp BIGINT, 
+pperson_facebook VARCHAR(45), 
+pperson_instagram VARCHAR(45), 
+puser_type_id TINYINT,
+pcompany_name varchar(64),
+pperson_jobrole varchar(45),
+pperson_about text,
+pperson_urlphoto VARCHAR(128)
+)
+BEGIN
+    DECLARE vperson_id INT;
+    
+	SELECT person_id INTO vperson_id
+    FROM tb_users
+    WHERE user_id = puser_id;
+    
+    UPDATE tb_persons    SET 
+		person_firstname = pperson_firstname,
+		person_lastname = pperson_lastname,
+        person_email = pperson_email,
+		person_phone = pperson_phone,
+		person_whatsapp = pperson_whatsapp,
+		person_facebook = pperson_facebook,
+		person_instagram = pperson_instagram,
+        company_name = pcompany_name,
+		person_jobrole = pperson_jobrole,
+        person_about = pperson_about,
+        person_urlphoto = pperson_urlphoto,
+        updated_at = now()
+	WHERE person_id = vperson_id;
+     
+    UPDATE tb_users
+    SET
+		login_name = plogin_name,
+        user_type_id = puser_type_id,
+		updated_at = now()
+	WHERE user_id = puser_id;
+    
+    SELECT * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_fullname FROM tb_users a INNER JOIN tb_persons b USING(person_id) WHERE a.user_id = puser_id;
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_users_delete` */;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_users_delete`(
+puser_id INT
+)
+BEGIN
+    
+    DECLARE vperson_id INT;
+    
+    SET FOREIGN_KEY_CHECKS = 0;
+	
+	SELECT person_id INTO vperson_id
+    FROM tb_users
+    WHERE user_id = puser_id;
+	
+
+	DELETE FROM tb_addresses WHERE person_id = vperson_id;
+/*    DELETE FROM tb_addresses WHERE address_id IN(SELECT address_id FROM tb_orders WHERE user_id = puser_id); */
+        
+/*    DELETE FROM tb_userslogs WHERE user_id = puser_id; */
+    DELETE FROM tb_userspasswordsrecoveries WHERE user_id = puser_id; 
+/*    DELETE FROM tb_orders WHERE user_id = puser_id; */
+/*    DELETE FROM tb_cartsproducts WHERE idcart IN(SELECT idcart FROM tb_carts WHERE user_id = puser_id); */
+/*    DELETE FROM tb_carts WHERE user_id = puser_id; */
+
+	DELETE FROM tb_persons WHERE person_id = vperson_id;
+    DELETE FROM tb_users WHERE user_id = puser_id;
+    
+    SET FOREIGN_KEY_CHECKS = 1;
+    
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_users_save` */;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_users_save`(
+pperson_firstname VARCHAR(40), 
+pperson_lastname VARCHAR(88), 
+plogin_name VARCHAR(128), 
+ppassword_hash VARCHAR(256), 
+pperson_email VARCHAR(128), 
+pperson_phone BIGINT, 
+puser_type_id TINYINT,
+pperson_whatsapp  BIGINT, 
+pperson_facebook varchar(45),
+pperson_instagram  varchar(45),
+pcompany_name  varchar(64),
+pperson_jobrole  varchar(45),
+pperson_about text,
+pperson_urlphoto VARCHAR(128)
+)
+BEGIN
+	
+	INSERT INTO tb_persons (person_firstname, person_lastname, person_email, 
+							person_phone, person_whatsapp, person_facebook, 
+                            person_instagram, company_name, person_jobrole, 
+                            person_about, person_urlphoto)
+    VALUES(pperson_firstname, pperson_lastname, pperson_email, 
+			pperson_phone, pperson_whatsapp, pperson_facebook,
+            pperson_instagram, pcompany_name, pperson_jobrole,
+            pperson_about, pperson_urlphoto);
+    
+    INSERT INTO tb_users (person_id, login_name, password_hash, user_type_id)
+    VALUES(LAST_INSERT_ID(), plogin_name, ppassword_hash, puser_type_id);
+    
+    SELECT * , CONCAT_WS(' ',b.person_firstname,b.person_lastname) AS person_fullname  FROM tb_users a INNER JOIN tb_persons b USING(person_id) WHERE a.user_id = LAST_INSERT_ID();
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+ALTER DATABASE `db_bebride` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2019-09-12 13:03:41
